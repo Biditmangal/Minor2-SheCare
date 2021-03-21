@@ -16,8 +16,8 @@ const ArticleCard = (props) => {
               flex: 5,
               marginLeft: 10,
             }}>
-            <Text style={styles.title}>{props.title}</Text>
-            <Text style={styles.description}>{props.description}</Text>
+            <Text style={styles.title}>{props.item.title + " "+props.item.articleId}</Text>
+            <Text style={styles.description}>{props.item.description}</Text>
           </View>
           <View
             style={{
@@ -25,11 +25,13 @@ const ArticleCard = (props) => {
               marginRight: 50,
               justifyContent: 'flex-end',
             }}>
-            <Image
-              style={styles.image}
-              resizeMode={'cover'}
-              source={{uri: props.thumbnail}}
-            />
+            
+                <Image
+                  style={styles.image}
+                  resizeMode={'cover'}
+                  source={{uri: props.item.thumbnail}}
+                />
+              
           </View>
         </View>
       </Card>
@@ -39,7 +41,7 @@ const ArticleCard = (props) => {
 const styles = StyleSheet.create({
   container: {
     borderRadius: 15,
-    margin: 10,
+    margin: 5,
     padding: 10,
   },
   image: {

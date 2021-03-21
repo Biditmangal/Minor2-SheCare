@@ -2,21 +2,21 @@ import React from 'react';
 import {Card} from 'react-native-paper';
 import {StyleSheet} from 'react-native';
 
-const borderRadius=15;
+const borderRadius = 15;
 const VideoCard = (props) => {
   return (
     <>
       <Card style={styles.postCardStyle}>
         <Card.Cover
-          source={{uri: props.thumbnail}}
+          source={{uri: props.item.thumbnail}}
           style={{
             borderTopRightRadius: borderRadius,
             borderTopLeftRadius: borderRadius,
           }}
         />
         <Card.Title
-          title={props.videoTitle}
-          subtitle={props.videoAuthor}
+          title={props.item.videoTitle + " "+ props.item.videoId}
+          subtitle={props.item.videoAuthor}
           titleStyle={{
             color: '#263238',
             fontSize: 20,
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: borderRadius,
 
-    shadowColor: '#000',
+    shadowColor: '#000000',
     shadowOffset: {
       width: 0,
       height: 2,
