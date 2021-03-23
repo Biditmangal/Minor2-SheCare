@@ -1,6 +1,7 @@
 import React from 'react';
 import {ImageBackground, StyleSheet, Text, View} from 'react-native';
-import {Card, Icon} from 'react-native-elements';
+import {Card,Icon} from 'react-native-elements';
+
 import {
   responsiveHeight,
   responsiveWidth,
@@ -15,10 +16,12 @@ const Profile = (props) => {
       <ImageBackground
         source={{uri: props.item.prImage}}
         style={styles.container}>
-        <View>
+        <View>  
           <Icon
             name="arrow-back"
             type="iconinon"
+            // name="home"
+            // type='material'
             size={32}
             color="#C54D7B"
             containerStyle={{

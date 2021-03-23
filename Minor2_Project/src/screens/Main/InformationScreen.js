@@ -3,7 +3,7 @@ import {FlatList, StyleSheet, View, ScrollView} from 'react-native';
 import ArticleCard from '../../components/ArticleCard';
 import VideoCard from '../../components/VideoCard';
 
-const Information = () => {
+const InformationScreen = () => {
   const [data, setData] = useState({
     VideoData: [
       {
@@ -137,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Information;
+export default InformationScreen;
