@@ -133,7 +133,10 @@ const InformationScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 10,
+    marginHorizontal: 10,
+    marginTop:10,
+    marginBottom:5,
+    // margin:5,
   },
 });
 

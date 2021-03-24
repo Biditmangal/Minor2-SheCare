@@ -9,7 +9,7 @@ const MessageScreen = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text>Messaging Under Development</Text>
+      <Text>MessageScreen Under Development</Text>
     </View>
   );
 };

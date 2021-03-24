@@ -9,7 +9,7 @@ const HomeScreen = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text>Home Screen Under Development</Text>
+      <Text>HomeScreen Under Development</Text>
     </View>
   );
 };
