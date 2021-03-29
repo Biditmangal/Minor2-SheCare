@@ -2,7 +2,8 @@ import axios from 'axios';
 import { getStore } from '../store';
 
 
-const baseUrl= 'http://167.71.232.141';
+// const baseUrl= 'http://167.71.232.141';
+const baseUrl = '';
 const mainApi = axios.create({
     baseURL: baseUrl,
 });
