@@ -23,7 +23,7 @@ const ArticleCard = (props) => {
             style={{
               flex: 1,
               marginRight: 50,
-              justifyContent: 'flex-end',
+              justifyContent: 'flex-start',
             }}>
             
                 <Image

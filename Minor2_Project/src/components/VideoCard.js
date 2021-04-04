@@ -16,7 +16,7 @@ const VideoCard = (props) => {
         />
         <Card.Title
           title={props.item.videoTitle + " "+ props.item.videoId}
-          subtitle={props.item.videoAuthor}
+          subtitle={props.item.videoAuth}
           titleStyle={{
             color: '#263238',
             fontSize: 20,
