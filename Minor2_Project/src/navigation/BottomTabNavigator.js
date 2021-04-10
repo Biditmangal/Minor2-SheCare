@@ -282,7 +282,7 @@ const MessageStackScreen = ({navigation}) => (
         fontSize: 28,
       },
     }}>
-    <MapStack.Screen
+    <MessageStack.Screen
       name="Messages"
       component={MessageScreen}
       options={{
@@ -290,7 +290,8 @@ const MessageStackScreen = ({navigation}) => (
           <TouchableOpacity
             style={{
               marginLeft: 10,
-            }}>
+            }}
+            onPress={()=> navigation.openDrawer()}>
             <TabBarIcon
               name="bars"
               size={15}
@@ -325,7 +326,8 @@ const MapStackScreen = ({navigation}) => (
           <TouchableOpacity
             style={{
               marginLeft: 10,
-            }}>
+            }}
+            onPress={() => navigation.openDrawer()}>
             <TabBarIcon
               name="bars"
               size={15}
@@ -348,7 +350,7 @@ const HomeStackScreen = ({navigation}) => (
       headerTintColor: Colors.tabIconDefault,
       headerTitleStyle: {
         marginLeft: -20,
-        fontWeight: "600",
+        fontWeight: '600',
         fontSize: 28,
       },
     }}>
@@ -360,7 +362,8 @@ const HomeStackScreen = ({navigation}) => (
           <TouchableOpacity
             style={{
               marginLeft: 10,
-            }}>
+            }}
+            onPress={() => navigation.openDrawer()}>
             <TabBarIcon
               name="bars"
               size={15}
@@ -398,7 +401,8 @@ const InfoStackScreen = ({navigation}) => (
           <TouchableOpacity
             style={{
               marginLeft: 10,
-            }}>
+            }}
+            onPress={() => navigation.openDrawer()}>
             <TabBarIcon
               name="bars"
               size={15}

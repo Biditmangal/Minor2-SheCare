@@ -10,6 +10,7 @@ import Profile from './src/screens/Main/ProfileScreen.js';
 import AboutUsScreen from './src/screens/Main/AboutUs';
 import MapScreen from './src/screens/Main/MapScreen';
 import MessageScreen from './src/screens/Main/MessageScreen';
+import DrawerContent from './src/screens/Main/DrawerContent'
 
 
 const Drawer = createDrawerNavigator();
@@ -35,12 +36,10 @@ const App = () => {
       </View> */}
 
       <NavigationContainer>
-        <Drawer.Navigator
-        // drawerContent={(props) => <DrawerConent {...props} />}
-        >
+        <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
           <Drawer.Screen name="Home" component={BottomTabNavigator} />
-          {/* <Drawer.Screen name="ProfileScreen" component={<Profile item={item}/>} />
-          <Drawer.Screen name="AboutUs" component={AboutUsScreen} /> */}
+          {/* <Drawer.Screen name="Profile" component={<Profile item={item}/>} /> */}
+          <Drawer.Screen name="AboutUsScreen" component={AboutUsScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     </>
