@@ -1,116 +1,55 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View, ScrollView} from 'react-native';
+import {connect} from 'react-redux';
 import ArticleCard from '../../components/ArticleCard';
 import VideoCard from '../../components/VideoCard';
+import mainApi from '../../redux/apis';
+import axios from 'axios';
 
-const InformationScreen = () => {
-  const [data, setData] = useState({
-    VideoData: [
-      {
-        videoId: '3',
-        thumbnail: 'https://i.ytimg.com/vi/lVYC1J5vgkI/maxresdefault.jpg',
-        videoAuth: 'MEERA VIJAYANN',
-        videoTitle: 'Find your voice against gender violence',
-        videoURL: 'https://www.youtube.com/watch?v=sLo97Bu8Fo0',
-      },
-      {
-        videoId: '2',
-        thumbnail:
-          'https://pi.tedcdn.com/r/talkstar-photos.s3.amazonaws.com/uploads/8b324338-3caa-4cda-af41-4a0010b2b65e/SherylSandberg_2010W-embed.jpg?c=1050%2C550&w=1050',
-        videoAuth: 'SHERYL SANDBERG',
-        videoTitle: 'Why we have too few women leaders',
-        videoURL: 'https://www.youtube.com/watch?v=18uDutylDa4',
-      },
-      {
-        videoId: '1',
-        thumbnail: 'https://i.ytimg.com/vi/vhVWzkbAW4I/maxresdefault.jpg',
-        videoAuth: 'Paula Johnson',
-        videoTitle: 'His and hers ... health care',
-        videoURL: 'https://www.youtube.com/watch?v=vhVWzkbAW4I',
-      },
-      // {
-      //   videoId: 4,
-      //   thumbnail: 'https://picsum.photos/700',
-      //   videoTitle: 'Health Issues',
-      //   videoAuthor: 'Nutritionist',
-      // },
-      // {
-      //   videoId: 5,
-      //   thumbnail: 'https://picsum.photos/700',
-      //   videoTitle: 'Health Issues',
-      //   videoAuthor: 'Nutritionist',
-      // },
-      // {	
-      //   videoId: 6,
-      //   thumbnail: 'https://picsum.photos/700',
-      //   videoTitle: 'Health Issues',
-      //   videoAuthor: 'Nutritionist',
-      // },
-      // {
-      //   videoId: 7,
-      //   thumbnail: 'https://picsum.photos/700',
-      //   videoTitle: 'Health Issues',
-      //   videoAuthor: 'Nutritionist',
-      // },
-    ],
-    ArticleData: [
-      {
-        articleId: '3',
-        thumbnail:
-          'https://www.globalfundforwomen.org/wp-content/uploads/2015/04/online-violence-hero1-740x450.jpg',
-        description:
-          'In the Democratic Republic of Congo, two teens’ private photos, taken by a boyfriend, are posted to Facebook without their consent.',
-        title:
-          'Online violence: Just because it’s virtual doesn’t make it any less real',
-        articleURL:
-          'https://www.globalfundforwomen.org/online-violence-just-because-its-virtual-doesnt-make-it-any-less-real',
-      },
+const requestOne = mainApi.get('/testing/api/getvideos');
+const requestTwo = mainApi.get('/testing/api/getarticles');
 
-      {
-        articleId: '2',
-        thumbnail:
-          'https://www.outlookindia.com/outlookmoney/public/uploads/article/gallery/9be11da12bb6fe857bdeee166f469912.jpg',
-        description:
-          'Today, only 64 per cent of women globally have access to an account in a financial institution, compared to about 71 per cent of men.',
-        title:
-          'Financially Independent Women Create An Evolved and Equitable Society',
-        articleURL:
-          'https://www.outlookindia.com/outlookmoney/finance/financially-independent-women-create-an-evolved-and-equitable-society-4471',
-      },
+const InformationScreen = (props) => {
 
-      // {
-      //   articleId: '4',
-      //   thumbnail: '2fjkf',
-      //   description: '2fskf',
-      //   title: '2fesk',
-      //   articleURL: '2fbhs',
-      // },
+    const [data, setData] = useState({
+      VideoData: [],
+      ArticleData: [],
+    });
 
-      {
-        articleId: '1',
-        thumbnail:
-          'https://s.yimg.com/ny/api/res/1.2/wcSBW3Mo39YDbeWnOvLJUw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTI3NS4zOTA2MjU-/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2019-11/ee0cbc20-03d9-11ea-9fdf-f77f49ea8016',
-        description:
-          'One of the greatest needs of women empowerment is to help women hold their ground – at home and at work. And these platforms are helping us in various fields – from job hunting to even corporate training.',
-        title:
-          'These Women-centric Platforms are Addressing the Need for Education and Career Enhancement',
-        articleURL:
-          'https://in.makers.yahoo.com/women-platforms-addressing-education-career-enhancement-skill-023031938.html?guccounter=1',
-      },
-      // {
-      //   articleId: 6,
-      //   thumbnail: 'https://picsum.photos/700',
-      //   title: 'Health Cure',
-      //   description: 'LoremIpsum and bla bla',
-      // },
-      // {
-      //   articleId: 7,
-      //   thumbnail: 'https://picsum.photos/700',
-      //   title: 'Health Cure',
-      //   description: 'LoremIpsum and bla bla',
-      // },
-    ],
-  });
+    useEffect(() => {
+      axios.all([requestOne, requestTwo]).then(
+        axios.spread((...responses) => {
+          const videos = responses[0];
+          const articles = responses[1];
+          let listv = [];
+          let lista = [];
+          for (let i in videos.data) {
+            listv = [...listv, videos.data[i]];
+          }
+          for (let i in articles.data) {
+            lista = [...lista, articles.data[i]];
+          }
+          setData({
+            VideoData: listv,
+            ArticleData: lista,
+          });
+        })).catch(error=>{
+  		  console.log("error in fetching videos and articles" + error);
+  	  })
+    }, []);
+
+//   useEffect(() => {
+//     console.log('loading articles and videos');
+//     props.GettingArticles();
+//     props.GettingVideos();
+//   }, []);
+
+//   let data = props.VideoList && props.VideoList.map((list,index)=>{
+// 	  let {videoId, thumbnail, videoAuth, videoTitle, videoURL} = list;
+// 	  return(
+		  
+// 	  )
+//   })
 
   return (
     <>
@@ -156,5 +95,13 @@ const styles = StyleSheet.create({
     // margin:5,
   },
 });
-
+// const mapStateToProps = (state) => ({
+//   loading: state.auth.loading,
+//   error: state.auth.error,
+//   VideoList: state.auth.VideoData,
+//   ArticleList: state.auth.ArticleData,
+// });
 export default InformationScreen;
+// export default connect(mapStateToProps, {GettingVideos, GettingArticles})(
+//   InformationScreen,
+// );
