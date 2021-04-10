@@ -3,7 +3,7 @@ import { getStore } from '../store';
 
 
 // const baseUrl= 'http://167.71.232.141';
-const baseUrl = '';
+const baseUrl = 'https://utze16tgge.execute-api.us-east-1.amazonaws.com';
 const mainApi = axios.create({
     baseURL: baseUrl,
 });
