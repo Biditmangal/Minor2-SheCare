@@ -1,32 +1,34 @@
 import React from 'react';
 import {Card} from 'react-native-paper';
-import {StyleSheet} from 'react-native';
+import {StyleSheet,Linking,TouchableOpacity} from 'react-native';
 
 const borderRadius = 15;
 const VideoCard = (props) => {
   return (
     <>
-      <Card style={styles.postCardStyle}>
-        <Card.Cover
-          source={{uri: props.item.thumbnail}}
-          style={{
-            borderTopRightRadius: borderRadius,
-            borderTopLeftRadius: borderRadius,
-          }}
-        />
-        <Card.Title
-          title={props.item.videoTitle + " "+ props.item.videoId}
-          subtitle={props.item.videoAuth}
-          titleStyle={{
-            color: '#263238',
-            fontSize: 20,
-          }}
-          subtitleStyle={{
-            fontSize: 14,
-            color: '#b5b5b5',
-          }}
-        />
-      </Card>
+      <TouchableOpacity onPress={() => Linking.openURL(props.item.videoURL)}>
+        <Card style={styles.postCardStyle}>
+          <Card.Cover
+            source={{uri: props.item.thumbnail}}
+            style={{
+              borderTopRightRadius: borderRadius,
+              borderTopLeftRadius: borderRadius,
+            }}
+          />
+          <Card.Title
+            title={props.item.videoTitle + ' ' + props.item.videoId}
+            subtitle={props.item.videoAuth}
+            titleStyle={{
+              color: '#263238',
+              fontSize: 20,
+            }}
+            subtitleStyle={{
+              fontSize: 14,
+              color: '#b5b5b5',
+            }}
+          />
+        </Card>
+      </TouchableOpacity>
     </>
   );
 };

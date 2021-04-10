@@ -1,40 +1,44 @@
 import React from 'react';
-import {StyleSheet, View, Image, Text} from 'react-native';
+import {StyleSheet, View, Image, Text,TouchableOpacity,Linking} from 'react-native';
 import {Card} from 'react-native-elements';
 
 const ArticleCard = (props) => {
   return (
     <>
-      <Card containerStyle={styles.container}>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginVertical: 10,
-          }}>
+      <TouchableOpacity onPress={() => Linking.openURL(props.item.articleURL)}>
+        <Card containerStyle={styles.container}>
           <View
             style={{
-              flex: 5,
-              marginLeft: 10,
+              flexDirection: 'row',
+              marginVertical: 10,
             }}>
-            <Text style={styles.title}>{props.item.title + " "+props.item.articleId}</Text>
-            <Text style={styles.description}>{props.item.description}</Text>
+            <View
+              style={{
+                flex: 5,
+                marginLeft: 10,
+              }}>
+              <Text numberOfLines={2} style={styles.title}>
+                {props.item.title + ' ' + props.item.articleId}
+              </Text>
+              <Text numberOfLines={4} style={styles.description}>
+                {props.item.description}
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                marginRight: 50,
+                justifyContent: 'flex-start',
+              }}>
+              <Image
+                style={styles.image}
+                resizeMode={'cover'}
+                source={{uri: props.item.thumbnail}}
+              />
+            </View>
           </View>
-          <View
-            style={{
-              flex: 1,
-              marginRight: 50,
-              justifyContent: 'flex-start',
-            }}>
-            
-                <Image
-                  style={styles.image}
-                  resizeMode={'cover'}
-                  source={{uri: props.item.thumbnail}}
-                />
-              
-          </View>
-        </View>
-      </Card>
+        </Card>
+      </TouchableOpacity>
     </>
   );
 };
@@ -61,6 +65,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   articleDesp: {
+    // flex:1,
     fontSize: 14,
     marginBottom: 5,
   },
