@@ -11,17 +11,25 @@ const initialState = {
 const authReducer = (state = initialState, {type, payload}) => {
   switch (type) {
     case GET_VIDEOS: {
-      const getVideos = payload;
+      const {VideoData} = payload;
+      const error = false;
+      const loading = false;
       return {
         ...state,
-        getVideos,
+        VideoData,
+        error,
+        loading,
       };
     }
     case GET_ARTICLES: {
-      const getArticles = payload;
+      const {ArticleData} = payload;
+      const error = false;
+      const loading = false;
       return {
         ...state,
-        getArticles,
+        ArticleData,
+        error,
+        loading,
       };
     }
     default:

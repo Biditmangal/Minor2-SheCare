@@ -1,22 +1,43 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import mainApi from '../apis';
 import {getState} from '../store'; // for auth token
-import {GET_ARTICLES,GET_VIDEOS} from '../constants';
+import {GET_ARTICLES, GET_VIDEOS} from '../constants';
 
-
-export const GettingVideos = ()=> async(dispatch)=>{
-    try{
-        const response = await mainApi.get('');
-        dispatch({type:GET_VIDEOS,payload: response.data});
-    }catch(error){
-        console.log('error getting videos ',error);
+export const GettingVideos = () => async (dispatch) => {
+  try {
+    const response = await mainApi.get('/testing/api/getvideos');
+    if (response.data && response.data.length > 0) {
+      let VideoData = response.data.map((item) => ({
+        videoId: item.videoId,
+        thumbnail: item.thumbnail,
+        videoAuth: item.videoAuth,
+        videoTitle: item.videoTitle,
+        videoURL: item.videURL,
+      }));
+      dispatch({type: GET_VIDEOS, payload: VideoData});
+    } else {
+      console.log('error getting videos');
     }
+  } catch (error) {
+    console.log('error getting videos ', error);
+  }
 };
 
 export const GettingArticles = () => async (dispatch) => {
   try {
-    const response = await mainApi.get('');
-    dispatch({type: GET_ARTICLES, payload: response.data});
+    const response = await mainApi.get('/testing/api/getarticles');
+    if (response.data && response.data.length > 0) {
+      let ArticleData = response.data.map((item) => ({
+        articleId: item.articleId,
+        thumbnail: item.thumbnail,
+        description: item.description,
+        title: item.title,
+        articleURL: item.articleURL,
+      }));
+      dispatch({type: GET_ARTICLES, payload: ArticleData});
+    } else {
+      console.log('error getting articles ');
+    }
   } catch (error) {
     console.log('error getting articles ', error);
   }
