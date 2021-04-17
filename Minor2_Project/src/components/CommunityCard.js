@@ -3,6 +3,7 @@ import {TouchableOpacity} from 'react-native';
 import {StyleSheet, View, Image, Text} from 'react-native';
 import {Card} from 'react-native-elements';
 import {Icon} from 'react-native-elements';
+import { FAB } from 'react-native-paper';
 //import {IconButton} from 'react-native-paper';
 import {
   responsiveFontSize,
@@ -29,7 +30,9 @@ const CommunityCard = (props) => {
   };
 
   return (
+    
     <Card containerStyle={styles.container}>
+      
       <View
         style={{
           flex: 3,
@@ -138,9 +141,11 @@ const styles = StyleSheet.create({
     color: Colors.textColor,
     marginTop: 2,
   },
-  articleDesp: {
-    fontSize: 14,
-    marginBottom: 5,
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 });
 
