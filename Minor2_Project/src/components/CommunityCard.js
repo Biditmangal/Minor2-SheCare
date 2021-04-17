@@ -1,19 +1,15 @@
 import React, {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import {TouchableWithoutFeedback} from 'react-native';
 import {StyleSheet, View, Image, Text} from 'react-native';
 import {Card} from 'react-native-elements';
 import {Icon} from 'react-native-elements';
-import { FAB } from 'react-native-paper';
-//import {IconButton} from 'react-native-paper';
+
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
-  useResponsiveHeight,
 } from 'react-native-responsive-dimensions';
 import Colors from '../constants/Colors';
-//import { FontAwesomeIcon } from "@fontawesome/react-fontawesome";
-//import { faThumbsUp, faThumbsDown } from "@fontawesome/free-solid-svg-icons";
 
 const CommunityCard = (props) => {
   const [isLiked, updateLike] = useState(false);
@@ -22,10 +18,8 @@ const CommunityCard = (props) => {
     //let currentLikedPosts = props.likedPosts;
     if (!isLiked) {
       updateLike(true);
-      console.log(isLiked);
     } else {
       updateLike(false);
-      console.log(isLiked);
     }
   };
 
@@ -37,33 +31,23 @@ const CommunityCard = (props) => {
         style={{
           flex: 3,
           flexDirection: 'row',
-          marginTop: 10,
-          marginBottom: 5,
-          
         }}>
         <View
           style={{
             flex: 1,
-            
-            //marginLeft: 5,
-            // marginTop: 10,
-            //flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'flex-start',
           }}>
           <Image
             style={styles.image}
             resizeMode={'contain'}
-            source={{uri: props.item.thumbnail}}
+            source={{uri: props.item.profilePic}}
           />
         </View>
 
         <View
           style={{
             flex: 5,
-            // marginLeft: 15,
-            // marginRight: 45,
-            
+            justifyContent: 'center',
+            marginLeft: 15,
           }}>
           <Text style={styles.name}>
             {props.item.name + ' ' + props.item.userid}
@@ -76,23 +60,20 @@ const CommunityCard = (props) => {
             flex: 1.5,
             flexDirection: 'row',
             justifyContent: 'center',
-            alignItems:'center',
-            
-            //marginRight: 10,
-            //marginBottom:10,
+            alignItems: 'center',
           }}>
-          <TouchableOpacity 
-            onPress={handleLike}>
+          {/* <TouchableOpacity onPress={handleLike}> */}
+          <TouchableWithoutFeedback onPress={handleLike}>
             <Icon
               name="heart"
               size={responsiveHeight(3)}
               type="font-awesome-5"
-              solid={isLiked? true:false}
-              color={isLiked? Colors.likeColor: Colors.tabIconDefault}
+              solid={isLiked ? true : false}
+              color={isLiked ? Colors.likeColor : Colors.tabIconDefault}
               style={{paddingRight: 5}}
             />
-          </TouchableOpacity>
-
+          </TouchableWithoutFeedback>
+          {/* </TouchableOpacity> */}
           {/* <Icon
             name="thumbs-down"
             type="font-awesome-5"
@@ -104,7 +85,6 @@ const CommunityCard = (props) => {
         style={{
           flex: 5,
           margin: 5,
-          //marginRight: 40,
         }}>
         <Text style={styles.description}>{props.item.description}</Text>
       </View>
@@ -116,20 +96,17 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 15,
     marginVertical: 10,
-    marginHorizontal:5,
-    padding: 10,
+    marginHorizontal: 5,
+    paddingVertical: 10,
   },
   image: {
     height: responsiveHeight(8),
-    width: responsiveWidth(8),
-    borderRadius: 2 * responsiveWidth(8),
-    
+    width: responsiveWidth(12),
+    borderRadius:responsiveWidth(12),
   },
   description: {
     fontSize: responsiveFontSize(1.5),
     color: Colors.textColor,
-    //marginTop: 30,
-    //marginLeft: 10,
   },
   name: {
     fontSize: 24,
@@ -140,12 +117,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: Colors.textColor,
     marginTop: 2,
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 0,
   },
 });
 

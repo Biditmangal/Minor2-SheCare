@@ -13,7 +13,7 @@ const HomeScreen = () => {
     CommunityData: [
       {
         userid: '1',
-        thumbnail:
+        profilePic:
           'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
         name: 'Joe Stockton',
         posted: '3 days ago',
@@ -22,7 +22,7 @@ const HomeScreen = () => {
       },
       {
         userid: '2',
-        thumbnail:
+        profilePic:
           'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
         name: 'Joe Stockton',
         posted: '3 days ago',
@@ -31,7 +31,7 @@ const HomeScreen = () => {
       },
       {
         userid: '3',
-        thumbnail:
+        profilePic:
           'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
         name: 'Joe Stockton',
         posted: '3 days ago',
@@ -40,7 +40,7 @@ const HomeScreen = () => {
       },
       {
         userid: '4',
-        thumbnail:
+        profilePic:
           'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
         name: 'Joe Stockton',
         posted: '3 days ago',
@@ -84,7 +84,6 @@ const HomeScreen = () => {
             style={styles.fabIcon}
             medium
             icon="plus"
-            //color="#000000"
             color="white"
             //onPress={() => {this.handleClickMenu}}
           />
@@ -102,7 +101,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   fabIcon: {
-    //color: 'pink',
     backgroundColor: Colors.tintColor,
   },
 });
