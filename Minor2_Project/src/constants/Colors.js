@@ -11,12 +11,13 @@ export default {
   warningText: '#666804',
   noticeBackground: tintColor,
   noticeText: '#fff',
-  likeColor:tintColor,
+  likeColor: tintColor,
   textColor: '#172D45',
-  
+  placeholderColor: '#989898',
+  primaryColor: '#FFD3B1',
+  secondaryColor: '#8F1D52',
 
   // Theme Styling
   // themeBackground: '#D0C2B9',
   // headerColor: '#E5B8B7',
-
 };

@@ -5,6 +5,7 @@ import CommunityCard from '../../components/CommunityCard';
 import {FAB} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native';
 import Colors from '../../constants/Colors';
+import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
 const HomeScreen = () => {
   const [isClicked, updateClick] = useState(false);
@@ -47,13 +48,29 @@ const HomeScreen = () => {
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
       },
+      {
+        userid: '5',
+        profilePic:
+          'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+        name: 'Joe Stockton',
+        posted: '3 days ago',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
+      },
+      {
+        userid: '6',
+        profilePic:
+          'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+        name: 'Joe Stockton',
+        posted: '3 days ago',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
+      },
     ],
   });
   const handleClick = (props) => {
-    if (!isClicked) {
-      updateClick(true);
-      console.log(isClicked);
-    }
+    updateClick(!isClicked);
+    console.log(isClicked);
   };
 
   return (
@@ -82,7 +99,6 @@ const HomeScreen = () => {
         <TouchableOpacity onPress={handleClick}>
           <FAB
             style={styles.fabIcon}
-            medium
             icon="plus"
             color="white"
             //onPress={() => {this.handleClickMenu}}
@@ -102,6 +118,9 @@ const styles = StyleSheet.create({
   },
   fabIcon: {
     backgroundColor: Colors.tintColor,
+    position:'absolute',
+    right:0,
+    bottom:0,
   },
 });
 
