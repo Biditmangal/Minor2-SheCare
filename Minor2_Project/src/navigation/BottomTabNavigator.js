@@ -15,6 +15,8 @@ import MyTheme from '../constants/Theme';
 import Colors from '../constants/Colors';
 import Profile from '../screens/Main/ProfileScreen';
 import { responsiveHeight } from 'react-native-responsive-dimensions';
+import SignIn from '../screens/Main/SignIn';
+import SignUp from '../screens/Main/SignUp';
 
 //constants
 const BottomTab = createBottomTabNavigator();
@@ -244,7 +246,8 @@ const BottomTabNavigator = () => {
       />
       <BottomTab.Screen
         name="Map"
-        component={MapStackScreen}
+        // component={MapStackScreen}
+        component={SignUp}
         // options={{
         //   title: 'Nearby',
         //   tabBarIcon: ({focused}) => (

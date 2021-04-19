@@ -118,9 +118,6 @@ const styles = StyleSheet.create({
   },
   fabIcon: {
     backgroundColor: Colors.tintColor,
-    position:'absolute',
-    right:0,
-    bottom:0,
   },
 });
 
