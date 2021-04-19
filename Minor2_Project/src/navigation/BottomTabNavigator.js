@@ -247,7 +247,7 @@ const BottomTabNavigator = () => {
       <BottomTab.Screen
         name="Map"
         // component={MapStackScreen}
-        component={SignUp}
+        component={SignIn}
         // options={{
         //   title: 'Nearby',
         //   tabBarIcon: ({focused}) => (
