@@ -10,7 +10,9 @@ import Profile from './src/screens/Main/ProfileScreen.js';
 import AboutUsScreen from './src/screens/Main/AboutUs';
 import MapScreen from './src/screens/Main/MapScreen';
 import MessageScreen from './src/screens/Main/MessageScreen';
-import DrawerContent from './src/screens/Main/DrawerContent'
+import DrawerContent from './src/screens/Main/DrawerContent';
+import SignUp from './src/screens/Main/SignUp'
+import SignIn from './src/screens/Main/SignIn';
 
 
 const Drawer = createDrawerNavigator();
@@ -39,7 +41,7 @@ const App = () => {
         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
           <Drawer.Screen name="Home" component={BottomTabNavigator} />
           {/* <Drawer.Screen name="Profile" component={<Profile item={item}/>} /> */}
-          <Drawer.Screen name="AboutUsScreen" component={AboutUsScreen} />
+          <Drawer.Screen name="AboutUsScreen" component={SignUp} />
         </Drawer.Navigator>
       </NavigationContainer>
     </>
