@@ -67,9 +67,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Bold',
   },
   errorInput: {
-    color: 'red',
+    color: Colors.tintColor,
     fontSize: responsiveFontSize(1.5),
     paddingHorizontal: responsiveWidth(2),
+    fontFamily:'Montserrat-Regular',
   },
 });
 
