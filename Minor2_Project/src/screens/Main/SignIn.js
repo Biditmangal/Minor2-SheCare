@@ -1,10 +1,5 @@
-import React,{useState} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Card} from 'react-native-elements';
 import {
   responsiveFontSize,
@@ -17,8 +12,10 @@ import TextButton from '../../components/TextButton';
 import Colors from '../../constants/Colors';
 
 const SignIn = () => {
-  const [text, setText] = useState('');
-
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+  });
   return (
     <View
       style={{
@@ -34,9 +31,13 @@ const SignIn = () => {
       <Card containerStyle={styles.container}>
         <InputField
           icon={true}
-          name="Email"
           placeholder="Email"
-          onChangeText={setText}
+          onChangeText={(text) => {
+            setData({
+              ...data,
+              email: text,
+            });
+          }}
           iconName="user"
           iconType="antdesign"
         />
@@ -47,12 +48,16 @@ const SignIn = () => {
         />
         <InputField
           icon={true}
-          name="Password"
           placeholder="Password"
           secureEntry
-          onChangeText={setText}
           iconName="lock-outline"
           iconType="material"
+          onChangeText={(text) => {
+            setData({
+              ...data,
+              password: text,
+            });
+          }}
         />
         <View style={styles.subButton}>
           <TouchableOpacity>
@@ -64,7 +69,12 @@ const SignIn = () => {
             marginTop: 20,
           }}
         />
-        <TextButton text="Login" />
+        <TextButton
+          text="Login"
+          onPress={() => {
+            console.log(data);
+          }}
+        />
       </Card>
       <View style={styles.footer}>
         <Text style={styles.footerText}>Not a Member?</Text>

@@ -8,15 +8,15 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+
 const InputField = ({
   placeholder,
-  onChangeText,
   icon,
   iconName,
   iconType,
-  phoneField,
   numeric,
   secureEntry,
+  ...props
 }) => {
   return (
     <View>
@@ -33,34 +33,23 @@ const InputField = ({
           <></>
         )}
 
-        {phoneField ? (
-          <TextInput
-            placeholder={placeholder}
-            placeholderTextColor={Colors.placeholderColor}
-            style={styles.input}
-            keyboardType={numeric}
-            secureTextEntry={secureEntry}
-            maxLength={10}
-            onChangeText={(Text) => onChangeText(Text)}
-          />
-        ) : (
-          <TextInput
-            placeholder={placeholder}
-            placeholderTextColor={Colors.placeholderColor}
-            style={styles.input}
-            keyboardType={numeric}
-            secureTextEntry={secureEntry}
-            onChangeText={(Text) => onChangeText(Text)}
-          />
-        )}
+        <TextInput
+          placeholder={placeholder}
+          placeholderTextColor={Colors.placeholderColor}
+          style={styles.input}
+          keyboardType={numeric}
+          secureTextEntry={secureEntry}
+          {...props}
+        />
       </View>
       <View
         style={{
           marginHorizontal: 10,
-          borderBottomColor: Colors.tabIconDefault, 
+          borderBottomColor: Colors.tabIconDefault,
           borderBottomWidth: 1,
         }}
       />
+      <Text style={styles.errorInput}>{props.touched && props.error}</Text>
     </View>
   );
 };
@@ -70,12 +59,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: -5,
   },
   input: {
     fontSize: responsiveFontSize(1.8),
     width: responsiveWidth(80),
     fontFamily: 'Montserrat-Bold',
   },
+  errorInput: {
+    color: 'red',
+    fontSize: responsiveFontSize(1.5),
+    paddingHorizontal: responsiveWidth(2),
+  },
 });
+
+InputField.propTypes = {
+  ...TextInput.propTypes, // this makes the Input component have proptypes of Textinput
+};
+
+InputField.defaultProps = {
+  touched: false,
+  error: null,
+};
 export default InputField;
