@@ -73,8 +73,9 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   input: {
-    fontSize: responsiveFontSize(1.5),
+    fontSize: responsiveFontSize(1.8),
     width: responsiveWidth(80),
+    fontFamily: 'Montserrat-Bold',
   },
 });
 export default InputField;

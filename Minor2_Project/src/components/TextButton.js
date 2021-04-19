@@ -37,7 +37,7 @@ const TextButton = ({text}) => {
 
 const styles = StyleSheet.create({
   btn: {
-    borderRadius: 6,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
     width: responsiveWidth(40),
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   btntext: {
     color: Colors.tintColor,
     fontSize: responsiveFontSize(2),
-    fontWeight: 'bold',
+    fontFamily: 'Montserrat-Bold',
   },
 });
 export default TextButton;
