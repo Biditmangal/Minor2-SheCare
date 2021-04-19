@@ -25,7 +25,10 @@ import Colors from '../../constants/Colors';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().label('Name').required(),
-  email: Yup.string().label('Email Id').required(),
+  email: Yup.string()
+    .label('Email Id')
+    .required()
+    .email('Enter a valid email.'),
   gender: Yup.string().label('Gender').required(),
   username: Yup.string().label('Username').required('Enter a unique username'),
   password: Yup.string().label('Password').required(),
