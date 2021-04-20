@@ -132,12 +132,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   footerText: {
-    fontSize: responsiveFontSize(2.1),
+    fontSize: responsiveFontSize(1.5),
     color: Colors.additionalColor,
     fontFamily: 'Montserrat-Bold',
   },
   footerTextButton: {
-    fontSize: responsiveFontSize(2.8),
+    fontSize: responsiveFontSize(1.9),
     color: Colors.noticeText,
     fontFamily: 'Montserrat-Bold',
   },

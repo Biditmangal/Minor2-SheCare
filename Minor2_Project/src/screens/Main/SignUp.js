@@ -79,13 +79,13 @@ const SignUp = () => {
     <View
       style={{
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'center',
         backgroundColor: Colors.tintColor,
       }}>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <Text style={styles.headerText}>Sign Up</Text>
-      </View>
+      </View> */}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -258,18 +258,20 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Bold',
   },
   footer: {
-    position: 'absolute',
-    bottom: responsiveHeight(1),
+    // position: 'absolute',
+    //bottom: responsiveHeight(0.0),
     alignItems: 'center',
-    justifyContent: 'flex-end',
+   // justifyContent: 'flex-end',
+    marginTop:responsiveHeight(5),
+    marginBottom:responsiveHeight(1),
   },
   footerText: {
-    fontSize: responsiveFontSize(2.1),
+    fontSize: responsiveFontSize(1.5),
     color: Colors.additionalColor,
     fontFamily: 'Montserrat-Bold',
   },
   footerTextButton: {
-    fontSize: responsiveFontSize(2.8),
+    fontSize: responsiveFontSize(1.9),
     color: Colors.noticeText,
     fontFamily: 'Montserrat-Bold',
   },
