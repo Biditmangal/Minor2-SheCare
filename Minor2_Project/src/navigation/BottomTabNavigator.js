@@ -17,6 +17,8 @@ import Profile from '../screens/Main/ProfileScreen';
 import { responsiveHeight } from 'react-native-responsive-dimensions';
 import SignIn from '../screens/Main/SignIn';
 import SignUp from '../screens/Main/SignUp';
+//import AddPost from '../screens/Main/AddPostScreen';
+import AddPostScreen from '../screens/Main/AddPostScreen';
 
 //constants
 const BottomTab = createBottomTabNavigator();
@@ -24,6 +26,7 @@ const HomeStack = createStackNavigator();
 const InfoStack = createStackNavigator();
 const MapStack = createStackNavigator();
 const MessageStack = createStackNavigator();
+const AddPostStack = createStackNavigator();
 
 const INITIAL_ROUTE_NAME = 'Home';
 const tabHeight = 56;
@@ -246,8 +249,8 @@ const BottomTabNavigator = () => {
       />
       <BottomTab.Screen
         name="Map"
-        // component={MapStackScreen}
-        component={SignIn}
+         component={MapStackScreen}
+        //component={AddPostScreen}
         // options={{
         //   title: 'Nearby',
         //   tabBarIcon: ({focused}) => (
@@ -377,8 +380,44 @@ const HomeStackScreen = ({navigation}) => (
         ),
       }}
     />
+    <HomeStack.Screen
+      name="Add Post"
+      component={AddPostStackScreen}
+      options={{
+        headerLeft: () => (
+          <TouchableOpacity
+            style={{
+              marginLeft: 10,
+            }}
+            onPress={() => navigation.openDrawer()}>
+            <TabBarIcon
+              name="bars"
+              size={15}
+              color={Colors.backgroundWhite}
+              type="font-awesome-5"
+            />
+          </TouchableOpacity>
+        ),
+      }}
+    />
   </HomeStack.Navigator>
 );
+
+
+const AddPostStackScreen = ({navigation}) => (
+  <AddPostStack.Navigator
+  screenOptions={{
+    headerShown:false,
+  }}>
+    
+    <AddPostStack.Screen
+      name="AddPost"
+      component={AddPostScreen}
+      
+    />
+  </AddPostStack.Navigator>
+);
+
 
 
 const InfoStackScreen = ({navigation}) => (
