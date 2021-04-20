@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity,Alert} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {Card} from 'react-native-elements';
@@ -17,6 +10,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {DateTimePickerModal} from 'react-native-modal-datetime-picker';
+import {Picker} from '@react-native-picker/picker';
 import moment from 'moment';
 
 import InputField from '../../components/InputField';
@@ -29,7 +23,10 @@ const validationSchema = Yup.object().shape({
     .label('Email Id')
     .required()
     .email('Enter a valid email.'),
-  gender: Yup.string().label('Gender').required(),
+  gender: Yup.string()
+    .label('Gender')
+    .matches(/(Male|Female)/, 'Male/Female')
+    .required('Male/Female'),
   username: Yup.string().label('Username').required('Enter a unique username'),
   password: Yup.string().label('Password').required(),
   mobile_number: Yup.string()
@@ -45,7 +42,17 @@ const validationSchema = Yup.object().shape({
 });
 const SignUp = () => {
   // const separatorSpace = 7;
-  const initialValues = {
+  // const initialValues = {
+  //   name: '',
+  //   email: '',
+  //   gender: '',
+  //   username: '',
+  //   password: '',
+  //   dob:'',
+  //   mobile_number: '',
+  //   aadhar_number: '',
+  // };
+  const [initialValues, setValues] = useState({
     name: '',
     email: '',
     gender: '',
@@ -53,9 +60,13 @@ const SignUp = () => {
     password: '',
     mobile_number: '',
     aadhar_number: '',
-  };
+  });
+
   const submitForm = (values) => {
+    // initialValues.dob=dob;
     console.log(values);
+    console.log(initialValues.dob);
+
   };
   const [dob, setDob] = useState('Date of Birth');
 
@@ -71,9 +82,15 @@ const SignUp = () => {
 
   const handleConfirm = (date) => {
     //console.warn("A date has been picked: ", date);
-    let newdate = moment(date).format('DD-MM-YYYY');
+    let newdate = moment(date).format('DD MM YYYY');
+    let year = moment(date).format('YYYY');
     hideDatePicker();
-    setDob(newdate);
+    // if(year <= 2008)
+    //   setDob(newdate);
+    // else
+    //   Alert.alert('Age not allowed',)
+    // console.log(dob);
+
   };
   return (
     <View
@@ -99,6 +116,7 @@ const SignUp = () => {
           values,
           isValid,
           isSubmitting,
+          setFieldValue,
         }) => {
           return (
             <>
@@ -133,6 +151,47 @@ const SignUp = () => {
                     touched={touched.gender}
                     error={errors.gender}
                   />
+                  {/* <View
+                    style={{
+                      justifyContent: 'center',
+                      backgroundColor: Colors.tabBar,
+                      marginHorizontal: 10,
+                      borderBottomColor: Colors.tabIconDefault,
+                      borderBottomWidth: 1,
+                      marginVertical: 5,
+                      // marginVertical: 5,
+                      // height: 38,
+                      // // borderRadius: 6,
+                      // borderWidth: 1,
+                      // borderColor: '#172D45',
+                      // // marginHorizontal: 10,
+                      // justifyContent: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        paddingHorizontal: 36,
+                        fontSize: responsiveFontSize(1.8),
+                        // width: responsiveWidth(80),
+                        fontFamily: 'Montserrat-Bold',
+                        color: '#172D45',
+                      }}>
+                      Gender
+                    </Text>
+                    <Picker
+                      selectedValue={values.gender}
+                      onValueChange={(value) => setFieldValue('gender', value)}
+                      mode="dialog"
+                      dropdownIconColor={Colors.tintColor}>
+                      <Picker.Item
+                      label={'Gender'}
+                      value={null}
+                      key={0}
+                      enabled={false}
+                    />
+                      <Picker.Item label={'Male'} value={'M'} key={1} />
+                      <Picker.Item label={'Female'} value={'F'} key={2} />
+                    </Picker>
+                  </View> */}
                   <View style={styles.inputDate}>
                     <TouchableOpacity onPress={showDatePicker}>
                       {dob === 'Date of Birth' ? (
@@ -261,9 +320,9 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     //bottom: responsiveHeight(0.0),
     alignItems: 'center',
-   // justifyContent: 'flex-end',
-    marginTop:responsiveHeight(5),
-    marginBottom:responsiveHeight(1),
+    // justifyContent: 'flex-end',
+    marginTop: responsiveHeight(5),
+    marginBottom: responsiveHeight(1),
   },
   footerText: {
     fontSize: responsiveFontSize(1.5),
