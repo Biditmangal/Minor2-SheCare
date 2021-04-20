@@ -7,7 +7,7 @@ import {TouchableOpacity} from 'react-native';
 import Colors from '../../constants/Colors';
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
-const HomeScreen = () => {
+const HomeScreen = (props) => {
   const [isClicked, updateClick] = useState(false);
 
   const [data, setData] = useState({
@@ -68,9 +68,10 @@ const HomeScreen = () => {
       },
     ],
   });
-  const handleClick = (props) => {
+  const handleClick = () => {
     updateClick(!isClicked);
     console.log(isClicked);
+    props.navigation.navigate('Add Post');
   };
 
   return (

@@ -5,11 +5,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 
 import BottomTabNavigator from './src/navigation/BottomTabNavigator'
-import InformationScreen from './src/screens/Main/InformationScreen.js';
 import Profile from './src/screens/Main/ProfileScreen.js';
 import AboutUsScreen from './src/screens/Main/AboutUs';
-import MapScreen from './src/screens/Main/MapScreen';
-import MessageScreen from './src/screens/Main/MessageScreen';
 import DrawerContent from './src/screens/Main/DrawerContent';
 import SignUp from './src/screens/Main/SignUp'
 import SignIn from './src/screens/Main/SignIn';
