@@ -13,16 +13,15 @@ const firebaseConfig = {
 };
 
 export const Firebase = firebase.default.initializeApp(firebaseConfig);
-// console.log(Firebase);
 
 // db initialization
-const db = firebase.default.firestore();
+export const db = firebase.default.firestore();
 const postRef = db.collection('posts');
 const postLikedRef = db.collection('postLikes');
 
 //posts collection methods
 export const addPost = async (id, data) => {
-  postRef.doc(id).add(data);
+  postRef.doc(id).set(data);
 };
 export const deletePost = async (id) => {
   postRef.doc(id).delete();
@@ -31,7 +30,12 @@ export const likePost = async (id, data) => {
   postLikedRef.doc(id).add(data);
 };
 
-export const getPosts = async () => postRef.get();
+export const getPosts = async () =>
+  postRef.onSnapshot((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, ' => ', doc.data());
+    });
+  });
 
 export const getLikes = async (id) => {
   postRef.doc(id).get();

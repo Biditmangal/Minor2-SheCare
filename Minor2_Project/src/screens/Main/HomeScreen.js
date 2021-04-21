@@ -1,14 +1,19 @@
-import React, {useState} from 'react';
-import {FlatList, StyleSheet} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {FlatList, StyleSheet, LogBox} from 'react-native';
 import {Text, View, ScrollView} from 'react-native';
 import CommunityCard from '../../components/CommunityCard';
 import {FAB} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native';
 import Colors from '../../constants/Colors';
-import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+import {getPosts, addPost} from '../../Firebase';
+import moment from 'moment';
+
+let post_id = 20; // for unique post number
 
 const HomeScreen = (props) => {
   const [isClicked, updateClick] = useState(false);
+
+  LogBox.ignoreLogs(['Setting a timer']); // to ignore the Warning of Set a timer
 
   const [data, setData] = useState({
     CommunityData: [
@@ -67,10 +72,44 @@ const HomeScreen = (props) => {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
       },
     ],
+    posts: [],
   });
+
+  useEffect(() => {
+    getPosts()
+      // .then((querySnapshot) => {
+      //   querySnapshot.forEach((doc) => {
+      //     console.log(doc.id, ' => ', doc.data());
+      //   });
+      // })
+      .catch((error) => {
+        console.log('error in getting posts', ' ', error);
+      });
+  }, [data.posts]);
+
+  const addPosts = (id) => {
+    let date = moment(date).format('DD-MM-YYYY');
+    const postData = {
+      imageURL: '',
+      likes: 0,
+      text_desp: '',
+      timestamp: date,
+      username: '',
+    };
+    addPost(id, postData)
+      .then(() => {
+        console.log('Added post successfully');
+      })
+      .catch((error) => {
+        console.log('error in posting data ', error);
+      });
+  };
+
   const handleClick = () => {
     updateClick(!isClicked);
-    console.log(isClicked);
+    // console.log(isClicked);
+    post_id++;
+    addPosts(`post_${post_id}`);
     props.navigation.navigate('Add Post');
   };
 
