@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import mainApi from '../apis';
+import {postRef} from '../../Firebase';
 import {getState} from '../store'; // for auth token
-import {GET_ARTICLES, GET_VIDEOS} from '../constants';
+import {GET_ARTICLES, GET_VIDEOS, ADD_POST, GET_POSTS} from '../constants';
 
 export const GettingVideos = () => async (dispatch) => {
   try {
@@ -42,3 +43,9 @@ export const GettingArticles = () => async (dispatch) => {
     console.log('error getting articles ', error);
   }
 };
+
+export const GettingPosts = () => async (dispatch)=>{
+  try{
+    const repsonse = await 
+  }
+}

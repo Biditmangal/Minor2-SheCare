@@ -1,4 +1,4 @@
-import {GET_ARTICLES, GET_VIDEOS} from '../constants';
+import {GET_ARTICLES, GET_VIDEOS, ADD_POST, GET_POSTS} from '../constants';
 
 const initialState = {
   error: false,
@@ -28,6 +28,26 @@ const authReducer = (state = initialState, {type, payload}) => {
       return {
         ...state,
         ArticleData,
+        error,
+        loading,
+      };
+    }
+    case ADD_POST: {
+      const error = false;
+      const loading = false;
+      return {
+        ...state,
+        error,
+        loading,
+      };
+    }
+    case GET_POSTS: {
+      const {POSTS} = payload;
+      const error = false;
+      const loading = false;
+      return {
+        ...state,
+        POSTS,
         error,
         loading,
       };
