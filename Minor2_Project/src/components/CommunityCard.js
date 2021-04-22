@@ -102,19 +102,19 @@ const styles = StyleSheet.create({
   image: {
     height: responsiveHeight(8),
     width: responsiveWidth(12),
-    borderRadius:responsiveWidth(12),
+    borderRadius: responsiveWidth(12),
   },
   description: {
     fontSize: responsiveFontSize(1.5),
     color: Colors.textColor,
   },
   name: {
-    fontSize: 24,
+    fontSize: responsiveFontSize(2.7),
     color: Colors.textColor,
     marginTop: 2,
   },
   posted: {
-    fontSize: 12,
+    fontSize: responsiveFontSize(1.6),
     color: Colors.textColor,
     marginTop: 2,
   },

@@ -1,6 +1,9 @@
 import React from 'react';
+import { ColorPropType } from 'react-native';
 import {StyleSheet, View, Image, Text,TouchableOpacity,Linking} from 'react-native';
 import {Card} from 'react-native-elements';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import Colors from '../constants/Colors';
 
 const ArticleCard = (props) => {
   return (
@@ -28,7 +31,7 @@ const ArticleCard = (props) => {
               style={{
                 flex: 1,
                 marginRight: 50,
-                justifyContent: 'flex-start',
+                justifyContent: 'center',
               }}>
               <Image
                 style={styles.image}
@@ -54,19 +57,21 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   description: {
-    fontSize: 14,
+    fontSize: responsiveFontSize(1.8),
     color: '#172D45',
     marginTop: 10,
     marginRight: 10,
   },
   title: {
-    fontSize: 24,
-    color: '#172D45',
+    fontSize: responsiveFontSize(2.5),
+    color: Colors.textColor,
     marginTop: 5,
+    fontWeight: 'bold',
+    marginRight:10,
   },
   articleDesp: {
     // flex:1,
-    fontSize: 14,
+    fontSize: responsiveFontSize(2),
     marginBottom: 5,
   },
 });

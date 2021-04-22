@@ -1,6 +1,8 @@
 import React from 'react';
 import {Card} from 'react-native-paper';
 import {StyleSheet,Linking,TouchableOpacity} from 'react-native';
+import Colors from '../constants/Colors';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const borderRadius = 15;
 const VideoCard = (props) => {
@@ -19,12 +21,12 @@ const VideoCard = (props) => {
             title={props.item.videoTitle + ' ' + props.item.videoId}
             subtitle={props.item.videoAuth}
             titleStyle={{
-              color: '#263238',
-              fontSize: 20,
+              color: Colors.textColor,
+              fontSize: responsiveFontSize(2.5),
             }}
             subtitleStyle={{
-              fontSize: 14,
-              color: '#b5b5b5',
+              fontSize: responsiveFontSize(1.8),
+              color: Colors.placeholderColor,
             }}
           />
         </Card>
