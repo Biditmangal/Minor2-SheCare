@@ -86,7 +86,7 @@ const SignUp = () => {
     let year = moment(date).format('YYYY');
     hideDatePicker();
     // if(year <= 2008)
-      setDob(newdate);
+    //   setDob(newdate);
     // else
     //   Alert.alert('Age not allowed',)
     // console.log(dob);

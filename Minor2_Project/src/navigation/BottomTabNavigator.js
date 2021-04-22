@@ -14,7 +14,7 @@ import MessageScreen from '../screens/Main/MessageScreen';
 import MyTheme from '../constants/Theme';
 import Colors from '../constants/Colors';
 import Profile from '../screens/Main/ProfileScreen';
-import {responsiveFontSize, responsiveHeight} from 'react-native-responsive-dimensions';
+import { responsiveHeight } from 'react-native-responsive-dimensions';
 import SignIn from '../screens/Main/SignIn';
 import SignUp from '../screens/Main/SignUp';
 //import AddPost from '../screens/Main/AddPostScreen';
@@ -67,7 +67,7 @@ const MyTabBar = ({state, descriptors, navigation}) => {
           if (index === 0) {
             return (
               <TouchableOpacity
-                key={index}
+              key={index}
                 accessibilityRole="button"
                 accessibilityStates={isFocused ? ['selected'] : []}
                 accessibilityLabel={options.tabBarAccessibilityLabel}
@@ -84,11 +84,7 @@ const MyTabBar = ({state, descriptors, navigation}) => {
                 <View>
                   <View
                     style={{justiftyContent: 'center', alignItems: 'center'}}>
-                    <TabBarIcon
-                      name="home"
-                      type="material"
-                      focused={isFocused}
-                    />
+                    <TabBarIcon name="home" type="material" focused={isFocused} />
                   </View>
                   {/* <Text
                     style={{
@@ -164,11 +160,7 @@ const MyTabBar = ({state, descriptors, navigation}) => {
                 <View style={{justiftyContent: 'center', alignItems: 'center'}}>
                   <View
                     style={{justiftyContent: 'center', alignItems: 'center'}}>
-                    <TabBarIcon
-                      name="room"
-                      type="material"
-                      focused={isFocused}
-                    />
+                    <TabBarIcon name="room" type="material" focused={isFocused} />
                   </View>
                   {/* <Text
                     style={{
@@ -237,7 +229,7 @@ const BottomTabNavigator = () => {
       tabBar={(props) => <MyTabBar {...props} />}>
       <BottomTab.Screen
         name="Home"
-        component={AddPostStackScreen}
+        component={HomeStackScreen}
         // options={{
         //   title: 'Community',
         //   tabBarIcon: ({focused}) => (
@@ -257,7 +249,7 @@ const BottomTabNavigator = () => {
       />
       <BottomTab.Screen
         name="Map"
-        component={MapStackScreen}
+         component={MapStackScreen}
         //component={AddPostScreen}
         // options={{
         //   title: 'Nearby',
@@ -291,9 +283,9 @@ const MessageStackScreen = ({navigation}) => (
       },
       headerTintColor: Colors.tabIconDefault,
       headerTitleStyle: {
-        marginLeft: -25,
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: responsiveFontSize(3),
+        marginLeft: -20,
+        fontWeight: '600',
+        fontSize: 28,
       },
     }}>
     <MessageStack.Screen
@@ -305,7 +297,7 @@ const MessageStackScreen = ({navigation}) => (
             style={{
               marginLeft: 10,
             }}
-            onPress={() => navigation.openDrawer()}>
+            onPress={()=> navigation.openDrawer()}>
             <TabBarIcon
               name="bars"
               size={15}
@@ -327,9 +319,9 @@ const MapStackScreen = ({navigation}) => (
       },
       headerTintColor: Colors.tabIconDefault,
       headerTitleStyle: {
-        marginLeft: -25,
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: responsiveFontSize(3),
+        marginLeft: -20,
+        fontWeight: '600',
+        fontSize: 28,
       },
     }}>
     <MapStack.Screen
@@ -354,16 +346,6 @@ const MapStackScreen = ({navigation}) => (
     />
   </MapStack.Navigator>
 );
-
-const AddPostStackScreen = ({navigation}) => (
-  <AddPostStack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}>
-    <AddPostStack.Screen name="Main" component={HomeStackScreen} />
-  </AddPostStack.Navigator>
-);
-
 const HomeStackScreen = ({navigation}) => (
   <HomeStack.Navigator
     screenOptions={{
@@ -373,9 +355,9 @@ const HomeStackScreen = ({navigation}) => (
       },
       headerTintColor: Colors.tabIconDefault,
       headerTitleStyle: {
-        marginLeft: -25,
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: responsiveFontSize(3),
+        marginLeft: -20,
+        fontWeight: '600',
+        fontSize: 28,
       },
     }}>
     <HomeStack.Screen
@@ -400,26 +382,43 @@ const HomeStackScreen = ({navigation}) => (
     />
     <HomeStack.Screen
       name="Add Post"
-      component={AddPostScreen}
-      // options={{
-      //   headerLeft: () => (
-      //     <TouchableOpacity
-      //       style={{
-      //         marginLeft: 10,
-      //       }}
-      //       onPress={() => navigation.openDrawer()}>
-      //       <TabBarIcon
-      //         name="bars"
-      //         size={15}
-      //         color={Colors.backgroundWhite}
-      //         type="font-awesome-5"
-      //       />
-      //     </TouchableOpacity>
-      //   ),
-      // }}
+      component={AddPostStackScreen}
+      options={{
+        headerLeft: () => (
+          <TouchableOpacity
+            style={{
+              marginLeft: 10,
+            }}
+            onPress={() => navigation.openDrawer()}>
+            <TabBarIcon
+              name="bars"
+              size={15}
+              color={Colors.backgroundWhite}
+              type="font-awesome-5"
+            />
+          </TouchableOpacity>
+        ),
+      }}
     />
   </HomeStack.Navigator>
 );
+
+
+const AddPostStackScreen = ({navigation}) => (
+  <AddPostStack.Navigator
+  screenOptions={{
+    headerShown:false,
+  }}>
+    
+    <AddPostStack.Screen
+      name="AddPost"
+      component={AddPostScreen}
+      
+    />
+  </AddPostStack.Navigator>
+);
+
+
 
 const InfoStackScreen = ({navigation}) => (
   <InfoStack.Navigator
@@ -430,9 +429,10 @@ const InfoStackScreen = ({navigation}) => (
       },
       headerTintColor: Colors.tabIconDefault,
       headerTitleStyle: {
-        marginLeft: -25,
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: responsiveFontSize(3),
+        marginLeft: -20,
+        fontWeight: '600',
+
+        fontSize: 28,
       },
     }}>
     <InfoStack.Screen
