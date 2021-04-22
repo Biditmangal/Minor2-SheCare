@@ -5,10 +5,10 @@ import CommunityCard from '../../components/CommunityCard';
 import {FAB} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native';
 import Colors from '../../constants/Colors';
-import {getPosts, addPost} from '../../Firebase';
+import {getPosts, addPost, postRef} from '../../Firebase';
 import moment from 'moment';
 
-let post_id = 20; // for unique post number
+let post_id; // for unique post number
 
 const HomeScreen = (props) => {
   const [isClicked, updateClick] = useState(false);
@@ -16,9 +16,9 @@ const HomeScreen = (props) => {
   LogBox.ignoreLogs(['Setting a timer']); // to ignore the Warning of Set a timer
 
   const [data, setData] = useState({
-    CommunityData: [
+    posts: [
       {
-        userid: '1',
+        userid: 1,
         profilePic:
           'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
         name: 'Joe Stockton',
@@ -27,7 +27,7 @@ const HomeScreen = (props) => {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
       },
       {
-        userid: '2',
+        userid: 2,
         profilePic:
           'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
         name: 'Joe Stockton',
@@ -36,34 +36,7 @@ const HomeScreen = (props) => {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
       },
       {
-        userid: '3',
-        profilePic:
-          'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-        name: 'Joe Stockton',
-        posted: '3 days ago',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
-      },
-      {
-        userid: '4',
-        profilePic:
-          'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-        name: 'Joe Stockton',
-        posted: '3 days ago',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
-      },
-      {
-        userid: '5',
-        profilePic:
-          'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-        name: 'Joe Stockton',
-        posted: '3 days ago',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
-      },
-      {
-        userid: '6',
+        userid: 3,
         profilePic:
           'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
         name: 'Joe Stockton',
@@ -72,19 +45,15 @@ const HomeScreen = (props) => {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
       },
     ],
-    posts: [],
   });
 
   useEffect(() => {
-    getPosts()
-      // .then((querySnapshot) => {
-      //   querySnapshot.forEach((doc) => {
-      //     console.log(doc.id, ' => ', doc.data());
-      //   });
-      // })
-      .catch((error) => {
-        console.log('error in getting posts', ' ', error);
-      });
+    //for fetching all the posts
+    getPosts().catch((error) => {
+      console.log('error in getting posts', ' ', error);
+    });
+    //for post count
+    postRef.get().then((snap) => (post_id = snap.size));
   }, [data.posts]);
 
   const addPosts = (id) => {
@@ -92,9 +61,9 @@ const HomeScreen = (props) => {
     const postData = {
       imageURL: '',
       likes: 0,
-      text_desp: '',
+      description: '',
       timestamp: date,
-      username: '',
+      user: '',
     };
     addPost(id, postData)
       .then(() => {
@@ -109,8 +78,10 @@ const HomeScreen = (props) => {
     updateClick(!isClicked);
     // console.log(isClicked);
     post_id++;
-    addPosts(`post_${post_id}`);
-    props.navigation.navigate('Add Post');
+    // addPosts(`post_${post_id}`);
+    props.navigation.navigate('Add Post',{
+      postId : post_id,
+    });
   };
 
   return (
@@ -125,7 +96,7 @@ const HomeScreen = (props) => {
           showsHorizontalScrollIndicator={false}
           horizontal={false}
           keyExtractor={(item) => `${item.userid}`}
-          data={[...data.CommunityData]}
+          data={[...data.posts]}
           renderItem={({item}) => <CommunityCard item={item} />}
         />
       </View>
