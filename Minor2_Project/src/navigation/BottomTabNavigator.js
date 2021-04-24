@@ -9,16 +9,14 @@ import InformationScreen from '../screens/Main/InformationScreen';
 import MapSceen from '../screens/Main/MapScreen';
 import HomeScreen from '../screens/Main/HomeScreen';
 import MessageScreen from '../screens/Main/MessageScreen';
-
+import SignIn from '../screens/Auth/SignIn';
+import SignUp from '../screens/Auth/SignUp';
+import AddPostScreen from '../screens/Main/AddPostScreen';
 //theme
 import MyTheme from '../constants/Theme';
 import Colors from '../constants/Colors';
-import Profile from '../screens/Main/ProfileScreen';
 import {responsiveFontSize, responsiveHeight} from 'react-native-responsive-dimensions';
-import SignIn from '../screens/Main/SignIn';
-import SignUp from '../screens/Main/SignUp';
-//import AddPost from '../screens/Main/AddPostScreen';
-import AddPostScreen from '../screens/Main/AddPostScreen';
+
 
 //constants
 const BottomTab = createBottomTabNavigator();
