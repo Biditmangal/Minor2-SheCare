@@ -7,6 +7,8 @@ import {TouchableOpacity} from 'react-native';
 import Colors from '../../constants/Colors';
 import {getPosts, addPost, postRef} from '../../Firebase';
 import moment from 'moment';
+import { TouchableHighlight } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native';
 
 let post_id; // for unique post number
 
@@ -49,7 +51,8 @@ const HomeScreen = (props) => {
 
   useEffect(() => {
     //for fetching all the posts
-    getPosts().catch((error) => {
+    getPosts()
+    .catch((error) => {
       console.log('error in getting posts', ' ', error);
     });
     //for post count
@@ -112,7 +115,7 @@ const HomeScreen = (props) => {
             style={styles.fabIcon}
             icon="plus"
             color="white"
-            //onPress={() => {this.handleClickMenu}}
+            onPress={handleClick}
           />
         </TouchableOpacity>
       </View>
