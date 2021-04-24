@@ -19,9 +19,12 @@ import InputField from '../../components/InputField';
 //import Textarea from 'react-native-textarea';
 import TextButton from '../../components/TextButton';
 import Colors from '../../constants/Colors';
+import {Icon} from 'react-native-elements';
+import {TouchableWithoutFeedback, Button} from 'react-native';
 
 import {getPosts, addPost, postRef} from '../../Firebase';
 import moment from 'moment';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 let post_id; // for unique post number
 
@@ -40,7 +43,7 @@ const AddPostScreen = (props) => {
   // }, []);
 
   const handleClick = () => {
-    post_id=props.route.params.postId;
+    post_id = props.route.params.postId;
     console.log(post_id);
     addPosts(`post_${post_id}`);
   };
@@ -67,11 +70,25 @@ const AddPostScreen = (props) => {
       });
   };
 
+  //var Button = require('react-native-icon-button');
+  React.useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        
+          <TouchableHighlight
+            style={{color: Colors.tintColor}}
+            onPress={handleClick}>
+            <Text style={styles.btntext}>Post</Text>
+          </TouchableHighlight>
+       
+      ),
+    });
+  }, [navigation]);
+
   return (
     <KeyboardAvoidingView>
       <View style={styles.textAreaContainer}>
         <TextInput
-        
           style={styles.textArea}
           underlineColorAndroid="transparent"
           placeholder="What's on your mind?"
@@ -87,7 +104,30 @@ const AddPostScreen = (props) => {
           }
         />
       </View>
-      <TextButton text="POST" onPress={handleClick} />
+      <View
+        style={{
+          //flex: ,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          margin: 40,
+        }}>
+        <TouchableWithoutFeedback
+          style={{color: Colors.tintColor}}
+          onPress={handleClick}>
+          <Icon
+            name="image"
+            size={responsiveHeight(3)}
+            type="font-awesome-5"
+            //marginTop={15}
+
+            //solid={isLiked ? true : false}
+            color={Colors.likeColor}
+            //style={{paddingRight: 5}}
+          />
+          <Text style={styles.btntext}>Add image</Text>
+        </TouchableWithoutFeedback>
+      </View>
     </KeyboardAvoidingView>
   );
 };
@@ -106,7 +146,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Medium',
     height: responsiveHeight(30),
     textAlignVertical: 'top',
-    padding:10,
+    padding: 10,
+  },
+  btntext: {
+    color: Colors.noticeText,
+    fontSize: responsiveFontSize(2),
+    fontFamily: 'Montserrat-Bold',
   },
 });
 
