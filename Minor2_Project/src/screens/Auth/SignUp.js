@@ -40,7 +40,7 @@ const validationSchema = Yup.object().shape({
     .min(10, 'Contact Number must be of 10 digits. ')
     .max(10, 'Contect Number cannot exceed than 10 digits.'),
 });
-const SignUp = () => {
+const SignUp = (props) => {
   // const separatorSpace = 7;
   // const initialValues = {
   //   name: '',
@@ -270,7 +270,7 @@ const SignUp = () => {
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>Already a Member?</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>props.navigation.goBack()}>
           <Text style={styles.footerTextButton}>Sign In</Text>
         </TouchableOpacity>
       </View>

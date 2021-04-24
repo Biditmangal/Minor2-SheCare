@@ -11,7 +11,7 @@ import InputField from '../../components/InputField';
 import TextButton from '../../components/TextButton';
 import Colors from '../../constants/Colors';
 
-const SignIn = () => {
+const SignIn = (props) => {
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -78,7 +78,7 @@ const SignIn = () => {
       </Card>
       <View style={styles.footer}>
         <Text style={styles.footerText}>Not a Member?</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => props.navigation.navigate('Register')}>
           <Text style={styles.footerTextButton}>Sign Up</Text>
         </TouchableOpacity>
       </View>
