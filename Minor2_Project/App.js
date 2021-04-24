@@ -3,20 +3,19 @@ import {StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
+import BottomTabNavigator from './src/navigation/BottomTabNavigator';
+import AuthStackNavigator from './src/navigation/AuthStackNavigator';
 
-import BottomTabNavigator from './src/navigation/BottomTabNavigator'
 import Profile from './src/screens/Main/ProfileScreen.js';
 import AboutUsScreen from './src/screens/Main/AboutUs';
 import DrawerContent from './src/screens/Main/DrawerContent';
-import SignUp from './src/screens/Main/SignUp'
-import SignIn from './src/screens/Main/SignIn';
-
+import SignUp from './src/screens/Auth/SignUp';
+import SignIn from './src/screens/Auth/SignIn';
+import {connect} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
-
-const App = () => {
-
+const App = (props) => {
   const item = {
     prImage: 'https://picsum.photos/720',
     prName: 'Giana Dias',
@@ -26,7 +25,7 @@ const App = () => {
       'Odio id in ac augue vitae. Dolor vulputate libero est ut.' +
       ' Scelerisque sed cursus tristique proin ipsum pellentesque. Ut et quam ultricies.',
   };
-  
+
   return (
     <>
       {/* <View style={styles.container}>
@@ -35,11 +34,20 @@ const App = () => {
       </View> */}
 
       <NavigationContainer>
-        <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-          <Drawer.Screen name="Home" component={BottomTabNavigator} />
-          {/* <Drawer.Screen name="Profile" component={<Profile item={item}/>} /> */}
-          <Drawer.Screen name="AboutUsScreen" component={SignUp} />
-        </Drawer.Navigator>
+        
+        {props.isLoggedIn == true ? (
+          <Drawer.Navigator
+            drawerContent={(props) => <DrawerContent {...props} />}>
+            <Drawer.Screen name="Home" component={BottomTabNavigator} />
+            {/* <Drawer.Screen
+              name="Profile"
+              component={() => <Profile item={item} />}
+            /> */}
+            <Drawer.Screen name="AboutUsScreen" component={SignUp} />
+          </Drawer.Navigator>
+        ) : (
+          <AuthStackNavigator />
+        )}
       </NavigationContainer>
     </>
   );
@@ -51,4 +59,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.auth.isLoggedIn,
+});
+
+export default connect(mapStateToProps, {})(App);
+// export default App;

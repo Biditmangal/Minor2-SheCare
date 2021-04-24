@@ -44,8 +44,8 @@ export const GettingArticles = () => async (dispatch) => {
   }
 };
 
-export const GettingPosts = () => async (dispatch)=>{
-  try{
-    const repsonse = await 
-  }
-}
+// export const GettingPosts = () => async (dispatch)=>{
+//   try{
+//     const repsonse = await 
+//   }
+// }
