@@ -6,11 +6,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import AuthStackNavigator from './src/navigation/AuthStackNavigator';
 
-import Profile from './src/screens/Main/ProfileScreen.js';
 import AboutUsScreen from './src/screens/Main/AboutUs';
 import DrawerContent from './src/screens/Main/DrawerContent';
-import SignUp from './src/screens/Auth/SignUp';
-import SignIn from './src/screens/Auth/SignIn';
 import {connect} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
@@ -28,10 +25,6 @@ const App = (props) => {
 
   return (
     <>
-      {/* <View style={styles.container}>
-        <InformationScreen/>
-        <Profile item={item} />
-      </View> */}
 
       <NavigationContainer>
         
@@ -43,7 +36,7 @@ const App = (props) => {
               name="Profile"
               component={() => <Profile item={item} />}
             /> */}
-            <Drawer.Screen name="AboutUsScreen" component={SignUp} />
+            <Drawer.Screen name="AboutUsScreen" component={AboutUsScreen} />
           </Drawer.Navigator>
         ) : (
           <AuthStackNavigator />
@@ -64,4 +57,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {})(App);
-// export default App;
