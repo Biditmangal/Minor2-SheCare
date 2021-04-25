@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity,Alert} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {Card} from 'react-native-elements';
@@ -11,11 +11,18 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {DateTimePickerModal} from 'react-native-modal-datetime-picker';
 import {Picker} from '@react-native-picker/picker';
+import Toast from 'react-native-simple-toast';
+import Snackbar from 'react-native-snackbar';
 import moment from 'moment';
 
 import InputField from '../../components/InputField';
 import TextButton from '../../components/TextButton';
 import Colors from '../../constants/Colors';
+import ScreenLoader from '../../components/Loader/ScreenLoader';
+
+
+import {Register, ResetError} from '../../redux/actions/authActions';
+import {connect} from 'react-redux';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().label('Name').required(),
@@ -42,16 +49,6 @@ const validationSchema = Yup.object().shape({
 });
 const SignUp = (props) => {
   // const separatorSpace = 7;
-  // const initialValues = {
-  //   name: '',
-  //   email: '',
-  //   gender: '',
-  //   username: '',
-  //   password: '',
-  //   dob:'',
-  //   mobile_number: '',
-  //   aadhar_number: '',
-  // };
   const [initialValues, setValues] = useState({
     name: '',
     email: '',
@@ -62,12 +59,37 @@ const SignUp = (props) => {
     aadhar_number: '',
   });
 
+  const {loading, error} = props;
+
   const submitForm = (values) => {
     // initialValues.dob=dob;
     console.log(values);
-    console.log(initialValues.dob);
-
+    setValues(values);
+    console.log(initialValues);
+    props.Register(values.email, values.password);
+    console.log('laoding => ', loading, 'error => ', error);
+    props.navigation.navigate('Login');
+    Snackbar.show({
+      text: 'Signed Up Successfully',
+      duration: Snackbar.LENGTH_LONG,
+      textColor: Colors.tabIconDefault,
+      fontFamily: 'Montserrat-Bold',
+      backgroundColor: Colors.primaryColor,
+    });
+    // Toast.showWithGravity('Signed Up Successfully', Toast.SHORT, Toast.BOTTOM);
   };
+
+  if (loading) {
+    <ScreenLoader />;
+  }
+  if (error) {
+    Alert.alert(
+      'Try again',
+      'Server error',
+      [{text: 'OK', onPress: () => props.ResetError()}],
+      {cancelable: false},
+    );
+  }
   const [dob, setDob] = useState('Date of Birth');
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -86,12 +108,12 @@ const SignUp = (props) => {
     let year = moment(date).format('YYYY');
     hideDatePicker();
     // if(year <= 2008)
-      setDob(newdate);
+    setDob(newdate);
     // else
     //   Alert.alert('Age not allowed',)
     // console.log(dob);
-
   };
+
   return (
     <View
       style={{
@@ -270,7 +292,7 @@ const SignUp = (props) => {
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>Already a Member?</Text>
-        <TouchableOpacity onPress={()=>props.navigation.goBack()}>
+        <TouchableOpacity onPress={() => props.navigation.goBack()}>
           <Text style={styles.footerTextButton}>Sign In</Text>
         </TouchableOpacity>
       </View>
@@ -351,4 +373,11 @@ const styles = StyleSheet.create({
     color: Colors.placeholderColor,
   },
 });
-export default SignUp;
+
+const mapStateToProps = (state) => ({
+  loading: state.auth.loading,
+  error: state.auth.error,
+  // isLoggedIn: state.auth.isLoggedIn,
+});
+// export default SignUp;
+export default connect(mapStateToProps, {Register,ResetError})(SignUp);

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity,Alert} from 'react-native';
 import {Card} from 'react-native-elements';
 import {
   responsiveFontSize,
@@ -7,15 +7,47 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 
+import {connect} from 'react-redux';
+import {Login,ResetError} from '../../redux/actions/authActions';
+import Snackbar from 'react-native-snackbar';
+
 import InputField from '../../components/InputField';
 import TextButton from '../../components/TextButton';
 import Colors from '../../constants/Colors';
+import ScreenLoader from '../../components/Loader/ScreenLoader';
 
 const SignIn = (props) => {
   const [data, setData] = useState({
     email: '',
     password: '',
   });
+  const {loading, error} = props;
+
+  const onClick = () => {
+    props.Login(data.email, data.password);
+    console.log('laoding => ', loading, 'error => ', error);
+    Snackbar.show({
+      text: 'Signed In Successfully',
+      duration: Snackbar.LENGTH_LONG,
+      textColor:Colors.tabIconDefault,
+      fontFamily: 'Montserrat-Bold',
+      backgroundColor: Colors.primaryColor,
+    });
+  };
+
+  if(loading){
+    <ScreenLoader />
+  }
+
+  if (error) {
+    Alert.alert(
+      'Try again',
+      'Server error',
+      [{text: 'OK', onPress: () => props.ResetError()}],
+      {cancelable: false},
+    );
+  }
+
   return (
     <View
       style={{
@@ -69,12 +101,7 @@ const SignIn = (props) => {
             marginTop: 20,
           }}
         />
-        <TextButton
-          text="Login"
-          onPress={() => {
-            console.log(data);
-          }}
-        />
+        <TextButton text="Login" onPress={onClick} />
       </Card>
       <View style={styles.footer}>
         <Text style={styles.footerText}>Not a Member?</Text>
@@ -142,4 +169,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Bold',
   },
 });
-export default SignIn;
+
+const mapStateToProps = (state) => ({
+  loading: state.auth.loading,
+  error: state.auth.error,
+  isLoggedIn: state.auth.isLoggedIn,
+});
+// export default SignIn;
+export default connect(mapStateToProps, {Login, ResetError})(SignIn);
