@@ -15,7 +15,7 @@ const firebaseConfig = {
 export const Firebase = firebase.default.initializeApp(firebaseConfig);
 
 // db initialization
-const db = firebase.default.firestore();
+export const db = firebase.default.firestore();
 export const postRef = db.collection('posts');
 export const postLikedRef = db.collection('postLikes');
 

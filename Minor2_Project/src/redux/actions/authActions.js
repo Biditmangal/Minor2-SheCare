@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import mainApi from '../apis';
-import {postRef, Firebase} from '../../Firebase';
+import {postRef, Firebase, db} from '../../Firebase';
 import {getState} from '../store'; // for auth token
 import {
   GET_ARTICLES,
@@ -75,19 +75,43 @@ export const Login = (email, password) => async (dispatch) => {
   }
 };
 
-export const Register = (email, password) => async (dispatch) => {
+export const Register = (
+  email,
+  password,
+  gender,
+  name,
+  username,
+  mobile_number,
+  aadhar_number,
+) => async (dispatch) => {
   dispatch({type: USER_LOADING, payload: null});
   try {
     Firebase.auth()
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
-        var user = userCredentials.user;
+        db.collection('users')
+          // .doc(userCredentials.user.uid)
+          .doc(Firebase.auth().currentUser.uid)
+          .set({
+            email: email,
+            gender: gender,
+            name: name,
+            username: username,
+            mobile_number: mobile_number,
+            aadhar_number: aadhar_number,
+          })
+          .catch((error) => {
+            dispatch({type: USER_ERROR, payload: null});
+            console.log(
+              'Something went wrong with added user to firestore: ',
+              error,
+            );
+          });
         dispatch({type: SIGN_UP, payload: null});
-        console.log('userCredentials after registering => ', user.uid);
       })
       .catch((error) => {
         dispatch({type: USER_ERROR, payload: null});
-        console.log('Error in registering the user', error.message, error.code);
+        console.log('Error in registering the user', error);
       });
   } catch (error) {
     console.log('error registering user', error);
@@ -95,7 +119,6 @@ export const Register = (email, password) => async (dispatch) => {
   }
 };
 export const Logout = () => async (dispatch) => {
-  // dispatch({type: USER_LOADING, payload: null});
   console.log('loggin out the user .....');
   dispatch({type: LOGOUT, payload: null});
 };

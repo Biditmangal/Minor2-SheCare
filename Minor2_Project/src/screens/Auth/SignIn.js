@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity,Alert} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {Card} from 'react-native-elements';
 import {
   responsiveFontSize,
@@ -8,7 +8,7 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import {connect} from 'react-redux';
-import {Login,ResetError} from '../../redux/actions/authActions';
+import {Login, ResetError} from '../../redux/actions/authActions';
 import Snackbar from 'react-native-snackbar';
 
 import InputField from '../../components/InputField';
@@ -25,18 +25,19 @@ const SignIn = (props) => {
 
   const onClick = () => {
     props.Login(data.email, data.password);
-    console.log('laoding => ', loading, 'error => ', error);
-    Snackbar.show({
-      text: 'Signed In Successfully',
-      duration: Snackbar.LENGTH_LONG,
-      textColor:Colors.tabIconDefault,
-      fontFamily: 'Montserrat-Bold',
-      backgroundColor: Colors.primaryColor,
-    });
+    if (!loading) {
+      Snackbar.show({
+        text: 'Signed In Successfully',
+        duration: Snackbar.LENGTH_LONG,
+        textColor: Colors.tabIconDefault,
+        fontFamily: 'Montserrat-Bold',
+        backgroundColor: Colors.primaryColor,
+      });
+    }
   };
 
-  if(loading){
-    <ScreenLoader />
+  if (loading) {
+    <ScreenLoader />;
   }
 
   if (error) {

@@ -20,7 +20,6 @@ import TextButton from '../../components/TextButton';
 import Colors from '../../constants/Colors';
 import ScreenLoader from '../../components/Loader/ScreenLoader';
 
-
 import {Register, ResetError} from '../../redux/actions/authActions';
 import {connect} from 'react-redux';
 
@@ -65,8 +64,15 @@ const SignUp = (props) => {
     // initialValues.dob=dob;
     console.log(values);
     setValues(values);
-    console.log(initialValues);
-    props.Register(values.email, values.password);
+    props.Register(
+      values.email,
+      values.password,
+      values.gender,
+      values.name,
+      values.username,
+      values.mobile_number,
+      values.aadhar_number,
+    );
     console.log('laoding => ', loading, 'error => ', error);
     props.navigation.navigate('Login');
     Snackbar.show({
@@ -82,14 +88,14 @@ const SignUp = (props) => {
   if (loading) {
     <ScreenLoader />;
   }
-  if (error) {
-    Alert.alert(
-      'Try again',
-      'Server error',
-      [{text: 'OK', onPress: () => props.ResetError()}],
-      {cancelable: false},
-    );
-  }
+  // if (error) {
+  //   Alert.alert(
+  //     'Try again',
+  //     'Server error',
+  //     [{text: 'OK', onPress: () => props.ResetError()}],
+  //     {cancelable: false},
+  //   );
+  // }
   const [dob, setDob] = useState('Date of Birth');
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -380,4 +386,4 @@ const mapStateToProps = (state) => ({
   // isLoggedIn: state.auth.isLoggedIn,
 });
 // export default SignUp;
-export default connect(mapStateToProps, {Register,ResetError})(SignUp);
+export default connect(mapStateToProps, {Register, ResetError})(SignUp);
