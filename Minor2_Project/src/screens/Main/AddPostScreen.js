@@ -13,6 +13,8 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import Toast from 'react-native-simple-toast';
+import Snackbar from 'react-native-snackbar';
+
 import {FAB} from 'react-native-paper';
 
 
@@ -56,11 +58,18 @@ const AddPostScreen = (props) => {
         //   description: '',
         // });
         console.log('Added post successfully',postData);
-        Toast.showWithGravity(
-          'Post Added successfully',
-          Toast.SHORT,
-          Toast.BOTTOM,
-        );
+        Snackbar.show({
+          text: 'Post Added Successfully',
+          duration: Snackbar.LENGTH_SHORT,
+          textColor: Colors.tabIconDefault,
+          fontFamily: 'Montserrat-Bold',
+          backgroundColor: Colors.primaryColor,
+        });
+        // Toast.showWithGravity(
+        //   'Post Added successfully',
+        //   Toast.SHORT,
+        //   Toast.BOTTOM,
+        // );
         props.navigation.navigate('Community');
       })
       .catch((error) => {
