@@ -1,8 +1,19 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import mainApi from '../apis';
-import {postRef} from '../../Firebase';
+import {postRef, Firebase} from '../../Firebase';
 import {getState} from '../store'; // for auth token
-import {GET_ARTICLES, GET_VIDEOS, ADD_POST, GET_POSTS} from '../constants';
+import {
+  GET_ARTICLES,
+  GET_VIDEOS,
+  ADD_POST,
+  GET_POSTS,
+  SIGN_UP,
+  SIGN_IN,
+  LOGOUT,
+  USER_LOADING,
+  USER_ERROR,
+  ERROR_RESET,
+} from '../constants';
 
 export const GettingVideos = () => async (dispatch) => {
   try {
@@ -44,8 +55,52 @@ export const GettingArticles = () => async (dispatch) => {
   }
 };
 
-// export const GettingPosts = () => async (dispatch)=>{
-//   try{
-//     const repsonse = await 
-//   }
-// }
+export const Login = (email, password) => async (dispatch) => {
+  dispatch({type: USER_LOADING, payload: null});
+  try {
+    Firebase.auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        var user = userCredentials.user;
+        dispatch({type: SIGN_IN, payload: null});
+        console.log('userCredentials after login => ', user.uid);
+      })
+      .catch((error) => {
+        dispatch({type: USER_ERROR, payload: null});
+        console.log('Error in logging in the user', error.message, error.code);
+      });
+  } catch (error) {
+    console.log('error logging user', error);
+    dispatch({type: USER_ERROR, payload: null});
+  }
+};
+
+export const Register = (email, password) => async (dispatch) => {
+  dispatch({type: USER_LOADING, payload: null});
+  try {
+    Firebase.auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        var user = userCredentials.user;
+        dispatch({type: SIGN_UP, payload: null});
+        console.log('userCredentials after registering => ', user.uid);
+      })
+      .catch((error) => {
+        dispatch({type: USER_ERROR, payload: null});
+        console.log('Error in registering the user', error.message, error.code);
+      });
+  } catch (error) {
+    console.log('error registering user', error);
+    dispatch({type: USER_ERROR, payload: null});
+  }
+};
+export const Logout = () => async (dispatch) => {
+  // dispatch({type: USER_LOADING, payload: null});
+  console.log('loggin out the user .....');
+  dispatch({type: LOGOUT, payload: null});
+};
+
+export const ResetError = () => ({
+  type: ERROR_RESET,
+  payload: null,
+});

@@ -1,4 +1,15 @@
-import {GET_ARTICLES, GET_VIDEOS, ADD_POST, GET_POSTS} from '../constants';
+import {
+  GET_ARTICLES,
+  GET_VIDEOS,
+  ADD_POST,
+  GET_POSTS,
+  SIGN_IN,
+  SIGN_UP,
+  LOGOUT,
+  USER_LOADING,
+  USER_ERROR,
+  ERROR_RESET,
+} from '../constants';
 
 const initialState = {
   error: false,
@@ -6,10 +17,29 @@ const initialState = {
   isLoggedIn: false,
   navigate: false,
   token: null,
+  status: false,
 };
 
 const authReducer = (state = initialState, {type, payload}) => {
   switch (type) {
+    case USER_LOADING: {
+      const loading = true;
+      const error = false;
+      return {
+        ...state,
+        loading,
+        error,
+      };
+    }
+    case USER_ERROR: {
+      const loading = false;
+      const error = true;
+      return {
+        ...state,
+        loading,
+        error,
+      };
+    }
     case GET_VIDEOS: {
       const {VideoData} = payload;
       const error = false;
@@ -50,6 +80,50 @@ const authReducer = (state = initialState, {type, payload}) => {
         POSTS,
         error,
         loading,
+      };
+    }
+
+    case SIGN_IN: {
+      const loading = false;
+      const error = false;
+      const isLoggedIn = true;
+      // const token = payload;
+      return {
+        ...state,
+        loading,
+        error,
+        // token,
+        isLoggedIn,
+      };
+    }
+    case SIGN_UP: {
+      const loading = false;
+      const error = false;
+      // const status = payload.status;
+      return {
+        ...state,
+        loading,
+        error,
+        status,
+      };
+    }
+    case LOGOUT: {
+      const loading = false;
+      const error = false;
+      const isLoggedIn = false;
+      return {
+        ...state,
+        loading,
+        error,
+        // token,
+        isLoggedIn,
+      };
+    }
+    case ERROR_RESET: {
+      const error = false;
+      return {
+        ...state,
+        error,
       };
     }
     default:
