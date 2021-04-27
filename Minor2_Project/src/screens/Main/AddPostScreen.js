@@ -17,7 +17,6 @@ import Snackbar from 'react-native-snackbar';
 
 import {FAB} from 'react-native-paper';
 
-
 import Colors from '../../constants/Colors';
 import {Icon} from 'react-native-elements';
 import {TouchableWithoutFeedback, Button} from 'react-native';
@@ -25,6 +24,7 @@ import {TouchableWithoutFeedback, Button} from 'react-native';
 import {getPosts, addPost, postRef} from '../../Firebase';
 import moment from 'moment';
 import {TouchableHighlight} from 'react-native-gesture-handler';
+import {connect} from 'react-redux';
 
 let post_id; // for unique post number
 
@@ -34,12 +34,19 @@ const AddPostScreen = (props) => {
     likes: 0,
     description: '',
     timestamp: '',
-    user: 'user_1',
+    user: null,
   });
 
+  useEffect(() => {
+    console.log("updating uid...");
+    setData({
+      ...postData,
+      user: props.uidLoggedIn,
+    });
+  }, []);
+  
   const handleClick = () => {
     post_id = props.route.params.postId;
-    console.log(postData.description);
     addPosts(`post_${post_id}`);
   };
 
@@ -49,15 +56,10 @@ const AddPostScreen = (props) => {
     //   ...postData,
     //   timestamp: date,
     // });
-    console.log(postData);
 
     addPost(id, postData)
       .then(() => {
-        // setData({
-        //   ...postData,
-        //   description: '',
-        // });
-        console.log('Added post successfully',postData);
+        console.log('Added post successfully => ', postData);
         Snackbar.show({
           text: 'Post Added Successfully',
           duration: Snackbar.LENGTH_SHORT,
@@ -107,7 +109,7 @@ const AddPostScreen = (props) => {
   return (
     <View
       style={{
-        flex:1,
+        flex: 1,
         // borderColor: 'red',
         // borderWidth: 2,
       }}>
@@ -209,4 +211,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddPostScreen;
+const mapStateToProps = (state) => ({
+  loading: state.auth.loading,
+  error: state.auth.error,
+  uidLoggedIn: state.auth.uidLoggedIn,
+  // isLoggedIn: state.auth.isLoggedIn,
+});
+// export default AddPostScreen;
+export default connect(mapStateToProps)(AddPostScreen);

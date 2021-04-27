@@ -18,6 +18,7 @@ const initialState = {
   navigate: false,
   token: null,
   status: false,
+  uidLoggedIn: null,
 };
 
 const authReducer = (state = initialState, {type, payload}) => {
@@ -65,6 +66,7 @@ const authReducer = (state = initialState, {type, payload}) => {
     case ADD_POST: {
       const error = false;
       const loading = false;
+
       return {
         ...state,
         error,
@@ -87,36 +89,37 @@ const authReducer = (state = initialState, {type, payload}) => {
       const loading = false;
       const error = false;
       const isLoggedIn = true;
-      // const token = payload;
+      const uidLoggedIn = payload.uid;
       return {
         ...state,
         loading,
         error,
         // token,
+        uidLoggedIn,
         isLoggedIn,
       };
     }
     case SIGN_UP: {
       const loading = false;
       const error = false;
-      // const status = payload.status;
       return {
         ...state,
         loading,
         error,
-        status,
       };
     }
     case LOGOUT: {
       const loading = false;
       const error = false;
       const isLoggedIn = false;
+      const uidLoggedIn = null;
       return {
         ...state,
         loading,
         error,
         // token,
         isLoggedIn,
+        uidLoggedIn,
       };
     }
     case ERROR_RESET: {

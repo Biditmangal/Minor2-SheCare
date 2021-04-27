@@ -61,9 +61,14 @@ export const Login = (email, password) => async (dispatch) => {
     Firebase.auth()
       .signInWithEmailAndPassword(email, password)
       .then((userCredentials) => {
-        var user = userCredentials.user;
-        dispatch({type: SIGN_IN, payload: null});
-        console.log('userCredentials after login => ', user.uid);
+        let user = userCredentials.user.uid;
+        dispatch({
+          type: SIGN_IN,
+          payload: {
+            uid: user,
+          },
+        });
+        console.log('userCredentials after login => ', userCredentials.user);
       })
       .catch((error) => {
         dispatch({type: USER_ERROR, payload: null});
@@ -89,9 +94,10 @@ export const Register = (
     Firebase.auth()
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
+        let uid = Firebase.auth().currentUser.uid;
         db.collection('users')
           // .doc(userCredentials.user.uid)
-          .doc(Firebase.auth().currentUser.uid)
+          .doc(uid)
           .set({
             email: email,
             gender: gender,
