@@ -55,6 +55,39 @@ export const GettingArticles = () => async (dispatch) => {
   }
 };
 
+export const AddingPosts = ({
+  imageURL,
+  likes,
+  description,
+  timestamp,
+  user,
+  postId,
+}) => async (dispatch) => {
+  dispatch({type: USER_LOADING, payload: null});
+  try {
+    postRef.doc(postId).set({
+      imageURL: imageURL,
+      likes: likes,
+      description: description,
+      timestamp: timestamp,
+      user: user,
+    })
+    .then(
+      ()=>{
+        dispatch({type: ADD_POST, payload: null});
+      }
+    )
+    .catch((error) => {
+      dispatch({type: USER_ERROR, payload: null});
+      console.log('Error in adding the post', error);
+    });
+  }
+  catch(error){
+    console.log('error posting the content', error);
+    dispatch({type: USER_ERROR, payload: null});
+  }
+};
+
 export const Login = (email, password) => async (dispatch) => {
   dispatch({type: USER_LOADING, payload: null});
   try {
