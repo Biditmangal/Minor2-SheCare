@@ -55,34 +55,34 @@ export const GettingArticles = () => async (dispatch) => {
   }
 };
 
-export const AddingPosts = ({
+export const AddingPosts = (
   imageURL,
   likes,
   description,
   timestamp,
   user,
   postId,
-}) => async (dispatch) => {
+) => async (dispatch) => {
   dispatch({type: USER_LOADING, payload: null});
   try {
-    postRef.doc(postId).set({
-      imageURL: imageURL,
-      likes: likes,
-      description: description,
-      timestamp: timestamp,
-      user: user,
-    })
-    .then(
-      ()=>{
+    postRef
+      .doc(postId)
+      .set({
+        imageURL: imageURL,
+        likes: likes,
+        description: description,
+        timestamp: timestamp,
+        user: user,
+      })
+      .then(() => {
         dispatch({type: ADD_POST, payload: null});
-      }
-    )
-    .catch((error) => {
-      dispatch({type: USER_ERROR, payload: null});
-      console.log('Error in adding the post', error);
-    });
-  }
-  catch(error){
+        console.log('post added successfully');
+      })
+      .catch((error) => {
+        dispatch({type: USER_ERROR, payload: null});
+        console.log('Error in adding the post', error);
+      });
+  } catch (error) {
     console.log('error posting the content', error);
     dispatch({type: USER_ERROR, payload: null});
   }
@@ -138,6 +138,8 @@ export const Register = (
             username: username,
             mobile_number: mobile_number,
             aadhar_number: aadhar_number,
+            description: null,
+            profilePic:null,
           })
           .catch((error) => {
             dispatch({type: USER_ERROR, payload: null});
@@ -157,6 +159,7 @@ export const Register = (
     dispatch({type: USER_ERROR, payload: null});
   }
 };
+
 export const Logout = () => async (dispatch) => {
   console.log('loggin out the user .....');
   dispatch({type: LOGOUT, payload: null});

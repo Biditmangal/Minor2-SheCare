@@ -16,10 +16,9 @@ import Toast from 'react-native-simple-toast';
 import Snackbar from 'react-native-snackbar';
 
 import {FAB} from 'react-native-paper';
-
 import Colors from '../../constants/Colors';
 import {Icon} from 'react-native-elements';
-import {TouchableWithoutFeedback, Button} from 'react-native';
+import {AddingPosts} from '../../redux/actions/authActions';
 
 import {getPosts, addPost, postRef} from '../../Firebase';
 import moment from 'moment';
@@ -30,36 +29,44 @@ let post_id; // for unique post number
 
 const AddPostScreen = (props) => {
   const [postData, setData] = useState({
-    imageURL: '',
+    imageURL: null,
     likes: 0,
     description: '',
-    timestamp: '',
+    timestamp: null,
     user: null,
   });
 
   useEffect(() => {
-    console.log("updating uid...");
+    console.log('updating uid...');
     setData({
       ...postData,
       user: props.uidLoggedIn,
     });
   }, []);
-  
+
   const handleClick = () => {
-    post_id = props.route.params.postId;
-    addPosts(`post_${post_id}`);
-  };
-
-  const addPosts = (id) => {
-    let date = moment(date).format('DD-MM-YYYY');
-    // setData({
-    //   ...postData,
-    //   timestamp: date,
-    // });
-
-    addPost(id, postData)
-      .then(() => {
-        console.log('Added post successfully => ', postData);
+    // post_id = props.route.params.postId;
+    // addPosts(`post_${post_id}`);
+    if (postData.description == '') {
+      Snackbar.show({
+        text: 'Content cannot be empty',
+        duration: Snackbar.LENGTH_SHORT,
+        textColor: Colors.tabIconDefault,
+        fontFamily: 'Montserrat-Bold',
+        backgroundColor: Colors.primaryColor,
+      });
+    } else {
+      post_id = `post_${props.route.params.postId}`;
+      props.AddingPosts(
+        postData.imageURL,
+        postData.likes,
+        postData.description,
+        postData.timestamp,
+        postData.user,
+        post_id,
+      );
+      if (!props.error) {
+        // console.log('Added post successfully => ', postData);
         Snackbar.show({
           text: 'Post Added Successfully',
           duration: Snackbar.LENGTH_SHORT,
@@ -67,17 +74,39 @@ const AddPostScreen = (props) => {
           fontFamily: 'Montserrat-Bold',
           backgroundColor: Colors.primaryColor,
         });
-        // Toast.showWithGravity(
-        //   'Post Added successfully',
-        //   Toast.SHORT,
-        //   Toast.BOTTOM,
-        // );
         props.navigation.navigate('Community');
-      })
-      .catch((error) => {
-        console.log('error in posting data ', error);
-      });
+      }
+    }
   };
+
+  // const addPosts = (id) => {
+  //   let date = moment(date).format('DD-MM-YYYY');
+  //   // setData({
+  //   //   ...postData,
+  //   //   timestamp: date,
+  //   // });
+
+  //   addPost(id, postData)
+  //     .then(() => {
+  //       console.log('Added post successfully => ', postData);
+  //       Snackbar.show({
+  //         text: 'Post Added Successfully',
+  //         duration: Snackbar.LENGTH_SHORT,
+  //         textColor: Colors.tabIconDefault,
+  //         fontFamily: 'Montserrat-Bold',
+  //         backgroundColor: Colors.primaryColor,
+  //       });
+  //       // Toast.showWithGravity(
+  //       //   'Post Added successfully',
+  //       //   Toast.SHORT,
+  //       //   Toast.BOTTOM,
+  //       // );
+  //       props.navigation.navigate('Community');
+  //     })
+  //     .catch((error) => {
+  //       console.log('error in posting data ', error);
+  //     });
+  // };
 
   // useLayoutEffect(() => {
   //   props.navigation.setOptions({
@@ -110,8 +139,6 @@ const AddPostScreen = (props) => {
     <View
       style={{
         flex: 1,
-        // borderColor: 'red',
-        // borderWidth: 2,
       }}>
       <KeyboardAvoidingView>
         <View style={styles.textAreaContainer}>
@@ -218,4 +245,4 @@ const mapStateToProps = (state) => ({
   // isLoggedIn: state.auth.isLoggedIn,
 });
 // export default AddPostScreen;
-export default connect(mapStateToProps)(AddPostScreen);
+export default connect(mapStateToProps, {AddingPosts})(AddPostScreen);
