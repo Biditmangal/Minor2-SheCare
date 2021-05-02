@@ -88,33 +88,52 @@ export const AddingPosts = (
   }
 };
 
-export const getPosts = ()=> async (dispatch) => {
+export const getPosts = () => async (dispatch) => {
   dispatch({type: USER_LOADING, payload: null});
-  try{
-    let arr=[];
-    const query = db.collection('posts').orderBy('timestamp');
-    query.get()
-   .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        console.log(doc.id, ' => ', doc.data());
-        arr.push(doc.data());
+  try {
+    let arr = [];
+    // const query = db.collection('posts').orderBy('timestamp');
+    const query = db.collection('posts');
+    let obj = {};
+    query
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // console.log(doc.id, ' => ', doc.data());
+          // arr.push(doc.data());
+          // console.log(doc.data().user);
+          // db.collection('users')
+          //   .doc(doc.data().user)
+          //   .get()
+          //   .then((userData) => {
+          //     // console.log(userData)
+          //     obj = {
+          //       userid: userData.uid,
+          //       profilePic: userData.profilePic,
+          //       name: userData.name,
+          //       posted: doc.data().timestamp,
+          //       description: doc.data().description,
+          //     };
+          //   });
+          // arr = [...arr, obj];
+          arr = [...arr,doc.data()]
         });
 
-      //   postD = response.querySnapshot.map((item) => ({
-      //     imageURL: item.imageURL,
-      //     likes: item.likes,
-      //     description: item.description,
-      //     timestamp:item.timestamp,
-      //     user: item.user.uid
-      //   }));
-      dispatch({type: GET_POSTS, payload: arr});
-    })
-    .catch((error) => {
-      dispatch({type: USER_ERROR, payload: null});
-      console.log('Error in adding the post', error);
-    });
-  }
-  catch(error){
+        //   postD = response.querySnapshot.map((item) => ({
+        //     imageURL: item.imageURL,
+        //     likes: item.likes,
+        //     description: item.description,
+        //     timestamp:item.timestamp,
+        //     user: item.user.uid
+        //   }));
+        // console.log(arr);
+        dispatch({type: GET_POSTS, payload: arr});
+      })
+      .catch((error) => {
+        dispatch({type: USER_ERROR, payload: null});
+        console.log('Error in adding the post', error);
+      });
+  } catch (error) {
     console.log('error getting the post', error);
     dispatch({type: USER_ERROR, payload: null});
   }
@@ -171,7 +190,7 @@ export const Register = (
             mobile_number: mobile_number,
             aadhar_number: aadhar_number,
             description: null,
-            profilePic:null,
+            profilePic: null,
           })
           .catch((error) => {
             dispatch({type: USER_ERROR, payload: null});

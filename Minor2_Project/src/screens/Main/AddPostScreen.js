@@ -38,6 +38,7 @@ const AddPostScreen = (props) => {
 
   useEffect(() => {
     console.log('updating uid...');
+    // postRef.get().then((snap) => (post_id = `post_${snap.size + 1}`));
     setData({
       ...postData,
       user: props.uidLoggedIn,

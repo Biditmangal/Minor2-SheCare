@@ -74,7 +74,7 @@ const authReducer = (state = initialState, {type, payload}) => {
       };
     }
     case GET_POSTS: {
-      const {POSTS} = payload;
+      const POSTS = payload;
       const error = false;
       const loading = false;
       return {

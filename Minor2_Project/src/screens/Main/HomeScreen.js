@@ -5,10 +5,10 @@ import CommunityCard from '../../components/CommunityCard';
 import {FAB} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native';
 import Colors from '../../constants/Colors';
-import {getPosts, addPost, postRef} from '../../Firebase';
+import {postRef} from '../../Firebase';
 import moment from 'moment';
-import { TouchableHighlight } from 'react-native';
-import { TouchableWithoutFeedback } from 'react-native';
+import {connect} from 'react-redux';
+import {getPosts} from '../../redux/actions/authActions';
 
 let post_id; // for unique post number
 
@@ -49,42 +49,48 @@ const HomeScreen = (props) => {
     ],
   });
 
+  // useEffect(() => {
+  //   //for fetching all the posts
+  //   getPosts()
+  //   .catch((error) => {
+  //     console.log('error in getting posts', ' ', error);
+  //   });
+  //   //for post count
+  //   postRef.get().then((snap) => (post_id = snap.size));
+  // }, [data.posts]);
   useEffect(() => {
-    //for fetching all the posts
-    getPosts()
-    .catch((error) => {
-      console.log('error in getting posts', ' ', error);
-    });
-    //for post count
-    postRef.get().then((snap) => (post_id = snap.size));
-  }, [data.posts]);
+      postRef.get().then((snap) => (post_id = snap.size));
+    props.getPosts();
+  }, []);
 
-  const addPosts = (id) => {
-    let date = moment(date).format('DD-MM-YYYY');
-    const postData = {
-      imageURL: '',
-      likes: 0,
-      description: '',
-      timestamp: date,
-      user: '',
-    };
-    addPost(id, postData)
-      .then(() => {
-        console.log('Added post successfully');
-      })
-      .catch((error) => {
-        console.log('error in posting data ', error);
-      });
-  };
+  console.log("Post List => ",props.PostList);
+  // const addPosts = (id) => {
+  //   let date = moment(date).format('DD-MM-YYYY');
+  //   const postData = {
+  //     imageURL: '',
+  //     likes: 0,
+  //     description: '',
+  //     timestamp: date,
+  //     user: '',
+  //   };
+  //   addPost(id, postData)
+  //     .then(() => {
+  //       console.log('Added post successfully');
+  //     })
+  //     .catch((error) => {
+  //       console.log('error in posting data ', error);
+  //     });
+  // };
 
   const handleClick = () => {
     updateClick(!isClicked);
     // console.log(isClicked);
     post_id++;
-    // addPosts(`post_${post_id}`);
+    // // addPosts(`post_${post_id}`);
     props.navigation.navigate('Add Post',{
       postId : post_id,
     });
+    // props.navigation.navigate('Add Post');
   };
 
   return (
@@ -135,4 +141,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+const mapStateToProps = (state) => ({
+  loading: state.auth.loading,
+  error: state.auth.error,
+  PostList: state.auth.POSTS,
+});
+
+// export default HomeScreen;
+export default connect(mapStateToProps, {getPosts})(HomeScreen);
