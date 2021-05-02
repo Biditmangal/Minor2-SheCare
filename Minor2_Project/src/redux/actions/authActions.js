@@ -88,6 +88,38 @@ export const AddingPosts = ({
   }
 };
 
+export const getPosts = ()=> async (dispatch) => {
+  dispatch({type: USER_LOADING, payload: null});
+  try{
+    let arr=[];
+    const query = db.collection('posts').orderBy('timestamp');
+    query.get()
+   .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, ' => ', doc.data());
+        arr.push(doc.data());
+        });
+
+      //   postD = response.querySnapshot.map((item) => ({
+      //     imageURL: item.imageURL,
+      //     likes: item.likes,
+      //     description: item.description,
+      //     timestamp:item.timestamp,
+      //     user: item.user.uid
+      //   }));
+      dispatch({type: GET_POSTS, payload: arr});
+    })
+    .catch((error) => {
+      dispatch({type: USER_ERROR, payload: null});
+      console.log('Error in adding the post', error);
+    });
+  }
+  catch(error){
+    console.log('error getting the post', error);
+    dispatch({type: USER_ERROR, payload: null});
+  }
+};
+
 export const Login = (email, password) => async (dispatch) => {
   dispatch({type: USER_LOADING, payload: null});
   try {
