@@ -8,7 +8,7 @@ import Colors from '../../constants/Colors';
 import {postRef} from '../../Firebase';
 import moment from 'moment';
 import {connect} from 'react-redux';
-import {getPosts} from '../../redux/actions/authActions';
+import {getPosts, GetPosts, getposts} from '../../redux/actions/authActions';
 
 let post_id; // for unique post number
 
@@ -17,80 +17,61 @@ const HomeScreen = (props) => {
 
   LogBox.ignoreLogs(['Setting a timer']); // to ignore the Warning of Set a timer
 
-  const [data, setData] = useState({
-    posts: [
-      {
-        userid: 1,
-        profilePic:
-          'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-        name: 'Joe Stockton',
-        posted: '3 days ago',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
-      },
-      {
-        userid: 2,
-        profilePic:
-          'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-        name: 'Joe Stockton',
-        posted: '3 days ago',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
-      },
-      {
-        userid: 3,
-        profilePic:
-          'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-        name: 'Joe Stockton',
-        posted: '3 days ago',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
-      },
-    ],
-  });
+  // const [data, setData] = useState({
+  //   posts: [
+  //     {
+  //       userid: 1,
+  //       profilePic:
+  //         'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+  //       name: 'Joe Stockton',
+  //       posted: '3 days ago',
+  //       description:
+  //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
+  //     },
+  //     {
+  //       userid: 2,
+  //       profilePic:
+  //         'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+  //       name: 'Joe Stockton',
+  //       posted: '3 days ago',
+  //       description:
+  //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
+  //     },
+  //     {
+  //       userid: 3,
+  //       profilePic:
+  //         'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+  //       name: 'Joe Stockton',
+  //       posted: '3 days ago',
+  //       description:
+  //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
+  //     },
+  //   ],
+  // });
 
-  // useEffect(() => {
-  //   //for fetching all the posts
-  //   getPosts()
-  //   .catch((error) => {
-  //     console.log('error in getting posts', ' ', error);
-  //   });
-  //   //for post count
-  //   postRef.get().then((snap) => (post_id = snap.size));
-  // }, [data.posts]);
   useEffect(() => {
-      postRef.get().then((snap) => (post_id = snap.size));
-    props.getPosts();
-  }, []);
+    postRef.get().then((snap) => (post_id = snap.size));
+    // props.getPosts();
+    props.getposts();
 
-  console.log("Post List => ",props.PostList);
-  // const addPosts = (id) => {
-  //   let date = moment(date).format('DD-MM-YYYY');
-  //   const postData = {
-  //     imageURL: '',
-  //     likes: 0,
-  //     description: '',
-  //     timestamp: date,
-  //     user: '',
-  //   };
-  //   addPost(id, postData)
-  //     .then(() => {
-  //       console.log('Added post successfully');
-  //     })
-  //     .catch((error) => {
-  //       console.log('error in posting data ', error);
-  //     });
-  // };
+    const listener = props.navigation.addListener('focus', () => {
+      props.getposts();
+    });
+
+    return () => listener();
+    
+  }, [props.navigation]);
+
+  console.log('Post List => ', props.PostList);
 
   const handleClick = () => {
     updateClick(!isClicked);
     // console.log(isClicked);
     post_id++;
     // // addPosts(`post_${post_id}`);
-    props.navigation.navigate('Add Post',{
-      postId : post_id,
+    props.navigation.navigate('Add Post', {
+      postId: post_id,
     });
-    // props.navigation.navigate('Add Post');
   };
 
   return (
@@ -104,8 +85,8 @@ const HomeScreen = (props) => {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           horizontal={false}
-          keyExtractor={(item) => `${item.userid}`}
-          data={[...data.posts]}
+          keyExtractor={(item) => `${item.postid}`}
+          data={[...props.PostList]}
           renderItem={({item}) => <CommunityCard item={item} />}
         />
       </View>
@@ -147,5 +128,6 @@ const mapStateToProps = (state) => ({
   PostList: state.auth.POSTS,
 });
 
-// export default HomeScreen;
-export default connect(mapStateToProps, {getPosts})(HomeScreen);
+export default connect(mapStateToProps, {getPosts, GetPosts, getposts})(
+  HomeScreen,
+);

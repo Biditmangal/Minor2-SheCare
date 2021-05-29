@@ -50,7 +50,7 @@ const CommunityCard = (props) => {
             marginLeft: 15,
           }}>
           <Text style={styles.name}>
-            {props.item.name + ' ' + props.item.userid}
+            {props.item.name}
           </Text>
           <Text style={styles.posted}>{props.item.posted}</Text>
         </View>

@@ -13,6 +13,7 @@ import {
   USER_LOADING,
   USER_ERROR,
   ERROR_RESET,
+  GET_PROFILE,
 } from '../constants';
 
 export const GettingVideos = () => async (dispatch) => {
@@ -88,55 +89,47 @@ export const AddingPosts = (
   }
 };
 
-export const getPosts = () => async (dispatch) => {
-  dispatch({type: USER_LOADING, payload: null});
-  try {
-    let arr = [];
-    // const query = db.collection('posts').orderBy('timestamp');
-    const query = db.collection('posts');
-    let obj = {};
-    query
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          // console.log(doc.id, ' => ', doc.data());
-          // arr.push(doc.data());
-          // console.log(doc.data().user);
-          // db.collection('users')
-          //   .doc(doc.data().user)
-          //   .get()
-          //   .then((userData) => {
-          //     // console.log(userData)
-          //     obj = {
-          //       userid: userData.uid,
-          //       profilePic: userData.profilePic,
-          //       name: userData.name,
-          //       posted: doc.data().timestamp,
-          //       description: doc.data().description,
-          //     };
-          //   });
-          // arr = [...arr, obj];
-          arr = [...arr,doc.data()]
-        });
+export const getposts = () => {
+  return async (dispatch) => {
+    dispatch({type: USER_LOADING, payload: null});
 
-        //   postD = response.querySnapshot.map((item) => ({
-        //     imageURL: item.imageURL,
-        //     likes: item.likes,
-        //     description: item.description,
-        //     timestamp:item.timestamp,
-        //     user: item.user.uid
-        //   }));
-        // console.log(arr);
-        dispatch({type: GET_POSTS, payload: arr});
-      })
-      .catch((error) => {
-        dispatch({type: USER_ERROR, payload: null});
-        console.log('Error in adding the post', error);
-      });
-  } catch (error) {
-    console.log('error getting the post', error);
-    dispatch({type: USER_ERROR, payload: null});
-  }
+    const response = await postRef.get();
+    let postarr = [];
+    let postids = [];
+
+    response.forEach((post) => {
+      postids = [...postids, post.id];
+      postarr = [...postarr, post.data()];
+    });
+
+    let arr = [];
+
+    for (let post = postarr.length - 1; post >= 0; post--) {
+      const userData = await db
+        .collection('users')
+        .doc(postarr[post].user)
+        .get();
+
+      arr = [
+        ...arr,
+        {
+          userid: postarr[post].user,
+          profilePic: userData.data().profilePic,
+          name: userData.data().name,
+          posted: postarr[post].timestamp,
+          description: postarr[post].description,
+          postid: postids[post],
+        },
+      ];
+    }
+
+    if (arr.length > 0) {
+      dispatch({type: GET_POSTS, payload: arr});
+    } else {
+      console.log('error getting the post', error);
+      dispatch({type: USER_ERROR, payload: null});
+    }
+  };
 };
 
 export const Login = (email, password) => async (dispatch) => {
@@ -207,6 +200,23 @@ export const Register = (
       });
   } catch (error) {
     console.log('error registering user', error);
+    dispatch({type: USER_ERROR, payload: null});
+  }
+};
+
+export const getProfile = () => async (dispatch) => {
+  dispatch({type: USER_LOADING, payload: null});
+  try {
+    const userData = await db
+      .collection('users')
+      .doc(Firebase.auth().currentUser.uid)
+      .get();
+
+    console.log(userData.data());
+
+    dispatch({type: GET_PROFILE, payload: userData.data()});
+  } catch (error) {
+    console.log('error getting user details', error);
     dispatch({type: USER_ERROR, payload: null});
   }
 };
