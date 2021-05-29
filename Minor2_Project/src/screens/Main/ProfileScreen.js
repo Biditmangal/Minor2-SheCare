@@ -1,35 +1,59 @@
 import React from 'react';
+import {Touchable} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {ImageBackground, StyleSheet, Text, View} from 'react-native';
-import {Card,Icon} from 'react-native-elements';
+import {Card, Icon} from 'react-native-elements';
 
 import {
-  responsiveHeight,
   responsiveWidth,
-  //   responsiveFontSize,
   useResponsiveHeight,
   useResponsiveWidth,
 } from 'react-native-responsive-dimensions';
 
+import {connect} from 'react-redux';
+
 const Profile = (props) => {
   return (
     <>
-      <ImageBackground
-        source={{uri: props.item.prImage}}
-        style={styles.container}>
-        <View>  
-          <Icon
-            name="arrow-back"
-            type="iconinon"
-            // name="home"
-            // type='material'
-            size={32}
-            color="#C54D7B"
-            containerStyle={{
-              alignItems: 'flex-start',
-              paddingTop: 30,
-              paddingLeft: 10,
-            }}
-          />
+      <ImageBackground source={{uri: props.prImage}} style={styles.container}>
+        <View
+          style={{
+            marginTop: 30,
+            marginLeft: 10,
+          }}>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.goBack();
+            }}>
+            <Icon
+              name="arrow-back"
+              type="iconinon"
+              // name="home"
+              // type='material'
+              // raised
+              size={28}
+              color="#fff"
+              containerStyle={{
+                // alignItems: 'flex-start',
+                // paddingTop: 30,
+                // paddingLeft: 10,
+                width: useResponsiveWidth(11),
+                height: useResponsiveHeight(6),
+                borderRadius: useResponsiveWidth(16),
+                backgroundColor: '#C54D7B',
+                alignContent: 'center',
+                justifyContent: 'center',
+                shadowColor: '#C54D6B',
+                shadowOffset: {
+                  width: 2,
+                  height: 4,
+                },
+                shadowOpacity: 0.5,
+                shadowRadius: 5.46,
+                elevation: 12,
+              }}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.MainContainer}>
           <Card containerStyle={styles.Card}>
@@ -43,38 +67,41 @@ const Profile = (props) => {
                   justifyContent: 'flex-start',
                   marginTop: 10,
                 }}>
-                <Text style={styles.title}>{props.item.prName}</Text>
-                <Text style={styles.username}>
-                  {'@' + props.item.prUsername}
-                </Text>
+                <Text style={styles.title}>{props.prName}</Text>
+                <Text style={styles.username}>{'@' + props.prUsername}</Text>
               </View>
               <View
                 style={{
                   flex: 1,
                   justifyContent: 'center',
                 }}>
-                <Icon
-                  name="edit"
-                  // type="font-awesome-5"
-                  // size={25}
-                  color="#fff"
-                  containerStyle={{
-                    width: useResponsiveWidth(15),
-                    height: useResponsiveHeight(8),
-                    borderRadius: useResponsiveWidth(16),
-                    backgroundColor: '#C54D7B',
-                    alignContent: 'center',
-                    justifyContent: 'center',
-                    shadowColor: '#C54D6B',
-                    shadowOffset: {
-                      width: 2,
-                      height: 4,
-                    },
-                    shadowOpacity: 0.5,
-                    shadowRadius: 5.46,
-                    elevation: 12,
-                  }}
-                />
+                <TouchableOpacity
+                  onPress={() => {
+                    console.log('Edit Profile: Clicked');
+                  }}>
+                  <Icon
+                    name="edit"
+                    // type="font-awesome-5"
+                    // size={25}
+                    color="#fff"
+                    containerStyle={{
+                      width: useResponsiveWidth(13),
+                      height: useResponsiveHeight(7),
+                      borderRadius: useResponsiveWidth(16),
+                      backgroundColor: '#C54D7B',
+                      alignContent: 'center',
+                      justifyContent: 'center',
+                      shadowColor: '#C54D6B',
+                      shadowOffset: {
+                        width: 2,
+                        height: 4,
+                      },
+                      shadowOpacity: 0.5,
+                      shadowRadius: 5.46,
+                      elevation: 12,
+                    }}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
             <View
@@ -82,7 +109,7 @@ const Profile = (props) => {
                 paddingTop: 10,
                 paddingRight: 5,
               }}>
-              <Text style={styles.desc}>{props.item.prDescription}</Text>
+              <Text style={styles.desc}>{props.prDescription}</Text>
             </View>
           </Card>
         </View>
@@ -121,4 +148,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+const mapStateToProps = (state) => ({
+  loading: state.auth.loading,
+  error: state.auth.error,
+  prImage: state.auth.profilePic,
+  prUsername: state.auth.username,
+  prName: state.auth.name,
+  prDescription: state.auth.description,
+});
+// export default Profile;
+
+export default connect(mapStateToProps, {})(Profile);

@@ -137,12 +137,22 @@ export const Login = (email, password) => async (dispatch) => {
   try {
     Firebase.auth()
       .signInWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
+      .then(async (userCredentials) => {
         let user = userCredentials.user.uid;
+        const userData = await db.collection('users').doc(user).get();
+
+        let username = userData.data().username;
+        let profilePic = userData.data().profilePic;
+        let name = userData.data().name;
+        let description = userData.data().description;
         dispatch({
           type: SIGN_IN,
           payload: {
             uid: user,
+            username: username,
+            profilePic: profilePic,
+            name: name,
+            description: description,
           },
         });
         console.log('userCredentials after login => ', userCredentials.user);

@@ -8,8 +8,8 @@ import AuthStackNavigator from './src/navigation/AuthStackNavigator';
 
 import AboutUsScreen from './src/screens/Main/AboutUs';
 import DrawerContent from './src/screens/Main/DrawerContent';
+import Profile from './src/screens/Main/ProfileScreen';
 import {connect} from 'react-redux';
-
 const Drawer = createDrawerNavigator();
 
 const App = (props) => {
@@ -25,9 +25,7 @@ const App = (props) => {
 
   return (
     <>
-
       <NavigationContainer>
-        
         {props.isLoggedIn == true ? (
           <Drawer.Navigator
             drawerContent={(props) => <DrawerContent {...props} />}>
@@ -36,6 +34,7 @@ const App = (props) => {
               name="Profile"
               component={() => <Profile item={item} />}
             /> */}
+            <Drawer.Screen name="ProfileScreen" component={Profile} />
             <Drawer.Screen name="AboutUsScreen" component={AboutUsScreen} />
           </Drawer.Navigator>
         ) : (

@@ -8,7 +8,7 @@ import Colors from '../../constants/Colors';
 import {postRef} from '../../Firebase';
 import moment from 'moment';
 import {connect} from 'react-redux';
-import {getPosts, GetPosts, getposts} from '../../redux/actions/authActions';
+import {getposts} from '../../redux/actions/authActions';
 
 let post_id; // for unique post number
 
@@ -59,16 +59,13 @@ const HomeScreen = (props) => {
     });
 
     return () => listener();
-    
   }, [props.navigation]);
 
   console.log('Post List => ', props.PostList);
 
   const handleClick = () => {
     updateClick(!isClicked);
-    // console.log(isClicked);
     post_id++;
-    // // addPosts(`post_${post_id}`);
     props.navigation.navigate('Add Post', {
       postId: post_id,
     });
@@ -128,6 +125,4 @@ const mapStateToProps = (state) => ({
   PostList: state.auth.POSTS,
 });
 
-export default connect(mapStateToProps, {getPosts, GetPosts, getposts})(
-  HomeScreen,
-);
+export default connect(mapStateToProps, {getposts})(HomeScreen);

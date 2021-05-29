@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Image, Linking, Text,Alert} from 'react-native';
+import {View, StyleSheet, Image, Linking, Text, Alert} from 'react-native';
 import {DrawerItem} from '@react-navigation/drawer';
 import {Drawer} from 'react-native-paper';
 import {Icon} from 'react-native-elements';
@@ -9,13 +9,11 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 
-
 import {connect} from 'react-redux';
-import {Logout,ResetError} from '../../redux/actions/authActions';
+import {Logout, ResetError} from '../../redux/actions/authActions';
 import ScreenLoader from '../../components/Loader/ScreenLoader';
 import Snackbar from 'react-native-snackbar';
 import Colors from '../../constants/Colors';
-
 
 const DrawerContent = (props) => {
   const [data, setData] = useState({
@@ -35,7 +33,7 @@ const DrawerContent = (props) => {
   };
 
   const {loading, error} = props;
-  const onClick =()=>{
+  const onClick = () => {
     console.log('laoding => ', loading, 'error => ', error);
     props.Logout();
     Snackbar.show({
@@ -46,9 +44,9 @@ const DrawerContent = (props) => {
       fontFamily: 'Montserrat-Bold',
       backgroundColor: Colors.primaryColor,
     });
-  }
-  if(loading){
-    <ScreenLoader />
+  };
+  if (loading) {
+    <ScreenLoader />;
   }
   if (error) {
     Alert.alert(
@@ -67,14 +65,20 @@ const DrawerContent = (props) => {
             alignItems: 'flex-start',
             backgroundColor: Colors.tintColor,
           }}>
-          <Image
+          {/* <Image
             source={{
               uri: data.profilePic,
             }}
             style={styles.avatar}
+          /> */}
+          <Image
+            source={{
+              uri: props.profilePic,
+            }}
+            style={styles.avatar}
           />
-          <Text style={styles.titleName}>{data.name}</Text>
-          <Text style={styles.username}>{'@' + data.username}</Text>
+          <Text style={styles.titleName}>{props.name}</Text>
+          <Text style={styles.username}>{'@' + props.username}</Text>
         </View>
 
         <View
@@ -95,11 +99,10 @@ const DrawerContent = (props) => {
               )}
               inactiveTintColor="#5F5F5F"
               label="Profile"
-              // onPress={() => {
-              //   props.navigation.navigate('Profile',{
-              // 	item
-              // });
-              // }}
+              onPress={() => {
+                console.log('clicked');
+                props.navigation.navigate('ProfileScreen');
+              }}
               labelStyle={{
                 fontSize: 18,
                 fontWeight: 'bold',
@@ -180,7 +183,10 @@ const mapStateToProps = (state) => ({
   loading: state.auth.loading,
   error: state.auth.error,
   isLoggedIn: state.auth.isLoggedIn,
+  username: state.auth.username,
+  profilePic: state.auth.profilePic,
+  name:state.auth.name,
 });
 
-export default connect(mapStateToProps, {Logout,ResetError})(DrawerContent);
+export default connect(mapStateToProps, {Logout, ResetError})(DrawerContent);
 // export default DrawerContent;

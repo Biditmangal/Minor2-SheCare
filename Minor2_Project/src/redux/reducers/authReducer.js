@@ -9,6 +9,7 @@ import {
   USER_LOADING,
   USER_ERROR,
   ERROR_RESET,
+  GET_PROFILE,
 } from '../constants';
 
 const initialState = {
@@ -19,6 +20,10 @@ const initialState = {
   token: null,
   status: false,
   uidLoggedIn: null,
+  username: null,
+  profilePic: null,
+  name: null,
+  description:null,
 };
 
 const authReducer = (state = initialState, {type, payload}) => {
@@ -90,13 +95,20 @@ const authReducer = (state = initialState, {type, payload}) => {
       const error = false;
       const isLoggedIn = true;
       const uidLoggedIn = payload.uid;
+      const username = payload.username;
+      const profilePic = payload.profilePic;
+      const name = payload.name;
+      const description = payload.description;
       return {
         ...state,
         loading,
         error,
-        // token,
         uidLoggedIn,
         isLoggedIn,
+        username,
+        profilePic,
+        name,
+        description,
       };
     }
     case SIGN_UP: {
@@ -127,6 +139,15 @@ const authReducer = (state = initialState, {type, payload}) => {
       return {
         ...state,
         error,
+      };
+    }
+    case GET_PROFILE: {
+      const error = false;
+      const userDetails = payload;
+      return {
+        ...state,
+        error,
+        userDetails,
       };
     }
     default:
