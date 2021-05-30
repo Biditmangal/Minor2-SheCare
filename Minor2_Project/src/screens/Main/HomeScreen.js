@@ -8,7 +8,7 @@ import Colors from '../../constants/Colors';
 import {postRef} from '../../Firebase';
 import moment from 'moment';
 import {connect} from 'react-redux';
-import {getposts, updateLike} from '../../redux/actions/authActions';
+import {getposts, updateLike, getLikes} from '../../redux/actions/authActions';
 
 let post_id; // for unique post number
 
@@ -22,41 +22,12 @@ const HomeScreen = (props) => {
 
   LogBox.ignoreLogs(['Setting a timer']); // to ignore the Warning of Set a timer
 
-  // const [data, setData] = useState({
-  //   posts: [
-  //     {
-  //       userid: 1,
-  //       profilePic:
-  //         'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-  //       name: 'Joe Stockton',
-  //       posted: '3 days ago',
-  //       description:
-  //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
-  //     },
-  //     {
-  //       userid: 2,
-  //       profilePic:
-  //         'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-  //       name: 'Joe Stockton',
-  //       posted: '3 days ago',
-  //       description:
-  //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
-  //     },
-  //     {
-  //       userid: 3,
-  //       profilePic:
-  //         'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-  //       name: 'Joe Stockton',
-  //       posted: '3 days ago',
-  //       description:
-  //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate consequat urna, eu faucibus dolor rhoncus a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
-  //     },
-  //   ],
-  // });
 
   useEffect(() => {
     postRef.get().then((snap) => (post_id = snap.size));
+    
     props.getposts();
+    props.getLikes();
 
     const listener = props.navigation.addListener('focus', () => {
       props.getposts();
@@ -81,7 +52,6 @@ const HomeScreen = (props) => {
     else props.updateLike(item.postid, -1);
   };
 
-  // console.log('Post List ===============> ', props.PostList);
 
   const handleClick = () => {
     updateClick(!isClicked);
@@ -147,4 +117,4 @@ const mapStateToProps = (state) => ({
   PostList: state.auth.POSTS,
 });
 
-export default connect(mapStateToProps, {getposts, updateLike})(HomeScreen);
+export default connect(mapStateToProps, {getposts, updateLike,getLikes})(HomeScreen);

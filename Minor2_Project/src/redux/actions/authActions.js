@@ -15,6 +15,7 @@ import {
   ERROR_RESET,
   GET_PROFILE,
   UDPATE_LIKE,
+  GET_LIKES,
 } from '../constants';
 
 export const GettingVideos = () => async (dispatch) => {
@@ -203,6 +204,7 @@ export const Register = (
               error,
             );
           });
+        db.collection('postLikes').doc(uid).set({});
         dispatch({type: SIGN_UP, payload: null});
       })
       .catch((error) => {
@@ -232,35 +234,62 @@ export const getProfile = () => async (dispatch) => {
   }
 };
 
-export const updateLike = (postid,state) => async (dispatch) => {
+export const updateLike = (postid, state) => async (dispatch) => {
   try {
     const post = await db.collection('posts').doc(postid).get();
     const like = post.data().likes;
-    if(state ==1){
-    await db
-      .collection('posts')
-      .doc(postid)
-      .update({
-        likes: like + 1,
-      })
-      .then(() => {
-        console.log('likes updated');
-      });
-    }
-    else{
+    if (state == 1) {
+      await db
+        .collection('posts')
+        .doc(postid)
+        .update({
+          likes: like + 1,
+        })
+        .then(async () => {
+          console.log('likes updated');
+
+          await db
+            .collection('postLikes')
+            .doc(Firebase.auth().currentUser.uid)
+            .update({
+              [postid]: true,
+            });
+        });
+    } else {
       await db
         .collection('posts')
         .doc(postid)
         .update({
           likes: like - 1,
         })
-        .then(() => {
+        .then(async () => {
           console.log('likes updated');
+
+          await db
+            .collection('postLikes')
+            .doc(Firebase.auth().currentUser.uid)
+            .update({
+              [postid]: false,
+            });
         });
     }
     dispatch({type: UDPATE_LIKE, payload: null});
   } catch (error) {
     console.log('error updating like count', error);
+    dispatch({type: USER_ERROR, payload: null});
+  }
+};
+
+export const getLikes = () => async (dispatch) => {
+  try {
+    const response = await db
+      .collection('postLikes')
+      .doc(Firebase.auth().currentUser.uid)
+      .get();
+    console.log('list of liked posts ====> ', response.data());
+    dispatch({type: GET_LIKES, payload: response.data()});
+  } catch (error) {
+    console.log('error getting like list', error);
     dispatch({type: USER_ERROR, payload: null});
   }
 };

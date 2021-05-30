@@ -11,6 +11,7 @@ import {
   ERROR_RESET,
   GET_PROFILE,
   UDPATE_LIKE,
+  GET_LIKES,
 } from '../constants';
 
 const initialState = {
@@ -165,6 +166,13 @@ const authReducer = (state = initialState, {type, payload}) => {
         ...state,
         error,
       };
+    }
+    case GET_LIKES: {
+      const likeList = payload;
+      return{
+        ...state,
+        likeList,
+      }
     }
     default:
       return state;

@@ -11,3 +11,4 @@ export const USER_ERROR = 'USER_ERROR';
 export const ERROR_RESET = 'ERROR_RESET';
 export const GET_PROFILE = 'GET_PROFILE';
 export const UDPATE_LIKE = 'UDPATE_LIKE';
+export const GET_LIKES = 'GET_LIKES';
