@@ -115,6 +115,7 @@ const mapStateToProps = (state) => ({
   loading: state.auth.loading,
   error: state.auth.error,
   PostList: state.auth.POSTS,
+  likeList: state.auth.likeList,
 });
 
 export default connect(mapStateToProps, {getposts, updateLike,getLikes})(HomeScreen);

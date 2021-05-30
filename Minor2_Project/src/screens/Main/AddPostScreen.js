@@ -20,10 +20,11 @@ import Colors from '../../constants/Colors';
 import {Icon} from 'react-native-elements';
 import {AddingPosts} from '../../redux/actions/authActions';
 
-import {getPosts, addPost, postRef} from '../../Firebase';
 import moment from 'moment';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
+
+import ChooseFile from '../../components/ChooseFile';
 
 let post_id; // for unique post number
 
@@ -35,7 +36,9 @@ const AddPostScreen = (props) => {
     timestamp: null,
     user: null,
   });
+  const [image, setImage] = useState(false);
 
+  const imageURI = image ? image.uri.slice(-20) : 'No File Chosen';
   useEffect(() => {
     console.log('updating uid...');
     // postRef.get().then((snap) => (post_id = `post_${snap.size + 1}`));
@@ -157,6 +160,12 @@ const AddPostScreen = (props) => {
                 description: text,
               })
             }
+          />
+          <ChooseFile
+            name="Add Image:"
+            imagePath={imageURI}
+            selectImage={setImage}
+            square={false}
           />
         </View>
         <View
