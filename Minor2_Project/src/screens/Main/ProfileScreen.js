@@ -1,5 +1,4 @@
 import React from 'react';
-import {Touchable} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import {Card, Icon} from 'react-native-elements';
@@ -156,6 +155,5 @@ const mapStateToProps = (state) => ({
   prName: state.auth.name,
   prDescription: state.auth.description,
 });
-// export default Profile;
 
 export default connect(mapStateToProps, {})(Profile);

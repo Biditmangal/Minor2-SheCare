@@ -12,21 +12,21 @@ import {
 import Colors from '../constants/Colors';
 
 const CommunityCard = (props) => {
-  const [isLiked, updateLike] = useState(false);
+  const [isLiked, setLike] = useState(false);
 
   const handleLike = () => {
     //let currentLikedPosts = props.likedPosts;
     if (!isLiked) {
-      updateLike(true);
+      setLike(true);
+      props.click(props.item,1);
     } else {
-      updateLike(false);
+      setLike(false);
+      props.click(props.item, -1);
     }
   };
 
   return (
-    
     <Card containerStyle={styles.container}>
-      
       <View
         style={{
           flex: 3,
@@ -49,9 +49,7 @@ const CommunityCard = (props) => {
             justifyContent: 'center',
             marginLeft: 15,
           }}>
-          <Text style={styles.name}>
-            {props.item.name}
-          </Text>
+          <Text style={styles.name}>{props.item.name}</Text>
           <Text style={styles.posted}>{props.item.posted}</Text>
         </View>
 

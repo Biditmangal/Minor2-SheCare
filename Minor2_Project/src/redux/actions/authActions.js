@@ -14,6 +14,7 @@ import {
   USER_ERROR,
   ERROR_RESET,
   GET_PROFILE,
+  UDPATE_LIKE,
 } from '../constants';
 
 export const GettingVideos = () => async (dispatch) => {
@@ -227,6 +228,39 @@ export const getProfile = () => async (dispatch) => {
     dispatch({type: GET_PROFILE, payload: userData.data()});
   } catch (error) {
     console.log('error getting user details', error);
+    dispatch({type: USER_ERROR, payload: null});
+  }
+};
+
+export const updateLike = (postid,state) => async (dispatch) => {
+  try {
+    const post = await db.collection('posts').doc(postid).get();
+    const like = post.data().likes;
+    if(state ==1){
+    await db
+      .collection('posts')
+      .doc(postid)
+      .update({
+        likes: like + 1,
+      })
+      .then(() => {
+        console.log('likes updated');
+      });
+    }
+    else{
+      await db
+        .collection('posts')
+        .doc(postid)
+        .update({
+          likes: like - 1,
+        })
+        .then(() => {
+          console.log('likes updated');
+        });
+    }
+    dispatch({type: UDPATE_LIKE, payload: null});
+  } catch (error) {
+    console.log('error updating like count', error);
     dispatch({type: USER_ERROR, payload: null});
   }
 };

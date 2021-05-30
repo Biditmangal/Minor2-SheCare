@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {FlatList, StyleSheet, LogBox} from 'react-native';
 import {Text, View, ScrollView} from 'react-native';
 import CommunityCard from '../../components/CommunityCard';
@@ -8,12 +8,17 @@ import Colors from '../../constants/Colors';
 import {postRef} from '../../Firebase';
 import moment from 'moment';
 import {connect} from 'react-redux';
-import {getposts} from '../../redux/actions/authActions';
+import {getposts, updateLike} from '../../redux/actions/authActions';
 
 let post_id; // for unique post number
 
 const HomeScreen = (props) => {
   const [isClicked, updateClick] = useState(false);
+
+  const [post, setPost] = useState({
+    postSelected: {},
+    postState: null,
+  });
 
   LogBox.ignoreLogs(['Setting a timer']); // to ignore the Warning of Set a timer
 
@@ -51,7 +56,6 @@ const HomeScreen = (props) => {
 
   useEffect(() => {
     postRef.get().then((snap) => (post_id = snap.size));
-    // props.getPosts();
     props.getposts();
 
     const listener = props.navigation.addListener('focus', () => {
@@ -61,7 +65,23 @@ const HomeScreen = (props) => {
     return () => listener();
   }, [props.navigation]);
 
-  console.log('Post List => ', props.PostList);
+  const clickEventListener = useCallback((item, state) => {
+    setPost({
+      ...post,
+      postSelected: item,
+      postState: state,
+    });
+    updateLikeCount(item, state);
+  }, []);
+
+  const updateLikeCount = (item, state) => {
+    console.log('updating likes of post ====> ', post.postSelected.postid);
+
+    if (state == 1) props.updateLike(item.postid, 1);
+    else props.updateLike(item.postid, -1);
+  };
+
+  // console.log('Post List ===============> ', props.PostList);
 
   const handleClick = () => {
     updateClick(!isClicked);
@@ -84,7 +104,9 @@ const HomeScreen = (props) => {
           horizontal={false}
           keyExtractor={(item) => `${item.postid}`}
           data={[...props.PostList]}
-          renderItem={({item}) => <CommunityCard item={item} />}
+          renderItem={({item}) => (
+            <CommunityCard item={item} click={clickEventListener} />
+          )}
         />
       </View>
       <View
@@ -125,4 +147,4 @@ const mapStateToProps = (state) => ({
   PostList: state.auth.POSTS,
 });
 
-export default connect(mapStateToProps, {getposts})(HomeScreen);
+export default connect(mapStateToProps, {getposts, updateLike})(HomeScreen);

@@ -10,6 +10,7 @@ import {
   USER_ERROR,
   ERROR_RESET,
   GET_PROFILE,
+  UDPATE_LIKE,
 } from '../constants';
 
 const initialState = {
@@ -23,7 +24,7 @@ const initialState = {
   username: null,
   profilePic: null,
   name: null,
-  description:null,
+  description: null,
 };
 
 const authReducer = (state = initialState, {type, payload}) => {
@@ -125,11 +126,18 @@ const authReducer = (state = initialState, {type, payload}) => {
       const error = false;
       const isLoggedIn = false;
       const uidLoggedIn = null;
+      const username = null;
+      const profilePic = null;
+      const name = null;
+      const description = null;
       return {
         ...state,
         loading,
         error,
-        // token,
+        username,
+        profilePic,
+        name,
+        description,
         isLoggedIn,
         uidLoggedIn,
       };
@@ -148,6 +156,14 @@ const authReducer = (state = initialState, {type, payload}) => {
         ...state,
         error,
         userDetails,
+      };
+    }
+
+    case UDPATE_LIKE: {
+      const error= false;
+      return {
+        ...state,
+        error,
       };
     }
     default:
