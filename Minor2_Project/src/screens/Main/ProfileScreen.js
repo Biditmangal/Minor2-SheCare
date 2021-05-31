@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {TouchableOpacity} from 'react-native';
 import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import {Card, Icon} from 'react-native-elements';
+import {getProfile} from '../../redux/actions/authActions';
+
 
 import {
   responsiveWidth,
@@ -12,6 +14,20 @@ import {
 import {connect} from 'react-redux';
 
 const Profile = (props) => {
+
+  useEffect(()=>{
+
+      props.getProfile();
+
+    const listener = props.navigation.addListener('focus', () => {
+      props.getProfile();
+    });
+
+    return () => listener();
+  },[props.navigation])
+
+
+
   return (
     <>
       <ImageBackground source={{uri: props.prImage}} style={styles.container}>
@@ -141,4 +157,4 @@ const mapStateToProps = (state) => ({
   prDescription: state.auth.description,
 });
 
-export default connect(mapStateToProps, {})(Profile);
+export default connect(mapStateToProps, {getProfile})(Profile);

@@ -155,7 +155,7 @@ export const Login = (email, password) => async (dispatch) => {
         let username = userData.data().username;
         let profilePic = userData.data().profilePic;
         let name = userData.data().name;
-        let description = userData.data().description;
+        // let description = userData.data().description;
         dispatch({
           type: SIGN_IN,
           payload: {
@@ -163,7 +163,7 @@ export const Login = (email, password) => async (dispatch) => {
             username: username,
             profilePic: profilePic,
             name: name,
-            description: description,
+            // description: description,
           },
         });
         console.log('userCredentials after login => ', userCredentials.user);
@@ -252,9 +252,22 @@ export const getProfile = () => async (dispatch) => {
       .doc(Firebase.auth().currentUser.uid)
       .get();
 
-    console.log(userData.data());
+    console.log('successfully got profileData', userData.data());
 
-    dispatch({type: GET_PROFILE, payload: userData.data()});
+    let username = userData.data().username;
+    let profilePic = userData.data().profilePic;
+    let name = userData.data().name;
+    let description = userData.data().description;
+
+    dispatch({
+      type: GET_PROFILE,
+      payload: {
+        username: username,
+        profilePic: profilePic,
+        name: name,
+        description: description,
+      },
+    });
   } catch (error) {
     console.log('error getting user details', error);
     dispatch({type: USER_ERROR, payload: null});
@@ -323,7 +336,9 @@ export const getLikes = () => async (dispatch) => {
   }
 };
 
-export const updateProfile = (username, name, description) => async (dispatch) => {
+export const updateProfile = (username, name, description) => async (
+  dispatch,
+) => {
   dispatch({type: USER_LOADING, payload: null});
   try {
     const user = Firebase.auth().currentUser.uid;
@@ -348,7 +363,6 @@ export const updateProfile = (username, name, description) => async (dispatch) =
     dispatch({type: USER_ERROR, payload: null});
   }
 };
-
 
 export const Logout = () => async (dispatch) => {
   console.log('loggin out the user .....');

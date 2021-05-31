@@ -155,12 +155,20 @@ const authReducer = (state = initialState, {type, payload}) => {
       };
     }
     case GET_PROFILE: {
+      const loading = false;
       const error = false;
-      const userDetails = payload;
+      const username = payload.username;
+      const profilePic = payload.profilePic;
+      const name = payload.name;
+      const description = payload.description;
       return {
         ...state,
+        loading,
         error,
-        userDetails,
+        username,
+        profilePic,
+        name,
+        description,
       };
     }
 
