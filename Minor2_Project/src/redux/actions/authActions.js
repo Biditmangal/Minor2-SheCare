@@ -17,6 +17,7 @@ import {
   UDPATE_LIKE,
   GET_LIKES,
   RESET_PASS,
+  UPDATE_PROFILE,
 } from '../constants';
 
 export const GettingVideos = () => async (dispatch) => {
@@ -112,8 +113,8 @@ export const getposts = () => {
         .collection('users')
         .doc(postarr[post].user)
         .get();
-        
-        arr = [
+
+      arr = [
         ...arr,
         {
           userid: postarr[post].user,
@@ -121,17 +122,16 @@ export const getposts = () => {
           name: userData.data().name,
           posted: postarr[post].timestamp,
           description: postarr[post].description,
-          imageUri:postarr[post].imageURL,
+          imageUri: postarr[post].imageURL,
           postid: postids[post],
         },
       ];
     }
 
-
     if (arr.length > 0) {
       dispatch({type: GET_POSTS, payload: arr});
-    }else if(arr.length===0){
-      arr=[];
+    } else if (arr.length === 0) {
+      arr = [];
       dispatch({type: GET_POSTS, payload: arr});
     }
     // if (arr.length > 0) {
@@ -170,7 +170,7 @@ export const Login = (email, password) => async (dispatch) => {
       })
       .catch((error) => {
         dispatch({type: USER_ERROR, payload: null});
-        console.log('Error in logging in the user===>',error);
+        console.log('Error in logging in the user===>', error);
       });
   } catch (error) {
     console.log('error logging user', error);
@@ -193,7 +193,7 @@ export const Register = (
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         userCredentials.user.sendEmailVerification();
-        alert("Verification email sent. Please verify your email address.");
+        alert('Verification email sent. Please verify your email address.');
 
         let uid = Firebase.auth().currentUser.uid;
         db.collection('users')
@@ -231,7 +231,7 @@ export const Register = (
 
 export const handlePasswordReset = (email) => async (dispatch) => {
   dispatch({type: USER_LOADING, payload: null});
-    // const { email } = values
+  // const { email } = values
 
   try {
     await Firebase.auth().sendPasswordResetEmail(email);
@@ -242,7 +242,7 @@ export const handlePasswordReset = (email) => async (dispatch) => {
     console.log('error in resetting password', error);
     dispatch({type: USER_ERROR, payload: null});
   }
-}
+};
 
 export const getProfile = () => async (dispatch) => {
   dispatch({type: USER_LOADING, payload: null});
@@ -262,6 +262,7 @@ export const getProfile = () => async (dispatch) => {
 };
 
 export const updateLike = (postid, state) => async (dispatch) => {
+  dispatch({type: USER_LOADING, payload: null});
   try {
     const post = await db.collection('posts').doc(postid).get();
     const like = post.data().likes;
@@ -308,6 +309,7 @@ export const updateLike = (postid, state) => async (dispatch) => {
 };
 
 export const getLikes = () => async (dispatch) => {
+  dispatch({type: USER_LOADING, payload: null});
   try {
     const response = await db
       .collection('postLikes')
@@ -320,6 +322,33 @@ export const getLikes = () => async (dispatch) => {
     dispatch({type: USER_ERROR, payload: null});
   }
 };
+
+export const updateProfile = (username, name, description) => async (dispatch) => {
+  dispatch({type: USER_LOADING, payload: null});
+  try {
+    const user = Firebase.auth().currentUser.uid;
+    await db
+      .collection('users')
+      .doc(user)
+      .update({
+        username: username,
+        name: name,
+        description: description,
+      })
+      .then(() => {
+        console.log('Updated the profile');
+        dispatch({type: UPDATE_PROFILE, payload: true});
+      })
+      .catch(() => {
+        console.log('error updating profile==>', error);
+        dispatch({type: USER_ERROR, payload: null});
+      });
+  } catch (error) {
+    console.log('error updating profile==>', error);
+    dispatch({type: USER_ERROR, payload: null});
+  }
+};
+
 
 export const Logout = () => async (dispatch) => {
   console.log('loggin out the user .....');

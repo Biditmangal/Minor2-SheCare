@@ -1,7 +1,8 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createStackNavigator} from '@react-navigation/stack';
+
 
 import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import AuthStackNavigator from './src/navigation/AuthStackNavigator';
@@ -11,19 +12,12 @@ import DrawerContent from './src/screens/Main/DrawerContent';
 import Profile from './src/screens/Main/ProfileScreen';
 import {connect} from 'react-redux';
 import EditProfileScreen from './src/screens/Main/EditProfileScreen';
+
+
 const Drawer = createDrawerNavigator();
+const ProfileStack = createStackNavigator();
 
 const App = (props) => {
-  const item = {
-    prImage: 'https://picsum.photos/720',
-    prName: 'Giana Dias',
-    prUsername: 'gianadias',
-    prDescription:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Est ut aenean leo nibh leo adipiscing.' +
-      'Odio id in ac augue vitae. Dolor vulputate libero est ut.' +
-      ' Scelerisque sed cursus tristique proin ipsum pellentesque. Ut et quam ultricies.',
-  };
-
   return (
     <>
       <NavigationContainer>
@@ -31,12 +25,8 @@ const App = (props) => {
           <Drawer.Navigator
             drawerContent={(props) => <DrawerContent {...props} />}>
             <Drawer.Screen name="Home" component={BottomTabNavigator} />
-            {/* <Drawer.Screen
-              name="Profile"
-              component={() => <Profile item={item} />}
-            /> */}
-            <Drawer.Screen name="ProfileScreen" component={Profile} />
-            <Drawer.Screen name="EditProfileScreen" component={EditProfileScreen} />
+            <Drawer.Screen name="ProfileScreen" component={ProfileStackScreen} />
+            <Drawer.Screen name="AboutUsScreen" component={AboutUsScreen} />
           </Drawer.Navigator>
         ) : (
           <AuthStackNavigator />
@@ -46,11 +36,15 @@ const App = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+const ProfileStackScreen = () =>(
+  <ProfileStack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+      <ProfileStack.Screen name="ProfileScreen" component={Profile} />
+      <ProfileStack.Screen name="EditProfileScreen" component={EditProfileScreen} /> 
+    </ProfileStack.Navigator>
+)
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.auth.isLoggedIn,

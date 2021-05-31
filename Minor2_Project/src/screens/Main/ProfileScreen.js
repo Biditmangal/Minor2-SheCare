@@ -26,30 +26,13 @@ const Profile = (props) => {
             }}>
             <Icon
               name="arrow-back"
-              type="iconinon"
-              // name="home"
-              // type='material'
-              // raised
-              size={28}
+              type="ionicon"
+              size={38}
               color="#fff"
               containerStyle={{
-                // alignItems: 'flex-start',
-                // paddingTop: 30,
-                // paddingLeft: 10,
-                width: useResponsiveWidth(11),
-                height: useResponsiveHeight(6),
-                borderRadius: useResponsiveWidth(16),
-                backgroundColor: '#C54D7B',
-                alignContent: 'center',
-                justifyContent: 'center',
-                shadowColor: '#C54D6B',
-                shadowOffset: {
-                  width: 2,
-                  height: 4,
-                },
-                shadowOpacity: 0.5,
-                shadowRadius: 5.46,
-                elevation: 12,
+                alignItems: 'flex-start',
+                paddingTop: 10,
+                paddingLeft: 10,
               }}
             />
           </TouchableOpacity>
@@ -77,11 +60,10 @@ const Profile = (props) => {
                 <TouchableOpacity
                   onPress={() => {
                     console.log('Edit Profile: Clicked');
+                    props.navigation.navigate('EditProfileScreen')
                   }}>
                   <Icon
                     name="edit"
-                    // type="font-awesome-5"
-                    // size={25}
                     color="#fff"
                     containerStyle={{
                       width: useResponsiveWidth(13),
@@ -135,15 +117,18 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     color: '#000',
+    fontFamily: 'Montserrat-SemiBold',
   },
   username: {
     fontSize: 18,
     color: '#7E7E7E',
+    fontFamily: 'Montserrat-Light',
   },
   desc: {
     fontSize: 16,
     color: '#000',
     marginBottom: 10,
+    fontFamily: 'Montserrat-Medium',
   },
 });
 

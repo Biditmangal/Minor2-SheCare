@@ -9,31 +9,33 @@ import TextButton from '../../components/TextButton';
 import {
   responsiveWidth,
   responsiveHeight,
-  useResponsiveHeight,
-  useResponsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {connect} from 'react-redux';
+import {updateProfile} from '../../redux/actions/authActions';
 
 const EditProfileScreen = (props) => {
   const [data, setData] = useState({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
+    username: '',
+    name: '',
+    description: '',
   });
+
+  const onClick = () => {
+    props.updateProfile(data.username, data.name, data.desciption);
+    props.navigation.navigate('ProfileScreen');
+  };
 
   return (
     <View style={styles.container}>
-      <View
-        style={
-          {
-            // marginTop: 30,
-            //marginLeft: 10,
-          }
-        }>
+      <View>
         <LinearGradient
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
           colors={[Colors.primaryColor, Colors.secondaryColor]}
-          style={styles.gradient}>
+          style={styles.gradient}
+          useAngle={true}
+          angle={-60}
+          angleCenter={{x: 0.3, y: 1}}>
           <View
             style={{
               marginTop: 10,
@@ -45,24 +47,13 @@ const EditProfileScreen = (props) => {
               }}>
               <Icon
                 name="arrow-back"
-                type="iconinon"
-                size={28}
+                type="ionicon"
+                size={38}
                 color="#fff"
                 containerStyle={{
-                  width: useResponsiveWidth(11),
-                  height: useResponsiveHeight(6),
-                  borderRadius: useResponsiveWidth(16),
-                  backgroundColor: '#C54D7B',
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                  shadowColor: '#C54D6B',
-                  shadowOffset: {
-                    width: 2,
-                    height: 4,
-                  },
-                  shadowOpacity: 0.5,
-                  shadowRadius: 5.46,
-                  elevation: 12,
+                  alignItems: 'flex-start',
+                  paddingTop: 10,
+                  paddingLeft: 10,
                 }}
               />
             </TouchableOpacity>
@@ -101,7 +92,7 @@ const EditProfileScreen = (props) => {
             onChangeText={(text) => {
               setData({
                 ...data,
-                email: text,
+                username: text,
               });
             }}
             iconName="user"
@@ -115,7 +106,7 @@ const EditProfileScreen = (props) => {
             onChangeText={(text) => {
               setData({
                 ...data,
-                firstName: text,
+                name: text,
               });
             }}
           />
@@ -127,7 +118,7 @@ const EditProfileScreen = (props) => {
             onChangeText={(text) => {
               setData({
                 ...data,
-                lastName: text,
+                desciption: text,
               });
             }}
           />
@@ -149,7 +140,7 @@ const EditProfileScreen = (props) => {
               marginTop: 10,
             }}
           />
-          <TextButton text="Edit" />
+          <TextButton text="Edit" onPress={onClick} />
         </Card>
       </View>
     </View>
@@ -163,8 +154,8 @@ const styles = StyleSheet.create({
   },
   gradient: {
     //borderRadius: 20,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
     width: responsiveWidth(100),
     height: responsiveHeight(34),
   },
@@ -177,19 +168,21 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   title: {
-    marginTop: -60,
+    marginTop: -50,
     display: 'flex',
     alignSelf: 'center',
     fontSize: 30,
     color: '#000',
+    fontFamily: 'Montserrat-Medium',
   },
   username: {
     alignSelf: 'center',
     fontSize: 18,
     color: '#7E7E7E',
+    fontFamily: 'Montserrat-Medium',
   },
   image: {
-    marginTop: -100,
+    marginTop: -120,
     height: responsiveHeight(30),
     width: responsiveWidth(30),
     borderRadius: responsiveWidth(6),
@@ -202,9 +195,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
+  loading: state.auth.loading,
+  error: state.auth.error,
   prImage: state.auth.profilePic,
   prUsername: state.auth.username,
   prName: state.auth.name,
 });
 
-export default connect(mapStateToProps, {})(EditProfileScreen);
+export default connect(mapStateToProps, {updateProfile})(EditProfileScreen);
