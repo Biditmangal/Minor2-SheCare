@@ -36,6 +36,8 @@ const HomeScreen = (props) => {
     return () => listener();
   }, [props.navigation]);
 
+
+  console.log('Post list===>',props.PostList);
   const clickEventListener = useCallback((item, state) => {
     setPost({
       ...post,
