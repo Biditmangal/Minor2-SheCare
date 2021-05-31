@@ -1,7 +1,15 @@
 import React, {useCallback, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity,TouchableHighlight} from 'react-native-gesture-handler';
 import ImageSelector from './ImageSelector';
+import Colors from '../constants/Colors';
+import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import {Icon} from 'react-native-elements';
+
 
 const ChooseFile = ({imagePath, name, selectImage, square}) => {
   let [isImagePicker, setImagePicker] = useState(false);
@@ -13,12 +21,42 @@ const ChooseFile = ({imagePath, name, selectImage, square}) => {
     <>
       <View style={styles.formElement}>
         {/* <Text style={styles.label}>{name}</Text> */}
-        <TouchableOpacity onPress={() => setImagePicker(true)}>
+        {/* <TouchableOpacity onPress={() => setImagePicker(true)}> */}
           <View style={styles.choosefile}>
             {/* <Text style={styles.choosebtn}>Add Image</Text> */}
             <Text style={styles.textBtn}>{imagePath}</Text>
           </View>
-        </TouchableOpacity>
+        {/* </TouchableOpacity> */}
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          margin: 40,
+        }}>
+        <TouchableHighlight
+          style={{
+            backgroundColor: Colors.tintColor,
+            borderRadius: 30,
+          }}
+          onPress={() => setImagePicker(true)}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              padding: 10,
+              width: responsiveWidth(80),
+            }}>
+            <Icon
+              name="image"
+              size={responsiveHeight(3)}
+              type="font-awesome-5"
+              color={Colors.noticeText}
+            />
+            <Text style={styles.btntext}>Add image</Text>
+          </View>
+        </TouchableHighlight>
       </View>
       <ImageSelector
         title="Select Image"
@@ -35,9 +73,9 @@ const styles = StyleSheet.create({
   formElement: {
     marginBottom: 10,
     // width: '40%',
-    width:'100%',
+    width: '100%',
     margin: 10,
-    marginRight:20,
+    marginRight: 20,
   },
   label: {
     fontSize: 12,
@@ -68,6 +106,12 @@ const styles = StyleSheet.create({
   textBtn: {
     // color: '#fff',
     color: '#000',
+  },
+  btntext: {
+    marginLeft: 10,
+    color: Colors.noticeText,
+    fontSize: responsiveFontSize(2),
+    fontFamily: 'Montserrat-Bold',
   },
 });
 export default ChooseFile;

@@ -69,8 +69,6 @@ const ImageSelector = (props) => {
     let isStoragePermitted = await requestExternalWritePermission();
     if (isCameraPermitted && isStoragePermitted) {
       launchCamera(options, (response) => {
-        console.log('response ', response.assets[0].uri);
-        console.log('full response====>',response);
 
         if (response.didCancel) {
           alert('User cancelled camera picker');
@@ -85,15 +83,15 @@ const ImageSelector = (props) => {
           alert(response.errorMessage);
           return;
         }
-        console.log('base64 -> ', response.base64);
-        console.log('uri -> ', response.uri);
-        console.log('width -> ', response.width);
-        console.log('height -> ', response.height);
-        console.log('fileSize -> ', response.fileSize);
-        console.log('type -> ', response.type);
-        console.log('fileName -> ', response.fileName);
+        console.log('base64 -> ', response.assets[0].base64);
+        console.log('uri -> ', response.assets[0].uri);
+        console.log('width -> ', response.assets[0].width);
+        console.log('height -> ', response.assets[0].height);
+        console.log('fileSize -> ', response.assets[0].fileSize);
+        console.log('type -> ', response.assets[0].type);
+        console.log('fileName -> ', response.assets[0].fileName);
         setFilePath(response);
-        props.imageSelector(response.uri);
+        props.imageSelector(response.assets[0].uri);
         props.modalHide(false);
       });
     }
@@ -107,7 +105,7 @@ const ImageSelector = (props) => {
       quality: 1,
     };
     launchImageLibrary(options, (response) => {
-      console.log('Response = ', response);
+      console.log('opening library...')
 
       if (response.didCancel) {
         alert('User cancelled camera picker');
@@ -122,15 +120,15 @@ const ImageSelector = (props) => {
         alert(response.errorMessage);
         return;
       }
-      console.log('base64 -> ', response.base64);
-      console.log('uri -> ', response.uri);
-      console.log('width -> ', response.width);
-      console.log('height -> ', response.height);
-      console.log('fileSize -> ', response.fileSize);
-      console.log('type -> ', response.type);
-      console.log('fileName -> ', response.fileName);
+      console.log('base64 -> ', response.assets[0].base64);
+      console.log('uri -> ', response.assets[0].uri);
+      console.log('width -> ', response.assets[0].width);
+      console.log('height -> ', response.assets[0].height);
+      console.log('fileSize -> ', response.assets[0].fileSize);
+      console.log('type -> ', response.assets[0].type);
+      console.log('fileName -> ', response.assets[0].fileName);
       setFilePath(response);
-      props.imageSelector(response.uri);
+      props.imageSelector(response.assets[0].uri);
       props.modalHide(false);
     });
   };

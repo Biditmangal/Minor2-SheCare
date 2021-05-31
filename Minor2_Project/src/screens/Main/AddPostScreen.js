@@ -39,6 +39,8 @@ const AddPostScreen = (props) => {
   const [image, setImage] = useState(false);
 
   const imageURI = image ? image.uri.slice(-20) : 'No File Chosen';
+
+
   useEffect(() => {
     console.log('updating uid...');
     // postRef.get().then((snap) => (post_id = `post_${snap.size + 1}`));
@@ -62,7 +64,7 @@ const AddPostScreen = (props) => {
     } else {
       post_id = `post_${props.route.params.postId}`;
       props.AddingPosts(
-        postData.imageURL,
+        imageURI,
         postData.likes,
         postData.description,
         postData.timestamp,
@@ -161,14 +163,14 @@ const AddPostScreen = (props) => {
               })
             }
           />
-          <ChooseFile
-            name="Add Image:"
-            imagePath={imageURI}
-            selectImage={setImage}
-            square={false}
-          />
         </View>
-        <View
+        <ChooseFile
+          name="Add Image:"
+          imagePath={imageURI}
+          selectImage={setImage}
+          square={false}
+        />
+        {/* <View
           style={{
             flexDirection: 'row',
             justifyContent: 'center',
@@ -197,7 +199,7 @@ const AddPostScreen = (props) => {
               <Text style={styles.btntext}>Add image</Text>
             </View>
           </TouchableHighlight>
-        </View>
+        </View> */}
       </KeyboardAvoidingView>
       <View
         style={{
