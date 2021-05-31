@@ -37,7 +37,7 @@ const CommunityCard = (props) => {
             flex: 1,
           }}>
           <Image
-            style={styles.image}
+            style={styles.profileiImage}
             resizeMode={'contain'}
             source={{uri: props.item.profilePic}}
           />
@@ -86,6 +86,18 @@ const CommunityCard = (props) => {
         }}>
         <Text style={styles.description}>{props.item.description}</Text>
       </View>
+      {(props.item.imageUri != 'No File Chosen') ? (
+        <View
+          style={{
+            marginTop: 10,
+          }}>
+          <Image
+            style={styles.image}
+            resizeMode={'contain'}
+            source={{uri: props.item.imageUri}}
+          />
+        </View>
+      ) : null}
     </Card>
   );
 };
@@ -97,7 +109,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     paddingVertical: 10,
   },
-  image: {
+  profileiImage: {
     height: responsiveHeight(8),
     width: responsiveWidth(12),
     borderRadius: responsiveWidth(12),
@@ -115,6 +127,11 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(1.6),
     color: Colors.textColor,
     marginTop: 2,
+  },
+  image: {
+    height: responsiveHeight(25),
+    width: '100%',
+    borderRadius: responsiveWidth(2),
   },
 });
 

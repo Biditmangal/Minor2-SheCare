@@ -112,8 +112,8 @@ export const getposts = () => {
         .collection('users')
         .doc(postarr[post].user)
         .get();
-
-      arr = [
+        
+        arr = [
         ...arr,
         {
           userid: postarr[post].user,
@@ -121,6 +121,7 @@ export const getposts = () => {
           name: userData.data().name,
           posted: postarr[post].timestamp,
           description: postarr[post].description,
+          imageUri:postarr[post].imageURL,
           postid: postids[post],
         },
       ];
