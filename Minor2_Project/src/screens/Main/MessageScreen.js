@@ -1,5 +1,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
+import {Icon} from 'react-native-elements';
+import Colors from '../../constants/Colors';
 
 const MessageScreen = () => {
   return (
@@ -9,7 +11,21 @@ const MessageScreen = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text>MessageScreen Under Development</Text>
+      <Icon
+        name="developer-mode"
+        type="material"
+        color={Colors.tintColor}
+        size={100}
+        solid
+      />
+      <Text
+        style={{
+          margin: 20,
+          fontFamily: 'Montserrat-Medium',
+          fontSize: 20,
+        }}>
+        Messages Under Development
+      </Text>
     </View>
   );
 };
