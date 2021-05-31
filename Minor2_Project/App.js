@@ -10,6 +10,7 @@ import AboutUsScreen from './src/screens/Main/AboutUs';
 import DrawerContent from './src/screens/Main/DrawerContent';
 import Profile from './src/screens/Main/ProfileScreen';
 import {connect} from 'react-redux';
+import EditProfileScreen from './src/screens/Main/EditProfileScreen';
 const Drawer = createDrawerNavigator();
 
 const App = (props) => {
@@ -35,7 +36,7 @@ const App = (props) => {
               component={() => <Profile item={item} />}
             /> */}
             <Drawer.Screen name="ProfileScreen" component={Profile} />
-            <Drawer.Screen name="AboutUsScreen" component={AboutUsScreen} />
+            <Drawer.Screen name="EditProfileScreen" component={EditProfileScreen} />
           </Drawer.Navigator>
         ) : (
           <AuthStackNavigator />

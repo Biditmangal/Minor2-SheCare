@@ -12,6 +12,7 @@ import MessageScreen from '../screens/Main/MessageScreen';
 import SignIn from '../screens/Auth/SignIn';
 import SignUp from '../screens/Auth/SignUp';
 import AddPostScreen from '../screens/Main/AddPostScreen';
+import EditProfileScreen from '../screens/Main/EditProfileScreen'
 //theme
 import MyTheme from '../constants/Theme';
 import Colors from '../constants/Colors';
@@ -332,7 +333,7 @@ const MapStackScreen = ({navigation}) => (
     }}>
     <MapStack.Screen
       name="Nearby"
-      component={MapSceen}
+      component={EditProfileScreen}
       options={{
         headerLeft: () => (
           <TouchableOpacity

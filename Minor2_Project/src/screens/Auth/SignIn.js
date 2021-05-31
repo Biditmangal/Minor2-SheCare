@@ -8,7 +8,7 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import {connect} from 'react-redux';
-import {Login, ResetError} from '../../redux/actions/authActions';
+import {Login, ResetError, handlePasswordReset} from '../../redux/actions/authActions';
 import Snackbar from 'react-native-snackbar';
 
 import InputField from '../../components/InputField';
@@ -93,7 +93,7 @@ const SignIn = (props) => {
           }}
         />
         <View style={styles.subButton}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => props.handlePasswordReset("nikita.juneja289@gmail.com")}>
             <Text style={styles.forgotPassword}>Forgot Password?</Text>
           </TouchableOpacity>
         </View>
@@ -177,4 +177,4 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.auth.isLoggedIn,
 });
 // export default SignIn;
-export default connect(mapStateToProps, {Login, ResetError})(SignIn);
+export default connect(mapStateToProps, {Login, ResetError, handlePasswordReset})(SignIn);

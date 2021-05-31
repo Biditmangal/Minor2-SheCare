@@ -16,6 +16,7 @@ import {
   GET_PROFILE,
   UDPATE_LIKE,
   GET_LIKES,
+  RESET_PASS,
 } from '../constants';
 
 export const GettingVideos = () => async (dispatch) => {
@@ -191,6 +192,9 @@ export const Register = (
     Firebase.auth()
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
+        userCredentials.user.sendEmailVerification();
+        alert("Verification email sent. Please verify your email address.");
+
         let uid = Firebase.auth().currentUser.uid;
         db.collection('users')
           // .doc(userCredentials.user.uid)
@@ -224,6 +228,21 @@ export const Register = (
     dispatch({type: USER_ERROR, payload: null});
   }
 };
+
+export const handlePasswordReset = (email) => async (dispatch) => {
+  dispatch({type: USER_LOADING, payload: null});
+    // const { email } = values
+
+  try {
+    await Firebase.auth().sendPasswordResetEmail(email);
+    console.log('Password reset email sent successfully');
+    dispatch({type: RESET_PASS, payload: null});
+    // this.props.navigation.navigate('Login')
+  } catch (error) {
+    console.log('error in resetting password', error);
+    dispatch({type: USER_ERROR, payload: null});
+  }
+}
 
 export const getProfile = () => async (dispatch) => {
   dispatch({type: USER_LOADING, payload: null});

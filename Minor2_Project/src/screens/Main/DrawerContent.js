@@ -120,7 +120,7 @@ const DrawerContent = (props) => {
               inactiveTintColor="#5F5F5F"
               label="About Us"
               onPress={() => {
-                props.navigation.navigate('AboutUsScreen');
+                props.navigation.navigate('EditProfileScreen');
               }}
               labelStyle={{
                 fontSize: 18,
