@@ -12,6 +12,7 @@ import {
   GET_PROFILE,
   UDPATE_LIKE,
   GET_LIKES,
+  RESET_PASS,
 } from '../constants';
 
 const initialState = {
@@ -176,8 +177,19 @@ const authReducer = (state = initialState, {type, payload}) => {
         likeList,
       }
     }
+
+    case RESET_PASS: {
+      const loading = false;
+      const error = false;
+      return{
+        ...state,
+        loading,
+        error,
+      }
+    }
     default:
       return state;
   }
+
 };
 export default authReducer;
