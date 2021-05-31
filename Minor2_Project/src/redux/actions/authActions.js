@@ -125,12 +125,19 @@ export const getposts = () => {
       ];
     }
 
+
     if (arr.length > 0) {
       dispatch({type: GET_POSTS, payload: arr});
-    } else {
-      console.log('error getting the post', error);
-      dispatch({type: USER_ERROR, payload: null});
+    }else if(arr.length===0){
+      arr=[];
+      dispatch({type: GET_POSTS, payload: arr});
     }
+    // if (arr.length > 0) {
+    //   dispatch({type: GET_POSTS, payload: arr});
+    // } else {
+    //   console.log('error getting the post', error);
+    //   dispatch({type: USER_ERROR, payload: null});
+    // }
   };
 };
 
@@ -161,7 +168,7 @@ export const Login = (email, password) => async (dispatch) => {
       })
       .catch((error) => {
         dispatch({type: USER_ERROR, payload: null});
-        console.log('Error in logging in the user', error.message, error.code);
+        console.log('Error in logging in the user===>',error);
       });
   } catch (error) {
     console.log('error logging user', error);

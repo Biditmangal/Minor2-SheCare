@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {FlatList, StyleSheet, LogBox} from 'react-native';
+import {FlatList, StyleSheet, LogBox,Alert} from 'react-native';
 import {Text, View, ScrollView} from 'react-native';
 import CommunityCard from '../../components/CommunityCard';
 import {FAB} from 'react-native-paper';
@@ -61,6 +61,19 @@ const HomeScreen = (props) => {
     });
   };
 
+  if (props.loading) {
+    <ScreenLoader state={props.loading}/>;
+  }
+
+  if (props.error) {
+    Alert.alert(
+      'Try again',
+      'Error in Home Screen',
+      [{text: 'OK', onPress: () => props.ResetError()}],
+      {cancelable: false},
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View
@@ -73,7 +86,7 @@ const HomeScreen = (props) => {
           showsHorizontalScrollIndicator={false}
           horizontal={false}
           keyExtractor={(item) => `${item.postid}`}
-          data={[...props.PostList]}
+          data={props.PostList}
           renderItem={({item}) => (
             <CommunityCard item={item} click={clickEventListener} />
           )}

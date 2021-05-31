@@ -131,6 +131,7 @@ const authReducer = (state = initialState, {type, payload}) => {
       const profilePic = null;
       const name = null;
       const description = null;
+      const POSTS=null;
       return {
         ...state,
         loading,
@@ -141,6 +142,7 @@ const authReducer = (state = initialState, {type, payload}) => {
         description,
         isLoggedIn,
         uidLoggedIn,
+        POSTS,
       };
     }
     case ERROR_RESET: {

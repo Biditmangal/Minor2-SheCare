@@ -2,9 +2,9 @@ import React from 'react';
 import {View, ActivityIndicator, StyleSheet, Modal} from 'react-native';
 import Colors from '../../constants/Colors';
 
-export default ScreenLoader = () => {
+export default ScreenLoader = ({state}) => {
   return (
-    <Modal isVisible>
+    <Modal visible={state}>
       <View style={styles.container}>
         <ActivityIndicator size={50} color={Colors.tintColor} />
       </View>
