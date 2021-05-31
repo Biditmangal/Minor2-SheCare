@@ -6,11 +6,9 @@ import {View, Text, TouchableOpacity, Dimensions} from 'react-native';
 
 // screens
 import InformationScreen from '../screens/Main/InformationScreen';
-import MapSceen from '../screens/Main/MapScreen';
+import MapScreen from '../screens/Main/MapScreen';
 import HomeScreen from '../screens/Main/HomeScreen';
 import MessageScreen from '../screens/Main/MessageScreen';
-import SignIn from '../screens/Auth/SignIn';
-import SignUp from '../screens/Auth/SignUp';
 import AddPostScreen from '../screens/Main/AddPostScreen';
 import EditProfileScreen from '../screens/Main/EditProfileScreen'
 //theme
@@ -333,7 +331,7 @@ const MapStackScreen = ({navigation}) => (
     }}>
     <MapStack.Screen
       name="Nearby"
-      component={EditProfileScreen}
+      component={MapScreen}
       options={{
         headerLeft: () => (
           <TouchableOpacity

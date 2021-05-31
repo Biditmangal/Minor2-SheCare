@@ -115,13 +115,15 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(12),
   },
   description: {
-    fontSize: responsiveFontSize(1.5),
+    fontSize: responsiveFontSize(1.85),
     color: Colors.textColor,
+    // fontFamily: 'Montserrat-Medium',
   },
   name: {
     fontSize: responsiveFontSize(2.7),
     color: Colors.textColor,
     marginTop: 2,
+    fontFamily: 'Montserrat-SemiBold',
   },
   posted: {
     fontSize: responsiveFontSize(1.6),
