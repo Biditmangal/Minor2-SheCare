@@ -14,6 +14,7 @@ import {
   GET_LIKES,
   RESET_PASS,
   UPDATE_PROFILE,
+  UPLOAD_IMAGE,
 } from '../constants';
 
 const initialState = {
@@ -206,7 +207,15 @@ const authReducer = (state = initialState, {type, payload}) => {
         success,
       };
     }
-
+    case UPLOAD_IMAGE: {
+      const loading = false;
+      const error = false;
+      return {
+        ...state,
+        loading,
+        error,
+      };
+    }
     default:
       return state;
   }

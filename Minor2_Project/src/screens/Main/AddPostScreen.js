@@ -12,7 +12,6 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import Toast from 'react-native-simple-toast';
 import Snackbar from 'react-native-snackbar';
 
 import {FAB} from 'react-native-paper';
@@ -21,7 +20,6 @@ import {Icon} from 'react-native-elements';
 import {AddingPosts} from '../../redux/actions/authActions';
 
 import moment from 'moment';
-import {TouchableHighlight} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 
 import ChooseFile from '../../components/ChooseFile';
@@ -64,7 +62,7 @@ const AddPostScreen = (props) => {
     } else {
       post_id = `post_${props.route.params.postId}`;
       props.AddingPosts(
-        imageURI,
+        image,
         postData.likes,
         postData.description,
         postData.timestamp,

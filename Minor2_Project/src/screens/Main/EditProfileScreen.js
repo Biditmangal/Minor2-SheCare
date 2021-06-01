@@ -4,6 +4,8 @@ import {ImageBackground, StyleSheet, Text, View, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Colors from '../../constants/Colors';
 import {Card, Icon} from 'react-native-elements';
+import Snackbar from 'react-native-snackbar';
+
 import InputField from '../../components/InputField';
 import TextButton from '../../components/TextButton';
 import {
@@ -15,13 +17,22 @@ import {updateProfile} from '../../redux/actions/authActions';
 
 const EditProfileScreen = (props) => {
   const [data, setData] = useState({
-    username: '',
-    name: '',
-    description: '',
+    username: null,
+    name: null,
+    description: null,
   });
 
   const onClick = () => {
     props.updateProfile(data.username, data.name, data.desciption);
+    if (props.success) {
+      Snackbar.show({
+        text: 'Profile edited successfully',
+        duration: Snackbar.LENGTH_SHORT,
+        textColor: Colors.tabIconDefault,
+        fontFamily: 'Montserrat-SemiBold',
+        backgroundColor: Colors.primaryColor,
+      });
+    }
     props.navigation.navigate('ProfileScreen');
   };
 
@@ -112,6 +123,7 @@ const EditProfileScreen = (props) => {
           />
           <InputField
             icon={true}
+            multiline={true}
             placeholder="Description"
             iconName="note-outline"
             iconType="material-community"
@@ -200,6 +212,7 @@ const mapStateToProps = (state) => ({
   prImage: state.auth.profilePic,
   prUsername: state.auth.username,
   prName: state.auth.name,
+  success: state.auth.success,
 });
 
 export default connect(mapStateToProps, {updateProfile})(EditProfileScreen);

@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
+    paddingBottom:30,
   },
   title: {
     fontSize: 30,
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 18,
     color: '#7E7E7E',
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'Montserrat-Medium',
   },
   desc: {
     fontSize: 16,

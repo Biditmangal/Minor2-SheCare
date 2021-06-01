@@ -86,7 +86,7 @@ const CommunityCard = (props) => {
         }}>
         <Text style={styles.description}>{props.item.description}</Text>
       </View>
-      {(props.item.imageUri != 'No File Chosen') ? (
+      {(props.item.imageUri != false) ? (
         <View
           style={{
             marginTop: 10,
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   image: {
     height: responsiveHeight(25),
     width: '100%',
-    borderRadius: responsiveWidth(2),
+    borderRadius: responsiveWidth(0.5),
   },
 });
 
