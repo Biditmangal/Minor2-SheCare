@@ -20,6 +20,7 @@ import {
   RESET_PASS,
   UPDATE_PROFILE,
   UPLOAD_IMAGE,
+  RETRIEVE_IMAGE,
 } from '../constants';
 
 export const GettingVideos = () => async (dispatch) => {
@@ -64,6 +65,7 @@ export const GettingArticles = () => async (dispatch) => {
 
 export const AddingPosts = (
   image,
+  imageName,
   likes,
   description,
   timestamp,
@@ -72,6 +74,34 @@ export const AddingPosts = (
 ) => async (dispatch) => {
   dispatch({type: USER_LOADING, payload: null});
   try {
+    // // uploadImage(image, imageName);
+    // const storage = Firebase.storage().ref();
+    // const folderRef = storage.child('Posts_Images');
+    // const imageRef = folderRef.child(imageName);
+
+    // const res = await fetch(image.uri);
+    // const blob = await res.blob();
+
+    // const metadata = {
+    //   contentType: 'image/jpeg',
+    // };
+    // await imageRef
+    //   .put(blob, metadata)
+    //   .then((snapshot) => {
+    //     console.log('Image uploaded successfully...');
+
+    //     dispatch({type: UPLOAD_IMAGE, payload: null});
+    //   })
+    //   .catch((error) => {
+    //     console.log('Error in uploading post image==>', error);
+    //   });
+
+    // //creating refrence for the retrieval of the image
+    // let uploadImageURL = '';
+    // await imageRef.getDownloadURL().then((url) => {
+    //   uploadImageURL = url;
+    // });
+
     postRef
       .doc(postId)
       .set({
@@ -91,6 +121,58 @@ export const AddingPosts = (
       });
   } catch (error) {
     console.log('error posting the content', error);
+    dispatch({type: USER_ERROR, payload: null});
+  }
+};
+
+export const retrieveImage = (imageName) => async (dispatch) => {
+  dispatch({type: USER_LOADING, payload: null});
+  try {
+    const storage = Firebase.storage().ref();
+    const folderRef = storage.child('Posts_Images');
+    const imageRef = folderRef.child(imageName);
+
+    let uploadImageURL = '';
+
+    await imageRef.getDownloadURL().then((url) => {
+      uploadImageURL = url;
+    });
+    dispatch({type: RETRIEVE_IMAGE, payload: uploadImageURL});
+  } catch (error) {
+    console.log('error retrieving the image', error);
+    dispatch({type: USER_ERROR, payload: null});
+  }
+};
+
+export const uploadImage = (image, imageName) => async (dispatch) => {
+  dispatch({type: USER_LOADING, payload: null});
+  try {
+    const storage = Firebase.storage().ref();
+    const folderRef = storage.child('Posts_Images');
+    const imageRef = folderRef.child(imageName);
+
+    const res = await fetch(image.uri);
+    const blob = await res.blob();
+
+    const metadata = {
+      contentType: 'image/jpeg',
+    };
+    await imageRef
+      .put(blob, metadata)
+      .then((snapshot) => {
+        console.log('Image uploaded successfully...');
+        let uploadImageURL = '';
+        imageRef.getDownloadURL().then((url) => {
+          uploadImageURL = url;
+        });
+        dispatch({type: UPLOAD_IMAGE, payload: uploadImageURL});
+      })
+      .catch((error) => {
+        console.log('Error in uploading post image==>', error);
+        dispatch({type: USER_ERROR, payload: null});
+      });
+  } catch (error) {
+    console.log('error uplaoding image==>', error);
     dispatch({type: USER_ERROR, payload: null});
   }
 };
@@ -117,7 +199,7 @@ export const getposts = () => {
         .get();
 
       const uri =
-        postarr[post].imageURL == false ? false : postarr[post].imageURL.uri;
+        postarr[post].imageURL == false ? false : postarr[post].imageURL;
       arr = [
         ...arr,
         {
@@ -170,7 +252,7 @@ export const Login = (email, password) => async (dispatch) => {
             // description: description,
           },
         });
-        console.log('userCredentials after login => ', userCredentials.user);
+        // console.log('userCredentials after login => ', userCredentials.user);
       })
       .catch((error) => {
         dispatch({type: USER_ERROR, payload: null});
@@ -226,8 +308,7 @@ export const Register = (
             });
           db.collection('postLikes').doc(uid).set({});
           dispatch({type: SIGN_UP, payload: null});
-        }
-        else{
+        } else {
           let uid = Firebase.auth().currentUser.uid;
           db.collection('users')
             // .doc(userCredentials.user.uid)
@@ -395,36 +476,6 @@ export const updateProfile = (username, name, description) => async (
       });
   } catch (error) {
     console.log('error updating profile==>', error);
-    dispatch({type: USER_ERROR, payload: null});
-  }
-};
-
-export const uploadImage = (image, imageName) => async (dispatch) => {
-  dispatch({type: USER_LOADING, payload: null});
-  try {
-    const storage = Firebase.storage().ref();
-    const folderRef = storage.child('Posts_Images');
-    const imageRef = folderRef.child(imageName);
-
-    const res = await fetch(image.uri);
-    const blob = await res.blob();
-
-    const metadata = {
-      contentType: 'image/jpeg',
-    };
-
-    imageRef
-      .put(blob, meta)
-      .then((snapshot) => {
-        console.log('Snapshot===>', snapshot, '\n');
-        console.log('Image uploaded successfully...');
-        dispatch({type: UPLOAD_IMAGE, payload: null});
-      })
-      .catch((error) => {
-        console.log('Error in uploading post image==>', error);
-      });
-  } catch (error) {
-    console.log('error uplaoding image==>', error);
     dispatch({type: USER_ERROR, payload: null});
   }
 };

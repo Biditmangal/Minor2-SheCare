@@ -15,6 +15,7 @@ import {
   RESET_PASS,
   UPDATE_PROFILE,
   UPLOAD_IMAGE,
+  RETRIEVE_IMAGE,
 } from '../constants';
 
 const initialState = {
@@ -210,11 +211,24 @@ const authReducer = (state = initialState, {type, payload}) => {
     case UPLOAD_IMAGE: {
       const loading = false;
       const error = false;
+      const imageUrl = payload;
       return {
         ...state,
         loading,
         error,
+        imageUrl,
       };
+    }
+    case RETRIEVE_IMAGE:{
+      const imageUrl = payload;
+      const rstatus = true;
+      const loading = false;
+      return{
+        ...state,
+        imageUrl,
+        loading,
+        rstatus,
+      }
     }
     default:
       return state;

@@ -17,7 +17,11 @@ import Snackbar from 'react-native-snackbar';
 import {FAB} from 'react-native-paper';
 import Colors from '../../constants/Colors';
 import {Icon} from 'react-native-elements';
-import {AddingPosts} from '../../redux/actions/authActions';
+import {
+  AddingPosts,
+  uploadImage,
+  retrieveImage,
+} from '../../redux/actions/authActions';
 
 import moment from 'moment';
 import {connect} from 'react-redux';
@@ -38,9 +42,7 @@ const AddPostScreen = (props) => {
 
   const imageURI = image ? image.uri.slice(-20) : 'No File Chosen';
 
-
   useEffect(() => {
-    console.log('updating uid...');
     // postRef.get().then((snap) => (post_id = `post_${snap.size + 1}`));
     setData({
       ...postData,
@@ -61,18 +63,48 @@ const AddPostScreen = (props) => {
       });
     } else {
       post_id = `post_${props.route.params.postId}`;
-      props.AddingPosts(
-        image,
-        postData.likes,
-        postData.description,
-        postData.timestamp,
-        postData.user,
-        post_id,
-      );
+
+      console.log('uploading image==>');
+      props.uploadImage(image, imageURI);
+      // if (props.status) {
+        // console.log('retreiving image==>');
+        // setTimeout(() => props.retrieveImage(imageURI), 100);
+
+        // if (props.rstatus) {
+          console.log('Adding Post==>');
+          props.AddingPosts(
+            props.imageUrl,
+            imageURI,
+            postData.likes,
+            postData.description,
+            postData.timestamp,
+            postData.user,
+            post_id,
+          );
+        // }
+      // }
+      // props.AddingPosts(
+      //   image,
+      //   imageURI,
+      //   postData.likes,
+      //   postData.description,
+      //   postData.timestamp,
+      //   postData.user,
+      //   post_id,
+      // );
       if (!props.error) {
         // console.log('Added post successfully => ', postData);
         Snackbar.show({
           text: 'Post Added Successfully',
+          duration: Snackbar.LENGTH_SHORT,
+          textColor: Colors.tabIconDefault,
+          fontFamily: 'Montserrat-Bold',
+          backgroundColor: Colors.primaryColor,
+        });
+        props.navigation.navigate('Community');
+      } else {
+        Snackbar.show({
+          text: 'Post was not added',
           duration: Snackbar.LENGTH_SHORT,
           textColor: Colors.tabIconDefault,
           fontFamily: 'Montserrat-Bold',
@@ -252,7 +284,14 @@ const mapStateToProps = (state) => ({
   loading: state.auth.loading,
   error: state.auth.error,
   uidLoggedIn: state.auth.uidLoggedIn,
+  imageUrl: state.auth.imageUrl,
+  // status: state.auth.status,
+  // rstatus: state.auth.rstatus,
   // isLoggedIn: state.auth.isLoggedIn,
 });
 // export default AddPostScreen;
-export default connect(mapStateToProps, {AddingPosts})(AddPostScreen);
+export default connect(mapStateToProps, {
+  AddingPosts,
+  uploadImage,
+  retrieveImage,
+})(AddPostScreen);

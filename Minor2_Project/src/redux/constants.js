@@ -15,3 +15,4 @@ export const GET_LIKES = 'GET_LIKES';
 export const RESET_PASS = 'RESET_PASS';
 export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
+export const RETRIEVE_IMAGE = 'RETRIEVE_IMAGE';
