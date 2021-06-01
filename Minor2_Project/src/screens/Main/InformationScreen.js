@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, View, ScrollView} from 'react-native';
+import {FlatList, StyleSheet, View, ScrollView,Alert} from 'react-native';
 import {connect} from 'react-redux';
 import ArticleCard from '../../components/ArticleCard';
 import VideoCard from '../../components/VideoCard';
@@ -35,6 +35,12 @@ const InformationScreen = (props) => {
           });
         })).catch(error=>{
   		  console.log("error in fetching videos and articles" + error);
+        Alert.alert(
+          'Try again',
+          'Error in InformationScreen',
+          [{text: 'OK', onPress: () => props.ResetError()}],
+          {cancelable: false},
+        );
   	  })
     }, []);
 

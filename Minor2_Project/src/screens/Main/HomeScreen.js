@@ -1,14 +1,22 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {FlatList, StyleSheet, LogBox,Alert} from 'react-native';
-import {Text, View, ScrollView} from 'react-native';
-import CommunityCard from '../../components/CommunityCard';
+import {
+  FlatList,
+  StyleSheet,
+  LogBox,
+  Alert,
+  TouchableOpacity,
+  Text,
+  View,
+} from 'react-native';
+import moment from 'moment';
 import {FAB} from 'react-native-paper';
-import {TouchableOpacity} from 'react-native';
+import {connect} from 'react-redux';
+
+import CommunityCard from '../../components/CommunityCard';
 import Colors from '../../constants/Colors';
 import {postRef} from '../../Firebase';
-import moment from 'moment';
-import {connect} from 'react-redux';
 import {getposts, updateLike, getLikes} from '../../redux/actions/authActions';
+import ScreenLoader from '../../components/Loader/ScreenLoader';
 
 let post_id; // for unique post number
 
@@ -22,10 +30,9 @@ const HomeScreen = (props) => {
 
   LogBox.ignoreLogs(['Setting a timer']); // to ignore the Warning of Set a timer
 
-
   useEffect(() => {
     postRef.get().then((snap) => (post_id = snap.size));
-    
+
     props.getposts();
     props.getLikes();
 
@@ -36,8 +43,7 @@ const HomeScreen = (props) => {
     return () => listener();
   }, [props.navigation]);
 
-
-  console.log('Post list===>',props.PostList);
+  console.log('Post list===>', props.PostList);
   const clickEventListener = useCallback((item, state) => {
     setPost({
       ...post,
@@ -54,7 +60,6 @@ const HomeScreen = (props) => {
     else props.updateLike(item.postid, -1);
   };
 
-
   const handleClick = () => {
     updateClick(!isClicked);
     post_id++;
@@ -64,7 +69,14 @@ const HomeScreen = (props) => {
   };
 
   if (props.loading) {
-    <ScreenLoader state={props.loading}/>;
+
+    return (
+        // <View style={styles.modalContainer}>
+        //   <ActivityIndicator size={50} color={Colors.tintColor} />
+        //   <Text>Loading...</Text>
+        // </View>
+        <ScreenLoader loading={props.loading}/>
+    );
   }
 
   if (props.error) {
@@ -124,6 +136,13 @@ const styles = StyleSheet.create({
   fabIcon: {
     backgroundColor: Colors.tintColor,
   },
+  modalContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    // padding: 10,
+    // backgroundColor: '#fff',
+  },
 });
 
 const mapStateToProps = (state) => ({
@@ -133,4 +152,6 @@ const mapStateToProps = (state) => ({
   likeList: state.auth.likeList,
 });
 
-export default connect(mapStateToProps, {getposts, updateLike,getLikes})(HomeScreen);
+export default connect(mapStateToProps, {getposts, updateLike, getLikes})(
+  HomeScreen,
+);

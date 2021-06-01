@@ -37,7 +37,7 @@ const CommunityCard = (props) => {
             flex: 1,
           }}>
           <Image
-            style={styles.profileiImage}
+            style={styles.profileImage}
             resizeMode={'contain'}
             source={{uri: props.item.profilePic}}
           />
@@ -50,7 +50,7 @@ const CommunityCard = (props) => {
             marginLeft: 15,
           }}>
           <Text style={styles.name}>{props.item.name}</Text>
-          <Text style={styles.posted}>{props.item.posted}</Text>
+          {/* <Text style={styles.posted}>{props.item.posted}</Text> */}
         </View>
 
         <View
@@ -109,9 +109,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     paddingVertical: 10,
   },
-  profileiImage: {
-    height: responsiveHeight(8),
-    width: responsiveWidth(12),
+  profileImage: {
+    height: responsiveHeight(6),
+    width: responsiveWidth(10),
     borderRadius: responsiveWidth(12),
   },
   description: {
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(2.7),
     color: Colors.textColor,
     marginTop: 2,
+    marginLeft:-5,
     fontFamily: 'Montserrat-SemiBold',
   },
   posted: {

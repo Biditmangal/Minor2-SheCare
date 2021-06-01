@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {TouchableOpacity} from 'react-native';
-import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {ImageBackground, StyleSheet, Text, View,Alert} from 'react-native';
 import {Card, Icon} from 'react-native-elements';
 import {getProfile} from '../../redux/actions/authActions';
-
+import ScreenLoader from '../../components/Loader/ScreenLoader';
 
 import {
   responsiveWidth,
@@ -14,19 +14,24 @@ import {
 import {connect} from 'react-redux';
 
 const Profile = (props) => {
-
-  useEffect(()=>{
-
-      props.getProfile();
+  useEffect(() => {
+    props.getProfile();
 
     const listener = props.navigation.addListener('focus', () => {
       props.getProfile();
     });
 
     return () => listener();
-  },[props.navigation])
+  }, [props.navigation]);
 
-
+  if (props.error) {
+    Alert.alert(
+      'Try again',
+      'Error in Profile Screen',
+      [{text: 'OK', onPress: () => props.ResetError()}],
+      {cancelable: false},
+    );
+  }
 
   return (
     <>
@@ -76,7 +81,7 @@ const Profile = (props) => {
                 <TouchableOpacity
                   onPress={() => {
                     console.log('Edit Profile: Clicked');
-                    props.navigation.navigate('EditProfileScreen')
+                    props.navigation.navigate('EditProfileScreen');
                   }}>
                   <Icon
                     name="edit"
@@ -129,7 +134,7 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
-    paddingBottom:30,
+    paddingBottom: 30,
   },
   title: {
     fontSize: 30,

@@ -8,7 +8,11 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import {connect} from 'react-redux';
-import {Login, ResetError, handlePasswordReset} from '../../redux/actions/authActions';
+import {
+  Login,
+  ResetError,
+  handlePasswordReset,
+} from '../../redux/actions/authActions';
 import Snackbar from 'react-native-snackbar';
 
 import InputField from '../../components/InputField';
@@ -25,7 +29,7 @@ const SignIn = (props) => {
 
   const onClick = () => {
     props.Login(data.email, data.password);
-    if (!loading) {
+    if (!loading && !error) {
       Snackbar.show({
         text: 'Signed In Successfully',
         duration: Snackbar.LENGTH_LONG,
@@ -36,14 +40,18 @@ const SignIn = (props) => {
     }
   };
 
-  if (loading) {
-    <ScreenLoader />;
-  }
+  // if (loading) {
+  //   return (
+  //     <>
+  //       <ScreenLoader loading={loading} />
+  //     </>
+  //   );
+  // }
 
   if (error) {
     Alert.alert(
       'Try again',
-      'Server error',
+      'Error logging in',
       [{text: 'OK', onPress: () => props.ResetError()}],
       {cancelable: false},
     );
@@ -93,7 +101,10 @@ const SignIn = (props) => {
           }}
         />
         <View style={styles.subButton}>
-          <TouchableOpacity onPress={() => props.handlePasswordReset("nikita.juneja289@gmail.com")}>
+          <TouchableOpacity
+            onPress={() =>
+              props.handlePasswordReset('nikita.juneja289@gmail.com')
+            }>
             <Text style={styles.forgotPassword}>Forgot Password?</Text>
           </TouchableOpacity>
         </View>
@@ -177,4 +188,8 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.auth.isLoggedIn,
 });
 // export default SignIn;
-export default connect(mapStateToProps, {Login, ResetError, handlePasswordReset})(SignIn);
+export default connect(mapStateToProps, {
+  Login,
+  ResetError,
+  handlePasswordReset,
+})(SignIn);

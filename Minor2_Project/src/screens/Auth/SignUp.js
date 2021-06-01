@@ -85,17 +85,21 @@ const SignUp = (props) => {
     // Toast.showWithGravity('Signed Up Successfully', Toast.SHORT, Toast.BOTTOM);
   };
 
-  if (loading) {
-    <ScreenLoader />;
-  }
-  // if (error) {
-  //   Alert.alert(
-  //     'Try again',
-  //     'Server error',
-  //     [{text: 'OK', onPress: () => props.ResetError()}],
-  //     {cancelable: false},
+  // if (loading) {
+  //   return (
+  //     <>
+  //       <ScreenLoader loading={loading} />
+  //     </>
   //   );
   // }
+  if (error) {
+    Alert.alert(
+      'Try again',
+      'Error in Sigining In',
+      [{text: 'OK', onPress: () => props.ResetError()}],
+      {cancelable: false},
+    );
+  }
   const [dob, setDob] = useState('Date of Birth');
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);

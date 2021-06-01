@@ -1,22 +1,29 @@
 import React from 'react';
-import {View, ActivityIndicator, StyleSheet, Modal} from 'react-native';
+import {View, ActivityIndicator, StyleSheet,Text} from 'react-native';
+import Modal from 'react-native-modal';
 import Colors from '../../constants/Colors';
 
-export default ScreenLoader = ({state}) => {
+export default ScreenLoader = ({loading}) => {
   return (
-    <Modal visible={state}>
-      <View style={styles.container}>
+    // <Modal
+    //   isVisible={loading}
+    //   style={{
+    //     flex: 1,
+    //   }}>
+      <View style={styles.modalContainer}>
         <ActivityIndicator size={50} color={Colors.tintColor} />
+        <Text>Loading...</Text>
       </View>
-    </Modal>
+    // </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  modalContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
+    // padding: 10,
+    backgroundColor: '#fff',
   },
 });
