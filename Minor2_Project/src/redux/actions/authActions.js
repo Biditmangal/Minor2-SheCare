@@ -74,51 +74,60 @@ export const AddingPosts = (
 ) => async (dispatch) => {
   dispatch({type: USER_LOADING, payload: null});
   try {
-    // // uploadImage(image, imageName);
-    // const storage = Firebase.storage().ref();
-    // const folderRef = storage.child('Posts_Images');
-    // const imageRef = folderRef.child(imageName);
+    // uploadImage(image, imageName);
+    const storage = Firebase.storage().ref();
+    const folderRef = storage.child('Posts_Images');
+    const imageRef = folderRef.child(imageName);
 
-    // const res = await fetch(image.uri);
-    // const blob = await res.blob();
+    const res = await fetch(image.uri);
+    const blob = await res.blob();
+    let uploadImageURL = '';
 
-    // const metadata = {
-    //   contentType: 'image/jpeg',
-    // };
-    // await imageRef
-    //   .put(blob, metadata)
-    //   .then((snapshot) => {
-    //     console.log('Image uploaded successfully...');
+    const metadata = {
+      contentType: 'image/jpeg',
+    };
 
-    //     dispatch({type: UPLOAD_IMAGE, payload: null});
-    //   })
-    //   .catch((error) => {
-    //     console.log('Error in uploading post image==>', error);
-    //   });
+    const posting = (url) => {
+      postRef
+        .doc(postId)
+        .set({
+          imageURL: url,
+          likes: likes,
+          description: description,
+          timestamp: timestamp,
+          user: user,
+        })
+        .then(() => {
+          console.log('post added successfully...');
+          dispatch({type: ADD_POST, payload: null});
+        })
+        .catch((error) => {
+          console.log('Error in adding the post', error);
+          dispatch({type: USER_ERROR, payload: null});
+        });
+    };
+    await imageRef
+      .put(blob, metadata)
+      .then(async (snapshot) => {
+        console.log('Image uploaded successfully...');
+
+        await imageRef
+          .getDownloadURL()
+          .then(async (url) => {
+            // uploadImageURL = url;
+            posting(url);
+          });
+        // dispatch({type: UPLOAD_IMAGE, payload: null});
+      })
+      .catch((error) => {
+        console.log('Error in uploading post image==>', error);
+      });
 
     // //creating refrence for the retrieval of the image
-    // let uploadImageURL = '';
     // await imageRef.getDownloadURL().then((url) => {
     //   uploadImageURL = url;
     // });
-
-    postRef
-      .doc(postId)
-      .set({
-        imageURL: image,
-        likes: likes,
-        description: description,
-        timestamp: timestamp,
-        user: user,
-      })
-      .then(() => {
-        dispatch({type: ADD_POST, payload: null});
-        console.log('post added successfully...');
-      })
-      .catch((error) => {
-        dispatch({type: USER_ERROR, payload: null});
-        console.log('Error in adding the post', error);
-      });
+    
   } catch (error) {
     console.log('error posting the content', error);
     dispatch({type: USER_ERROR, payload: null});

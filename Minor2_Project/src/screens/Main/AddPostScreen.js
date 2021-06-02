@@ -64,8 +64,8 @@ const AddPostScreen = (props) => {
     } else {
       post_id = `post_${props.route.params.postId}`;
 
-      console.log('uploading image==>');
-      props.uploadImage(image, imageURI);
+      // console.log('uploading image==>');
+      // props.uploadImage(image, imageURI);
       // if (props.status) {
         // console.log('retreiving image==>');
         // setTimeout(() => props.retrieveImage(imageURI), 100);
@@ -73,7 +73,8 @@ const AddPostScreen = (props) => {
         // if (props.rstatus) {
           console.log('Adding Post==>');
           props.AddingPosts(
-            props.imageUrl,
+            // props.imageUrl,
+            image,
             imageURI,
             postData.likes,
             postData.description,
