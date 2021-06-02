@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  RefreshControl,
 } from 'react-native';
 import moment from 'moment';
 import {FAB} from 'react-native-paper';
@@ -22,6 +23,7 @@ let post_id; // for unique post number
 
 const HomeScreen = (props) => {
   const [isClicked, updateClick] = useState(false);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const [post, setPost] = useState({
     postSelected: {},
@@ -44,6 +46,7 @@ const HomeScreen = (props) => {
   }, [props.navigation]);
 
   console.log('Post list===>', props.PostList);
+
   const clickEventListener = useCallback((item, state) => {
     setPost({
       ...post,
@@ -68,16 +71,26 @@ const HomeScreen = (props) => {
     });
   };
 
-  if (props.loading) {
+  const onRefresh =useCallback(async ()=>{
+    setRefreshing(true);
+    try{
+      props.getposts();
+      setRefreshing(false);
+    }catch{
+      console.log("error while refreshing the page...");
+    }
+  },[refreshing]);
 
-    return (
-        // <View style={styles.modalContainer}>
-        //   <ActivityIndicator size={50} color={Colors.tintColor} />
-        //   <Text>Loading...</Text>
-        // </View>
-        <ScreenLoader loading={props.loading}/>
-    );
-  }
+  // if (props.loading) {
+
+  //   return (
+  //       // <View style={styles.modalContainer}>
+  //       //   <ActivityIndicator size={50} color={Colors.tintColor} />
+  //       //   <Text>Loading...</Text>
+  //       // </View>
+  //       <ScreenLoader loading={props.loading}/>
+  //   );
+  // }
 
   if (props.error) {
     Alert.alert(
@@ -104,6 +117,9 @@ const HomeScreen = (props) => {
           renderItem={({item}) => (
             <CommunityCard item={item} click={clickEventListener} />
           )}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         />
       </View>
       <View
