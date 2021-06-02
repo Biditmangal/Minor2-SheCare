@@ -31,8 +31,8 @@ const validationSchema = Yup.object().shape({
     .email('Enter a valid email.'),
   gender: Yup.string()
     .label('Gender')
-    .matches(/(Male|Female)/, 'Male/Female')
-    .required('Male/Female'),
+    .matches(/(Female)/, 'Only females are allowed')
+    .required('Gender is a required field'),
   username: Yup.string().label('Username').required('Enter a unique username'),
   password: Yup.string().label('Password').required(),
   mobile_number: Yup.string()
