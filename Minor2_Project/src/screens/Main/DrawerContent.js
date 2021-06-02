@@ -30,17 +30,17 @@ const DrawerContent = (props) => {
       backgroundColor: Colors.primaryColor,
     });
   };
-  if (loading) {
-    <ScreenLoader />;
-  }
-  if (error) {
-    Alert.alert(
-      'Try again',
-      'Server error',
-      [{text: 'OK', onPress: () => props.ResetError()}],
-      {cancelable: false},
-    );
-  }
+  // if (loading) {
+  //   <ScreenLoader />;
+  // }
+  // if (error) {
+  //   Alert.alert(
+  //     'Try again',
+  //     'Server error',
+  //     [{text: 'OK', onPress: () => props.ResetError()}],
+  //     {cancelable: false},
+  //   );
+  // }
   return (
     <>
       <View style={styles.container}>

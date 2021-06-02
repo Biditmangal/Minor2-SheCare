@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {TouchableOpacity} from 'react-native';
 import {ImageBackground, StyleSheet, Text, View,Alert} from 'react-native';
 import {Card, Icon} from 'react-native-elements';
-import {getProfile} from '../../redux/actions/authActions';
+import {getProfile, ResetError} from '../../redux/actions/authActions';
 import ScreenLoader from '../../components/Loader/ScreenLoader';
 
 import {
@@ -24,14 +24,14 @@ const Profile = (props) => {
     return () => listener();
   }, [props.navigation]);
 
-  if (props.error) {
-    Alert.alert(
-      'Try again',
-      'Error in Profile Screen',
-      [{text: 'OK', onPress: () => props.ResetError()}],
-      {cancelable: false},
-    );
-  }
+  // if (props.error) {
+  //   Alert.alert(
+  //     'Try again',
+  //     'Error in Profile Screen',
+  //     [{text: 'OK', onPress: () => props.ResetError()}],
+  //     {cancelable: false},
+  //   );
+  // }
 
   return (
     <>
@@ -163,4 +163,4 @@ const mapStateToProps = (state) => ({
   prDescription: state.auth.description,
 });
 
-export default connect(mapStateToProps, {getProfile})(Profile);
+export default connect(mapStateToProps, {getProfile, ResetError})(Profile);

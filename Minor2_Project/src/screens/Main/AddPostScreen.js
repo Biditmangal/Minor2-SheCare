@@ -67,22 +67,37 @@ const AddPostScreen = (props) => {
       // console.log('uploading image==>');
       // props.uploadImage(image, imageURI);
       // if (props.status) {
-        // console.log('retreiving image==>');
-        // setTimeout(() => props.retrieveImage(imageURI), 100);
+      // console.log('retreiving image==>');
+      // setTimeout(() => props.retrieveImage(imageURI), 100);
 
-        // if (props.rstatus) {
-          console.log('Adding Post==>');
-          props.AddingPosts(
-            // props.imageUrl,
-            image,
-            imageURI,
-            postData.likes,
-            postData.description,
-            postData.timestamp,
-            postData.user,
-            post_id,
-          );
-        // }
+      // if (props.rstatus) {
+      console.log('Adding Post==>');
+
+      // console.warn(image,imageURI);
+      // if (!image) {
+      //   props.AddingPosts(
+      //     // props.imageUrl,
+      //     '',
+      //     imageURI,
+      //     postData.likes,
+      //     postData.description,
+      //     postData.timestamp,
+      //     postData.user,
+      //     post_id,
+      //   );
+      // } else {
+        props.AddingPosts(
+          // props.imageUrl,
+          image,
+          imageURI,
+          postData.likes,
+          postData.description,
+          postData.timestamp,
+          postData.user,
+          post_id,
+        );
+      // }
+      // }
       // }
       // props.AddingPosts(
       //   image,

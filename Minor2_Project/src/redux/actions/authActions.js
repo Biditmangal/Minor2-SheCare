@@ -79,16 +79,8 @@ export const AddingPosts = (
     const folderRef = storage.child('Posts_Images');
     const imageRef = folderRef.child(imageName);
 
-    const res = await fetch(image.uri);
-    const blob = await res.blob();
-    let uploadImageURL = '';
-
-    const metadata = {
-      contentType: 'image/jpeg',
-    };
-
-    const posting = (url) => {
-      postRef
+    const posting = async (url) => {
+      await postRef
         .doc(postId)
         .set({
           imageURL: url,
@@ -102,10 +94,22 @@ export const AddingPosts = (
           dispatch({type: ADD_POST, payload: null});
         })
         .catch((error) => {
-          console.log('Error in adding the post', error);
+          console.error('Error in adding the post', error);
           dispatch({type: USER_ERROR, payload: null});
         });
     };
+
+    if(image==false){
+      posting("");
+    }
+    const res = await fetch(image.uri);
+    const blob = await res.blob();
+
+    const metadata = {
+      contentType: 'image/jpeg',
+    };
+
+    
     await imageRef
       .put(blob, metadata)
       .then(async (snapshot) => {
@@ -120,7 +124,7 @@ export const AddingPosts = (
         // dispatch({type: UPLOAD_IMAGE, payload: null});
       })
       .catch((error) => {
-        console.log('Error in uploading post image==>', error);
+        console.error('Error in uploading post image==>', error);
       });
 
     // //creating refrence for the retrieval of the image
@@ -129,7 +133,7 @@ export const AddingPosts = (
     // });
     
   } catch (error) {
-    console.log('error posting the content', error);
+    console.error('error posting the content', error);
     dispatch({type: USER_ERROR, payload: null});
   }
 };

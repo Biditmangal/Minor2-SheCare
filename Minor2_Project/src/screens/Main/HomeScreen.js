@@ -16,7 +16,12 @@ import {connect} from 'react-redux';
 import CommunityCard from '../../components/CommunityCard';
 import Colors from '../../constants/Colors';
 import {postRef} from '../../Firebase';
-import {getposts, updateLike, getLikes} from '../../redux/actions/authActions';
+import {
+  getposts,
+  updateLike,
+  getLikes,
+  ResetError,
+} from '../../redux/actions/authActions';
 import ScreenLoader from '../../components/Loader/ScreenLoader';
 
 let post_id; // for unique post number
@@ -92,14 +97,14 @@ const HomeScreen = (props) => {
   //   );
   // }
 
-  if (props.error) {
-    Alert.alert(
-      'Try again',
-      'Error in Home Screen',
-      [{text: 'OK', onPress: () => props.ResetError()}],
-      {cancelable: false},
-    );
-  }
+  // if (props.error) {
+  //   Alert.alert(
+  //     'Try again',
+  //     'Error in Home Screen',
+  //     [{text: 'OK', onPress: () => props.ResetError()}],
+  //     {cancelable: false},
+  //   );
+  // }
 
   return (
     <View style={styles.container}>
@@ -168,6 +173,6 @@ const mapStateToProps = (state) => ({
   likeList: state.auth.likeList,
 });
 
-export default connect(mapStateToProps, {getposts, updateLike, getLikes})(
+export default connect(mapStateToProps, {getposts, updateLike, getLikes,ResetError})(
   HomeScreen,
 );
