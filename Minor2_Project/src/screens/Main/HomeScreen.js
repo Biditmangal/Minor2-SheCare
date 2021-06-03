@@ -43,7 +43,8 @@ const HomeScreen = (props) => {
     props.getposts();
     props.getLikes();
 
-    const listener = props.navigation.addListener('focus', () => {
+    const listener = props.navigation.addListener('focus', async () => {
+      await postRef.get().then((snap) => (post_id = snap.size));
       props.getposts();
     });
 
@@ -79,6 +80,7 @@ const HomeScreen = (props) => {
   const onRefresh =useCallback(async ()=>{
     setRefreshing(true);
     try{
+      await postRef.get().then((snap) => (post_id = snap.size));
       props.getposts();
       setRefreshing(false);
     }catch{
